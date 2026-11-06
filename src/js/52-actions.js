@@ -59,9 +59,14 @@
       if (unitOf(en.exId) === 'bw') en.bwMode = 'extra';
       renderMain(); scheduleTraining();
     },
+    'confirm-set': (b) => {
+      const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], sg = setSuggest(en, si); if (!sg) return;
+      en.sets[si] = { ...en.sets[si], ...sg, rpe: en.sets[si]?.rpe ?? '' };
+      renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next) next.focus();
+    },
     'copy-plan': (b) => {
       const en = S.draft.entries[+b.dataset.ei], plan = en.target?.setPlan || [], kpb = kgPerBlock();
-      en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: round05(kg - bl * kpb) || '', reps: p.reps ?? '' }; } return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
+      en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: p.reps ?? '' }; } return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
       if (!en.sets.length) en.sets = [{ mode: en.bwMode || 'auto' }];
       renderMain(); scheduleTraining();
     },

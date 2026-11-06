@@ -8,6 +8,10 @@
       if (unitOf(en.exId) === 'bw') { en.sets[si].mode = en.bwMode || 'auto'; const tc = $(`#tot-${ei}-${si}`), tot = setKg(en.sets[si], en.exId); if (tc) tc.textContent = tot != null ? nl(tot) + ' kg' : ''; }
       const c1 = $(`#e1-${ei}-${si}`), c2 = $(`#sg-${ei}-${si}`);
       if (c1) c1.textContent = isStrength(en.exId) ? nl(e1(en.sets[si], en.exId, en.target?.code)) : ''; if (c2) c2.innerHTML = sigHTML(en.sets[si], en.target);
+      // v1.2.0: typing turns a suggestion into a confirmed set; update the check and the progress without re-rendering (keeps focus)
+      const row = t.closest('tr'), no = row && row.querySelector('.setno'), ok = setDone(en.sets[si]);
+      if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = (ok ? '<span class="setok" title="Bevestigd">✓</span>' : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')) + `<span class="muted">${si + 1}</span>`; }
+      const pg = t.closest('.ex-card')?.querySelector('.setprog'); if (pg) { const n = en.sets.filter(setDone).length; pg.textContent = `${n} van ${en.sets.length} sets`; pg.className = `pill ${n === en.sets.length ? 'ok' : 'neutral'} setprog`; }
     } else if (b === 'entry') S.draft.entries[+t.dataset.ei][t.dataset.f] = v;
     else if (b === 'bwmode') { const en = S.draft.entries[+t.dataset.ei]; en.bwMode = v; en.sets.forEach((x) => { x.mode = v; }); if (e.type === 'change') renderMain(); }
     else if (b === 'fb') S.draft.feedback[t.dataset.f] = v;

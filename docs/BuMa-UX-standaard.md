@@ -185,6 +185,7 @@ Kleur heeft een rol, geen smaak. Elke kleur in de code is een **token** (CSS-var
 | F10 | **Automatisch bewaren** met zichtbare status ("Opgeslagen om 10:42"); niets gaat verloren bij sluiten of netwerkfout | MUST bij lange formulieren |
 | F11 | **Bewaren met fouten** moet kunnen (als concept); versturen pas als alles klopt | SHOULD |
 | F12 | **Hulp bij het veld:** een korte hint onder het label, niet in een tooltip die je moet zoeken | SHOULD |
+| F14 | **Voorstel is geen waarde.** Een voorstel (plan, vorige keer, berekening) staat grijs en cursief met contrast AA; pas na bevestigen (één tik) of typen wordt het zwart en telt het als ingevuld. Subjectieve velden (score, RPE, tevredenheid) nooit vooraf invullen | MUST |
 | F13 | **Voor versturen:** een samenvatting om na te kijken bij belangrijke formulieren (offerte, bestelling) | SHOULD |
 
 ---

@@ -34,3 +34,12 @@
   input,select,textarea{font-size:var(--input-font)}
   input[type=checkbox],input[type=radio]{width:24px;height:24px}
 }
+
+/* v1.2.0 "voorstel is geen waarde" (BuMa UX F14): a suggestion is grey AND italic (so it reads without colour too),
+   with AA contrast; a confirmed or typed value is black and upright. */
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style:italic}
+.setno{white-space:nowrap}
+.setno .muted{margin-left:6px}
+.setconfirm{min-width:var(--tap);padding-inline:8px;font-weight:700}
+.setok{display:inline-block;min-width:var(--tap);text-align:center;color:var(--ok);font-weight:700}
+.setprog{margin-left:4px}

@@ -1,4 +1,18 @@
   // ---------- view: training ----------
+  // v1.2.0 "voorstel is geen waarde": grey = suggestion (plan, else last time), black = confirmed or typed. Only black is saved as done.
+  const setDone = (st) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => st?.[f] !== '' && st?.[f] != null);
+  // suggestion for one set, without RPE (how heavy it felt is never assumed)
+  function setSuggest(en, si) {
+    const pl = (en.target?.setPlan || [])[si], kpb = kgPerBlock(), unit = unitOf(en.exId);
+    if (pl && (num(pl.kg) != null || num(pl.reps) != null)) {
+      const kg = num(pl.kg);
+      if (unit === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: pl.reps ?? '' }; }
+      return { kg: kg ?? '', reps: pl.reps ?? '', mode: en.bwMode || 'auto' };
+    }
+    const prev = prevSummary(en.exId, S.draft?.date), ph = prev?.sets?.[si] || prev?.sets?.[prev?.sets?.length - 1];
+    if (!ph) return null;
+    return { kg: ph.blocks != null && ph.blocks !== '' ? '' : (unit === 'bw' ? ph.kg ?? '' : setKg(ph, en.exId) ?? ph.kg ?? ''), blocks: ph.blocks ?? '', extra: ph.extra ?? '', reps: ph.reps ?? '', value: ph.value ?? '', time: ph.time ?? '', mode: 'extra' };
+  }
   const rowPlan = (r) => {
     const n = Math.max(1, num(r.sets) || 0);
     const src = Array.isArray(r.setPlan) && r.setPlan.length ? r.setPlan : null;
@@ -62,12 +76,12 @@
         else if (unit === 'bw') { const tot = setKg(st, en.exId); cells = inp('kg', 'n', plKg != null ? nl(plKg) : nl(ph.kg)) + `<td class="num muted" id="tot-${ei}-${si}">${tot != null && (num(st.kg) != null || num(st.reps) != null) ? nl(tot) + ' kg' : ''}</td>`; }
         else if (strength) cells = inp('kg', 'n', plKg != null ? nl(plKg) : nl(setKg(ph, en.exId)));
         else cells = inp('value', 'n', nl(ph.value)) + `<td class="num"><input class="xs" id="s-${ei}-${si}-time" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="time" value="${esc(st.time ?? '')}" placeholder="${esc(ph.time || 'mm:ss')}" aria-label="tijd set ${si + 1}"></td>`;
-        return `<tr><td class="muted">${si + 1}</td>${cells}${inp('reps', 'xs', nl(num(pl.reps) ?? ph.reps, 0))}${inp('rpe', 'xs', tg.rir != null && tg.rir !== '' ? nl(rirToRpe(tg.rir)) : '')}<td class="num" id="e1-${ei}-${si}">${strength ? nl(e1(st, en.exId, tg.code)) : ''}</td><td id="sg-${ei}-${si}">${sigHTML(st, tg)}</td><td><button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${si}" aria-label="Set verwijderen">×</button></td></tr>`;
+        return `<tr><td class="setno">${setDone(st) ? `<span class="setok" title="Bevestigd">✓</span>` : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')}<span class="muted">${si + 1}</span></td>${cells}${inp('reps', 'xs', nl(num(pl.reps) ?? ph.reps, 0))}${inp('rpe', 'xs', tg.rir != null && tg.rir !== '' ? nl(rirToRpe(tg.rir)) : '')}<td class="num" id="e1-${ei}-${si}">${strength ? nl(e1(st, en.exId, tg.code)) : ''}</td><td id="sg-${ei}-${si}">${sigHTML(st, tg)}</td><td><button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${si}" aria-label="Set verwijderen">×</button></td></tr>`;
       }).join('');
-      return `${heading}<div class="ex-card" data-rk="${rk || 'X'}"><div class="head"><div class="row" style="gap:10px"><span class="code">${esc(tg.code || '+')}</span><span class="title">${esc(ex.name || 'Kies oefening')}</span></div>
+      return `${heading}<div class="ex-card" data-rk="${rk || 'X'}"><div class="head"><div class="row" style="gap:10px"><span class="code">${esc(tg.code || '+')}</span><span class="title">${esc(ex.name || 'Kies oefening')}</span>${en.sets.length ? `<span class="pill ${en.sets.filter(setDone).length === en.sets.length ? 'ok' : 'neutral'} setprog">${en.sets.filter(setDone).length} van ${en.sets.length} sets</span>` : ''}</div>
         <div class="row" style="gap:6px"><input style="width:14rem" id="var-${ei}" data-bind="entry" data-ei="${ei}" data-f="variant" value="${esc(en.variant)}" placeholder="variant: grip, hoek…" aria-label="Variant"><button class="btn ghost small" data-act="del-entry" data-ei="${ei}">Verwijder</button></div></div>
         ${tgt ? `<div class="target">Schema: ${esc(tgt)}${tg.note ? ' · ' + esc(tg.note) : ''}</div>` : ''}
-        ${planTxt ? `<div class="prev"><span>Plan per set: <b>${esc(planTxt)}</b>${unit === 'bw' ? ' <span class="muted">(LG = lichaamsgewicht ' + esc(nl(bwNow())) + ' kg)</span>' : ''}</span><button class="btn small" data-act="copy-plan" data-ei="${ei}">Neem plan over</button></div>` : ''}
+        ${planTxt ? `<div class="prev"><span>Plan per set: <b>${esc(planTxt)}</b>${unit === 'bw' ? ' <span class="muted">(LG = lichaamsgewicht ' + esc(nl(bwNow())) + ' kg)</span>' : ''}</span><button class="btn small" data-act="copy-plan" data-ei="${ei}">Alles zoals gepland</button></div>` : ''}
         <div class="prev">${prev ? `<span>Vorige keer <b>${esc(fmtDate(prev.date, false))}</b>: ${esc(prev.text)}${prev.best ? ` · beste e1RM <b>${nl(prev.best)} kg</b>` : ''}${prev.score != null ? ` · score <b>${nl(prev.score, 0)}/10</b>` : ''}${prev.hard ? ` · te moeilijk: <b>${esc(prev.hard)}</b>` : ''}</span><button class="btn small" data-act="copy-prev" data-ei="${ei}">Neem vorige over</button>` : '<span class="muted">Nog niet eerder gelogd.</span>'}</div>
         ${strength ? `<div class="wu-row"><span class="lab">Opwarming</span>${(en.warmup || []).map((w, wi) => `<span class="wucell"><input class="xs" inputmode="decimal" id="w-${ei}-${wi}-kg" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="kg" value="${esc(w.kg ?? '')}" placeholder="kg" aria-label="kg opwarmset ${wi + 1}"><span class="muted">×</span><input class="xs" inputmode="numeric" id="w-${ei}-${wi}-reps" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="reps" value="${esc(w.reps ?? '')}" placeholder="reps" aria-label="reps opwarmset ${wi + 1}"><button class="btn ghost small" style="padding:0 4px" data-act="wset-del" data-ei="${ei}" data-wi="${wi}" aria-label="Opwarmset verwijderen">×</button></span>`).join('') || '<span class="small muted">geen gepland</span>'}<button class="btn ghost small" data-act="wset-add" data-ei="${ei}">+ opwarmset</button></div>` : ''}
         ${tg.filler ? `<div class="small">Filler tijdens de rust: <b>${esc(tg.filler)}</b></div>` : ''}

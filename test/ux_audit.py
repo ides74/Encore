@@ -22,8 +22,9 @@ JS = r"""() => {
   const texts = [...main.querySelectorAll('*')].filter(e => vis(e) && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()));
   const tiny = texts.filter(e => parseFloat(getComputedStyle(e).fontSize) < 12).map(e => e.className || e.tagName);
   const lowc = texts.map(e => { const s = getComputedStyle(e), fs = parseFloat(s.fontSize), bold = +s.fontWeight >= 700; const need = (fs >= 24 || (bold && fs >= 18.5)) ? 3 : 4.5; const r = ratio(rgb(s.color), bgOf(e)); return r < need ? `${(e.className || e.tagName).toString().slice(0,24)} ${r.toFixed(1)}` : null; }).filter(Boolean);
+  const phLow = inputs.filter(e => e.placeholder && !e.value).map(e => { const r = ratio(rgb(getComputedStyle(e, '::placeholder').color), bgOf(e)); return r < 4.5 ? `${e.id || 'input'} ${r.toFixed(1)}` : null; }).filter(Boolean);  // a suggestion is information: AA too
   const primaries = [...main.querySelectorAll('.btn.primary')].filter(vis).length;
-  return { ctrls: ctrls.length, small, zoom, inputs: inputs.length, unlabeled, tiny, lowc, primaries,
+  return { ctrls: ctrls.length, small, phLow, zoom, inputs: inputs.length, unlabeled, tiny, lowc, primaries,
            over: document.documentElement.scrollWidth - document.documentElement.clientWidth };
 }"""
 res = []
@@ -50,6 +51,7 @@ def line(rule, level, bad, total, worst):
 fails = 0
 fails += line('no sideways scroll', 'MUST', sum(r['over'] > 1 for r in pages), len(pages), ', '.join(f"{r['dev']}/{r['tab']}" for r in pages if r['over'] > 1)[:120])
 fails += line('text contrast >= 4.5:1 (AA)', 'MUST', sum(bool(r['lowc']) for r in pages), len(pages), '; '.join(sorted({x for r in pages for x in r['lowc']}))[:200])
+fails += line('suggestions (placeholder) contrast >= 4.5:1', 'MUST', sum(bool(r['phLow']) for r in pages), len(pages), '; '.join(sorted({x for r in pages for x in r['phLow']}))[:160])
 fails += line('every field has a label', 'MUST', sum(bool(r['unlabeled']) for r in pages), len(pages), ', '.join(sorted({f"{r['tab']}:{x}" for r in pages for x in r['unlabeled']}))[:200])
 fails += line('focus ring visible (keyboard)', 'MUST', sum(not r['ring'] for r in res if r['tab'] == '_focus'), len(DEVICES) * 2, '')
 line('touch targets >= 44 px (iPad, phone)', 'SHOULD', sum(bool(r['small']) for r in touch), len(touch), ', '.join(f"{r['tab']}={len(r['small'])}/{r['ctrls']}" for r in touch if r['dev'] == 'ipad-landscape' and not r['dark']))

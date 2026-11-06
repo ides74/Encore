@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.2.0 · 06/11/2026 · voorstel is geen waarde
+- Logging: grey italic = suggestion (plan, else last time); black = confirmed or typed. Only confirmed sets are saved as done.
+- One tap per set (✓) confirms the suggestion; focus jumps to the next set. Typing a deviation confirms that set.
+- "Neem plan over" is now "Alles zoals gepland". RPE is never filled in for you.
+- Progress per exercise: "2 van 4 sets".
+- Fix: extra plates on the block machine were rounded to 0,5 kg (blok 10 + 2,3 showed as 2,5); now 0,1 kg.
+- UX audit: suggestion text must meet contrast AA (new MUST rule).
+
 ## v1.1.0 · 06/11/2026 · touch en contrast
 - New `src/tokens.css` (BuMa UX standard): colours and sizes as variables, loaded after styles.css.
 - Contrast AA everywhere: primary buttons, exercise codes, series headers, pills and notices; dark heat map in Statistiek.
