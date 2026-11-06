@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble dist/index.html (the file that is published) from src/.
+"""Assemble dist/index.html from src/, and dist/publish.html (the same inside the viewer skeleton: the file that is published).
 Usage: python3 tools/build.py [--check] [--test] [--compare upstream/live.html]
   --check    syntax check of the assembled script with node
   --test     also build dist/test.html with the test hook (src/js/55-testhook.js); never published
@@ -7,7 +7,11 @@ Usage: python3 tools/build.py [--check] [--test] [--compare upstream/live.html]
 import os, re, sys, glob, subprocess
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VERSION = open(os.path.join(ROOT, 'VERSION')).read().strip()
-SKELETON = None  # first line of a live page; only used by --compare
+# the viewer skeleton exactly as the live page stores it; dist/publish.html = skeleton + dist/index.html (starts with <!doctype html>)
+SKELETON = ('<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">'
+            '<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}'
+            'html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}'
+            'img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>\n{BODY}\n</body></html>')
 
 def assemble(test):
     tpl = open(os.path.join(ROOT, 'src/index.template.html'), encoding='utf-8').read()
@@ -31,7 +35,8 @@ def main():
     os.makedirs(os.path.join(ROOT, 'dist'), exist_ok=True)
     out, n = assemble(False)
     open(os.path.join(ROOT, 'dist/index.html'), 'w', encoding='utf-8').write(out)
-    print(f'built dist/index.html v{VERSION}: {len(out) // 1024} KB, {n} modules')
+    open(os.path.join(ROOT, 'dist/publish.html'), 'w', encoding='utf-8').write(SKELETON.replace('{BODY}', out))
+    print(f'built dist/index.html v{VERSION}: {len(out) // 1024} KB, {n} modules (publish: dist/publish.html)')
     if '--check' in sys.argv: syntax(out); print('syntax ok')
     if '--test' in sys.argv:
         t, _ = assemble(True); open(os.path.join(ROOT, 'dist/test.html'), 'w', encoding='utf-8').write(t); syntax(t); print('built dist/test.html (test hook)')

@@ -175,6 +175,73 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
 @media (prefers-reduced-motion:no-preference){.toast{animation:pop .25s ease-out}@keyframes pop{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}}
 /* v1.0.1: on a phone the info pills (adaptation, TUT) wrap instead of pushing the page sideways */
 @media (max-width:560px){.pill{white-space:normal;max-width:100%}}
+/* ===== v1.3.0 training: ± knoppen, ✓ opwarming, rusttimer, gymmodus, samenvatting, "Meer" op de gsm ===== */
+.step{display:inline-flex;align-items:stretch;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;background:var(--input)}
+.step input,td .step input.xs{border:0;border-radius:0;text-align:center;width:3.4rem;padding:6px 2px;background:transparent}
+.stepb{appearance:none;border:0;background:var(--bg);color:var(--ink);font:700 17px var(--f-body);width:2.1rem;cursor:pointer;touch-action:manipulation;padding:0}
+.stepb:active{background:var(--accent-soft)}
+.stepb:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.wucell.done{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.wuok{font-weight:700;padding-inline:8px}
+.wuok[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--panel)}
+.rest{flex-basis:100%;display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;border-radius:8px;padding:8px 10px;background:var(--accent-soft)}
+.rest .t{font-family:var(--f-display);font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--accent-text);min-width:4.4ch}
+.rest .info{flex:1;min-width:9rem;font-size:13px;line-height:1.35}
+.rest.soon{background:var(--warn-soft)}.rest.soon .t,.rest.soon .st{color:var(--warn-text)}
+.rest.over{background:var(--ok-soft)}.rest.over .t,.rest.over .st{color:var(--ok)}
+.narrow-only{display:none}
+details.more>summary{list-style:none}details.more>summary::-webkit-details-marker{display:none}
+.more-menu{position:absolute;right:16px;top:100%;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r);box-shadow:0 10px 28px rgba(0,0,0,.16);display:flex;flex-direction:column;padding:6px;z-index:30;min-width:12rem}
+.more-menu .tab{text-align:left;border-bottom:0;border-left:3px solid transparent;padding:10px 12px}
+.more-menu .tab[aria-current="page"]{border-left-color:var(--accent)}
+@media (max-width:700px){.wide-only{display:none}.narrow-only{display:block}.tab{padding-inline:9px}}
+.gym{display:flex;flex-direction:column;gap:12px}
+.gym-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gym-nav{display:flex;align-items:center;gap:8px}
+.gym-nav .navb{font-size:22px;padding:4px 14px;line-height:1}
+.gym-dots{flex:1;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.gym-dots span{width:12px;height:12px;border-radius:6px;background:var(--line-strong)}
+.gym-dots span.full{background:var(--rk,var(--ok))}
+.gym-dots span.fin{background:transparent;border:2px solid var(--line-strong)}
+.gym-dots span[aria-current="true"]{width:26px;outline:2px solid var(--ink);outline-offset:1px}
+.gym-page{display:flex;flex-direction:column;gap:12px}
+.gym-page.in-r{animation:inr .22s ease-out}.gym-page.in-l{animation:inl .22s ease-out}
+@keyframes inr{from{opacity:.3;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes inl{from{opacity:.3;transform:translateX(-28px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.gym-page.in-r,.gym-page.in-l{animation:none}}
+.gym-title{display:flex;align-items:center;gap:12px;border-left:6px solid var(--rk);padding-left:10px}
+.gym-title .code{font-family:var(--f-display);font-weight:700;font-size:34px;color:var(--rk-text,var(--accent-text));line-height:1}
+.gym-title .nm{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.05;text-transform:uppercase;letter-spacing:.02em}
+.gym-cur{background:var(--panel);border:2px solid var(--rk);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:14px}
+.gym-big{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.bigstep{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.bigstep .ctl{display:flex;align-items:center;gap:6px;width:100%}
+.bigstep .stepb{width:64px;height:64px;border-radius:12px;border:1px solid var(--line-strong);font-size:28px;flex:none}
+.bigstep input{flex:1;min-width:0;width:100%;height:64px;padding:0;text-align:center;font-family:var(--f-display);font-size:46px;font-weight:700;font-variant-numeric:tabular-nums;border-radius:12px}
+.rpe-row{display:flex;flex-direction:column;align-items:center;gap:6px}
+.rpe-row .chips{justify-content:center}
+.rpe-row .chipbtn{min-width:2.8rem;padding:9px 10px;font-size:15px}
+.gym-ok{justify-content:center;width:100%;font-size:20px;padding:16px;border-radius:12px;font-family:var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+.gym-donemsg{font-family:var(--f-display);font-size:24px;font-weight:700;color:var(--ok);text-align:center}
+.gym-sets{display:flex;flex-direction:column;gap:6px}
+.gs{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:4px 6px 4px 4px;background:var(--panel)}
+.gs.cur{border-color:var(--rk,var(--accent));box-shadow:inset 0 0 0 1px var(--rk,var(--accent))}
+.gs-main{appearance:none;flex:1;text-align:left;background:none;border:0;font:inherit;color:inherit;padding:8px;cursor:pointer;display:flex;gap:10px;align-items:baseline;min-width:0;min-height:var(--tap)}
+.gym-det>summary{font-size:15px}
+.gym-det-b{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.confirm .card.sum{max-width:46rem;max-height:92vh;overflow:auto}
+.sum h4{font-family:var(--f-display);font-size:15px;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 6px}
+.sum-l{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:3px}
+.sum-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.sum-kpis .kpi{padding:10px}.sum-kpis .kpi .v{font-size:26px}.sum-kpis .kpi .d{font-size:12px}
+.sum-rows{display:flex;flex-direction:column;gap:6px}
+.sr{border:1px solid var(--line);border-left:4px solid var(--rk);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.sr-h{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}.sr-h .pill{margin-left:auto}
+.rkc{font-family:var(--f-display);color:var(--rk-text,var(--accent-text))}
+.sendto{display:grid;grid-template-columns:8.5rem 1fr;gap:8px;align-items:center;margin-top:6px}
+.sendto label{display:flex;gap:8px;align-items:center;font-size:14px}
+@media (max-width:560px){.sendto{grid-template-columns:1fr}.rest .t{font-size:38px}}
+@media (pointer:coarse){.stepb{min-width:var(--tap);min-height:var(--tap)}}
 
 /* ===== tokens.css: BuMa UX standard (U2, U7, U8, U9). Loaded after styles.css, so it wins.
    Rule: colours and sizes come from these variables; no loose colour codes in new code.
@@ -223,7 +290,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
 </style>
 
 <div class="app" id="app"><div class="top"><div class="top-row"><div class="brand"><b>EnCORE</b> Coach<small>Personal coaching logboek</small></div></div></div><main><div class="empty">De app laadt de klanten, schema's en trainingen…</div></main></div>
-<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.2.0</p>
+<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.3.0</p>
 <div id="overlay"></div>
 
 <script>
@@ -313,7 +380,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     unsub: [], draft: null, schemaDraft: null, schemaDirty: false, blockSel: null,
     progEx: null, profileDraft: null, newClient: null, eventDraft: null, eventDirty: false,
     exEdit: null, exNew: null, confirm: null, toast: '', pending: false,
-    config: { anchors: DEFAULT_ANCHORS, coaches: [], kgPerBlock: 6.4, pullPushTarget: 2, pullPushConfirmed: false }, statBlock: null, report: null, lastSelf: 0, saveTimer: null, planTimer: null, saveState: '', coachFilter: store.get('ec.coach') || '', intakeDraft: null, settingsDraft: null,
+    config: { anchors: DEFAULT_ANCHORS, coaches: [], kgPerBlock: 6.4, pullPushTarget: 2, pullPushConfirmed: false, coachEmails: {} }, statBlock: null, report: null, lastSelf: 0, saveTimer: null, planTimer: null, saveState: '', coachFilter: store.get('ec.coach') || '', intakeDraft: null, settingsDraft: null,
+    // v1.3.0 gymmodus (standaard op de gsm), rusttimer, samenvatting na Klaar
+    gym: store.get('ec.gym') != null ? store.get('ec.gym') === '1' : !!window.matchMedia?.('(max-width: 700px)').matches, gymIdx: 0, gymSet: null, gymAnim: '', rest: null, summary: null, lastSess: null,
   };
   const client = () => (S.cid ? S.clients[S.cid] : null);
   const kgPerBlock = () => num(S.config.kgPerBlock) ?? 6.4;
@@ -339,7 +408,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const BW_MODES = [['auto', 'Auto'], ['extra', 'Extra kg'], ['total', 'Totaal kg']];
   const bwIsTotal = (kg, bw, mode) => mode === 'total' || (mode === 'auto' && kg != null && bw != null && kg >= bw * 0.5);
   const bwTotal = (kg, bw, mode = 'extra') => Math.round((bwIsTotal(kg, bw, mode) ? kg : bw + (kg || 0)) * 10) / 10;
-  const bwFmt = (kg, mode = 'auto') => { const bw = bwNow(); if (kg == null) return '?'; return bwIsTotal(kg, bw, mode) ? `${nl(kg)} totaal` : `LG+${nl(kg)}`; };
+  const bwFmt = (kg, mode = 'auto') => { const bw = bwNow(); if (kg == null) return '?'; if (kg === 0) return 'LG'; return bwIsTotal(kg, bw, mode) ? `${nl(kg)} totaal` : `LG+${nl(kg)}`; };
+  // gewicht in een planregel: lichaamsgewicht zonder extra gewicht toont "LG" (LG × 8), niet "?"
+  const kgPlanTxt = (unit, kg) => (unit === 'bw' ? (kg ? bwFmt(kg) : 'LG') : kg != null ? nl(kg) : '?');
   // geschat 1RM: A-reeks via %-tabel, anders Epley; RIR telt mee (8 reps + 2 RIR = 10RM)
   const e1 = (st, exId, code) => { const kg = setKg(st, exId), r = num(st?.reps); if (!kg || !r) return null; const p = pctFor(r + (num(st?.rir) || 0), code); return p ? Math.round((kg / p) * 10) / 10 : null; };
   const intakeRM = (exId) => num(client()?.intake?.tests?.[exId]?.rm);
@@ -392,7 +463,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const setLabel = (exId, st) => {
     const u = S.exercises[exId]?.unit || 'kg';
     if (u === 'blok' && num(st.blocks) != null) return `blok ${nl(st.blocks)}${num(st.extra) ? ' + ' + nl(st.extra) : ''}`;
-    if (u === 'bw') return `LG${num(st.kg) ? ' + ' + nl(st.kg) : ''} kg`;
+    if (u === 'bw') return num(st.kg) ? `LG + ${nl(st.kg)} kg` : 'LG';
     if (!STRENGTH.includes(u)) return `${nl(st.value)} ${u === 'reps' ? 'reps' : u}${st.time ? ' in ' + st.time : ''}`;
     return `${nl(setKg(st, exId))} kg`;
   };
@@ -489,6 +560,21 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   }
   const wuTxt = (wu) => (wu || []).filter((w) => num(w.kg) != null || num(w.reps) != null).map((w) => `${num(w.kg) != null ? nl(w.kg) : '?'} × ${nl(w.reps, 0) || '?'}`).join(', ');
 
+  // ---------- rustregels (pure functies, getest in test/e2e.py) ----------
+  // De rust telt vanaf het einde van de set. Het bevestigen kost al zowat 10 s, dus de timer start op rust min 10 s.
+  // Signaal 1 bij nog 10 s (klaarmaken), signaal 2 op 0 (starten). Na 5 min overtijd stopt de timer vanzelf.
+  const REST_CONFIRM = 10, REST_WARN = 10, REST_MAX_OVER = 300, REST_MIN = 5;
+  const restLeft = (sec) => Math.max(REST_MIN, (num(sec) || 0) - REST_CONFIRM);
+  // rust voor een oefening: eigen rust uit het schema, anders de standaard van de fase. Finisher: geen timer.
+  const restOf = (target, phase) => { const tg = target || {}, rk = reeksOf(tg.code); if (rk === 'F') return null; return num(tg.rest) || restFor(phase, rk); };
+  // toestand van de timer op een moment: 'rest', 'soon' (laatste 10 s) of 'over'; signal = welk signaal nu af moet gaan (0 = geen)
+  function restState(r, now) {
+    const ms = r.end - now, s = Math.ceil(ms / 1000);
+    const phase = ms <= 0 ? 'over' : s <= REST_WARN ? 'soon' : 'rest';
+    const signal = ms <= 0 && !r.rang ? 2 : phase === 'soon' && !r.warned ? 1 : 0;
+    return { ms, s, phase, signal, expired: ms < -REST_MAX_OVER * 1000 };
+  }
+  const mmss = (s) => `${Math.floor(s / 60)}:${pad(Math.max(0, s) % 60)}`;
   // ---------- db ----------
   const toastMsg = (m) => { S.toast = m; renderOverlay(); clearTimeout(toastMsg.t); toastMsg.t = setTimeout(() => { S.toast = ''; renderOverlay(); }, 2600); };
   const dbErr = (e) => { console.warn(e); if (e?.code === 'invalid_argument' && !S.canWrite) return; toastMsg(e?.code === 'quota_exceeded' ? 'De database is vol: verwijder oude gegevens.' : 'Opslaan lukte niet. Probeer opnieuw.'); };
@@ -530,10 +616,14 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   }
   function headerHTML() {
     const cl = visibleClients();
-    const tabs = [['overview', 'Overzicht'], ['planning', 'Planning'], ['training', 'Training loggen'], ['progress', 'Progressie'], ['stats', 'Statistiek'], ['history', 'Historiek'], ['intake', 'Intake'], ['event', 'Event'], ['exercises', 'Oefeningen']];
+    const tabs = [['overview', 'Overzicht'], ['planning', 'Planning'], ['training', 'Training loggen'], ['progress', 'Progressie'], ['stats', 'Statistiek'], ['history', 'Historiek']];
+    // v1.3.0: op de gsm hoogstens 7 tabs; minder gebruikte onderdelen onder "Meer" (op iPad en pc gewoon zichtbaar)
+    const more = [['intake', 'Intake'], ['event', 'Event'], ['exercises', 'Oefeningen']], curMore = more.find(([v]) => v === S.view);
+    const tab = ([v, l], cls = '') => `<button class="tab${cls}" data-act="view" data-v="${v}"${S.view === v ? ' aria-current="page"' : ''}>${l}</button>`;
+    const clientTabs = tabs.map((t) => tab(t)).join('') + more.map((t) => tab(t, ' wide-only')).join('') + `<details class="more narrow-only"><summary class="tab"${curMore ? ' aria-current="page"' : ''}>${curMore ? curMore[1] : 'Meer'} ▾</summary><div class="more-menu">${more.map((t) => tab(t)).join('')}</div></details>`;
     return `<div class="top-row"><div class="brand"><b>EnCORE</b> Coach<small>Personal coaching logboek</small></div>
       <div class="client-pick"><label for="client-sel">Klant</label><select id="client-sel" data-change="client"><option value="">${S.coachFilter ? 'Klanten van ' + esc(S.coachFilter) : 'Alle klanten'}</option>${cl.map((c) => `<option value="${esc(c.id)}"${c.id === S.cid ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div></div>
-      <nav class="tabs" aria-label="Onderdelen">${S.cid ? tabs.map(([v, l]) => `<button class="tab" data-act="view" data-v="${v}"${S.view === v ? ' aria-current="page"' : ''}>${l}</button>`).join('') : [['home', 'Klanten'], ['exercises', 'Oefeningen'], ['settings', 'Instellingen']].map(([v, l]) => `<button class="tab" data-act="view" data-v="${v}"${S.view === v ? ' aria-current="page"' : ''}>${l}</button>`).join('')}</nav>`;
+      <nav class="tabs" aria-label="Onderdelen">${S.cid ? clientTabs : [['home', 'Klanten'], ['exercises', 'Oefeningen'], ['settings', 'Instellingen']].map((t) => tab(t)).join('')}</nav>`;
   }
   function mainHTML() {
     if (S.offline) return `<div class="empty">Deze weergave kan de gedeelde database niet openen. Open de app via claude.ai terwijl je aangemeld bent.</div>`;
@@ -710,57 +800,82 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
         <div class="tablewrap"><table><thead><tr><th>Datum</th><th>Training</th><th class="num">Week</th><th class="num">Oef.</th>${tracks(c, 'attention') ? `<th class="num">${ATT}</th>` : ''}</tr></thead><tbody>${inBlock.slice().reverse().map((s) => `<tr class="click" data-act="open-session" data-id="${esc(s.id)}"><td>${esc(fmtDate(s.date))}</td><td>${esc(slotLabel(sessSlot(s)))}</td><td class="num">${esc(s.week)}</td><td class="num">${(s.entries || []).length}</td>${tracks(c, 'attention') ? `<td class="num">${nl(s.feedback?.pain, 0)}</td>` : ''}</tr>`).join('')}</tbody></table></div></section>` : ''}`;
     }
     const d = S.draft, b = S.blocks[d.blockId];
-    const exOpts = (sel) => Object.values(S.exercises).sort((a, z) => a.name.localeCompare(z.name)).map((e) => `<option value="${esc(e.id)}"${e.id === sel ? ' selected' : ''}>${esc(e.name)}</option>`).join('');
+    if (S.gym) return viewGym(d, b);
     let lastReeks = null;
     const entries = d.entries.map((en, ei) => {
-      const ex = S.exercises[en.exId] || {}, unit = ex.unit || 'kg', tg = en.target || {}, strength = STRENGTH.includes(unit);
-      const prev = prevSummary(en.exId, d.date), plan = Array.isArray(tg.setPlan) ? tg.setPlan : [];
-      const rk = reeksOf(tg.code); const heading = rk !== lastReeks ? `<div class="reeks-h" data-rk="${rk || 'X'}">${REEKS_LABEL[rk]}</div>` : ''; lastReeks = rk;
-      const planTxt = plan.some((p) => num(p.kg) != null || num(p.reps) != null) ? plan.map((p) => `${num(p.kg) != null ? (unit === 'bw' ? bwFmt(num(p.kg)) : nl(p.kg)) : '?'}×${nl(p.reps, 0) || '?'}${p.note ? ' (' + p.note + ')' : ''}`).join(' · ') : '';
-      const ad = reeksOf(tg.code) !== 'F' ? adaptInfo(tg.repsMin, tg.repsMax) : null;
-      const tgt = [normMethod(tg.method), ad && ad.txt, tg.sets && `${tg.sets} sets`, (tg.repsMin || tg.repsMax) && `${tg.repsMin ?? ''}${tg.repsMax && tg.repsMax !== tg.repsMin ? '-' + tg.repsMax : ''} reps`, tg.rir != null && tg.rir !== '' && `RPE ${nl(rirToRpe(tg.rir))}`, tg.tempo && `tempo ${tg.tempo}`, tutInfo(tg) && `TUT ${tutInfo(tg).txt}`, tg.rest && `${restTxt(tg.rest)} rust`].filter(Boolean).join(' · ');
+      const I = entryInfo(en, d.date), { ex, unit, tg, strength, prev, plan, rk } = I;
+      const heading = rk !== lastReeks ? `<div class="reeks-h" data-rk="${rk || 'X'}">${REEKS_LABEL[rk]}</div>` : ''; lastReeks = rk;
       const head = unit === 'blok' ? '<th class="num">Blok</th><th class="num">+ kg</th>' : unit === 'bw' ? '<th class="num">Kg</th><th class="num">Totaal</th>' : strength ? `<th class="num">Kg${unit === 'kg per hand' ? '/hand' : ''}</th>` : `<th class="num">${esc((UNITS.find((u) => u[0] === unit) || [, unit])[1])}</th><th class="num">Tijd</th>`;
       const rows = en.sets.map((st, si) => {
         const ph = prev?.sets?.[si] || prev?.sets?.[prev.sets.length - 1] || {}, pl = plan[si] || {};
         const plKg = num(pl.kg);
-        const inp = (f, cls, phv) => `<td class="num"><input class="${cls}" inputmode="decimal" id="s-${ei}-${si}-${f}" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="${f}" value="${esc(st[f] ?? '')}" placeholder="${esc(phv ?? '')}" aria-label="${f} set ${si + 1}"></td>`;
+        const inp = (f, cls, phv, stp) => { const el = `<input class="${cls}" inputmode="decimal" id="s-${ei}-${si}-${f}" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="${f}" value="${esc(st[f] ?? '')}" placeholder="${esc(phv ?? '')}" aria-label="${f} set ${si + 1}">`; return `<td class="num">${stp ? stepWrap(el, ei, si, f, stp) : el}</td>`; };
         let cells;
-        if (unit === 'blok') { const kpb = kgPerBlock(); cells = inp('blocks', 'xs', plKg != null ? nl(Math.floor(plKg / kpb), 0) : nl(ph.blocks)) + inp('extra', 'xs', plKg != null ? nl(plKg - Math.floor(plKg / kpb) * kpb) : nl(ph.extra)); }
-        else if (unit === 'bw') { const tot = setKg(st, en.exId); cells = inp('kg', 'n', plKg != null ? nl(plKg) : nl(ph.kg)) + `<td class="num muted" id="tot-${ei}-${si}">${tot != null && (num(st.kg) != null || num(st.reps) != null) ? nl(tot) + ' kg' : ''}</td>`; }
-        else if (strength) cells = inp('kg', 'n', plKg != null ? nl(plKg) : nl(setKg(ph, en.exId)));
+        if (unit === 'blok') { const kpb = kgPerBlock(); cells = inp('blocks', 'xs', plKg != null ? nl(Math.floor(plKg / kpb), 0) : nl(ph.blocks), 1) + inp('extra', 'xs', plKg != null ? nl(plKg - Math.floor(plKg / kpb) * kpb) : nl(ph.extra)); }
+        else if (unit === 'bw') { const tot = setKg(st, en.exId); cells = inp('kg', 'xs', plKg != null ? nl(plKg) : nl(ph.kg), 1) + `<td class="num muted" id="tot-${ei}-${si}">${tot != null && (num(st.kg) != null || num(st.reps) != null) ? nl(tot) + ' kg' : ''}</td>`; }
+        else if (strength) cells = inp('kg', 'xs', plKg != null ? nl(plKg) : nl(setKg(ph, en.exId)), 1);
         else cells = inp('value', 'n', nl(ph.value)) + `<td class="num"><input class="xs" id="s-${ei}-${si}-time" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="time" value="${esc(st.time ?? '')}" placeholder="${esc(ph.time || 'mm:ss')}" aria-label="tijd set ${si + 1}"></td>`;
-        return `<tr><td class="setno">${setDone(st) ? `<span class="setok" title="Bevestigd">✓</span>` : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')}<span class="muted">${si + 1}</span></td>${cells}${inp('reps', 'xs', nl(num(pl.reps) ?? ph.reps, 0))}${inp('rpe', 'xs', tg.rir != null && tg.rir !== '' ? nl(rirToRpe(tg.rir)) : '')}<td class="num" id="e1-${ei}-${si}">${strength ? nl(e1(st, en.exId, tg.code)) : ''}</td><td id="sg-${ei}-${si}">${sigHTML(st, tg)}</td><td><button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${si}" aria-label="Set verwijderen">×</button></td></tr>`;
+        return `<tr><td class="setno">${setNoHTML(en, ei, si)}</td>${cells}${inp('reps', 'xs', nl(num(pl.reps) ?? ph.reps, 0), 1)}${inp('rpe', 'xs', tg.rir != null && tg.rir !== '' ? nl(rirToRpe(tg.rir)) : '')}<td class="num" id="e1-${ei}-${si}">${strength ? nl(e1(st, en.exId, tg.code)) : ''}</td><td id="sg-${ei}-${si}">${sigHTML(st, tg)}</td><td><button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${si}" aria-label="Set verwijderen">×</button></td></tr>`;
       }).join('');
       return `${heading}<div class="ex-card" data-rk="${rk || 'X'}"><div class="head"><div class="row" style="gap:10px"><span class="code">${esc(tg.code || '+')}</span><span class="title">${esc(ex.name || 'Kies oefening')}</span>${en.sets.length ? `<span class="pill ${en.sets.filter(setDone).length === en.sets.length ? 'ok' : 'neutral'} setprog">${en.sets.filter(setDone).length} van ${en.sets.length} sets</span>` : ''}</div>
         <div class="row" style="gap:6px"><input style="width:14rem" id="var-${ei}" data-bind="entry" data-ei="${ei}" data-f="variant" value="${esc(en.variant)}" placeholder="variant: grip, hoek…" aria-label="Variant"><button class="btn ghost small" data-act="del-entry" data-ei="${ei}">Verwijder</button></div></div>
-        ${tgt ? `<div class="target">Schema: ${esc(tgt)}${tg.note ? ' · ' + esc(tg.note) : ''}</div>` : ''}
-        ${planTxt ? `<div class="prev"><span>Plan per set: <b>${esc(planTxt)}</b>${unit === 'bw' ? ' <span class="muted">(LG = lichaamsgewicht ' + esc(nl(bwNow())) + ' kg)</span>' : ''}</span><button class="btn small" data-act="copy-plan" data-ei="${ei}">Alles zoals gepland</button></div>` : ''}
-        <div class="prev">${prev ? `<span>Vorige keer <b>${esc(fmtDate(prev.date, false))}</b>: ${esc(prev.text)}${prev.best ? ` · beste e1RM <b>${nl(prev.best)} kg</b>` : ''}${prev.score != null ? ` · score <b>${nl(prev.score, 0)}/10</b>` : ''}${prev.hard ? ` · te moeilijk: <b>${esc(prev.hard)}</b>` : ''}</span><button class="btn small" data-act="copy-prev" data-ei="${ei}">Neem vorige over</button>` : '<span class="muted">Nog niet eerder gelogd.</span>'}</div>
-        ${strength ? `<div class="wu-row"><span class="lab">Opwarming</span>${(en.warmup || []).map((w, wi) => `<span class="wucell"><input class="xs" inputmode="decimal" id="w-${ei}-${wi}-kg" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="kg" value="${esc(w.kg ?? '')}" placeholder="kg" aria-label="kg opwarmset ${wi + 1}"><span class="muted">×</span><input class="xs" inputmode="numeric" id="w-${ei}-${wi}-reps" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="reps" value="${esc(w.reps ?? '')}" placeholder="reps" aria-label="reps opwarmset ${wi + 1}"><button class="btn ghost small" style="padding:0 4px" data-act="wset-del" data-ei="${ei}" data-wi="${wi}" aria-label="Opwarmset verwijderen">×</button></span>`).join('') || '<span class="small muted">geen gepland</span>'}<button class="btn ghost small" data-act="wset-add" data-ei="${ei}">+ opwarmset</button></div>` : ''}
+        ${I.tgt ? `<div class="target">Schema: ${esc(I.tgt)}${tg.note ? ' · ' + esc(tg.note) : ''}</div>` : ''}
+        ${planLineHTML(I, ei)}
+        ${prevLineHTML(I, ei)}
+        ${strength ? wuRowHTML(en, ei) : ''}
         ${tg.filler ? `<div class="small">Filler tijdens de rust: <b>${esc(tg.filler)}</b></div>` : ''}
-        ${unit === 'bw' ? `<div class="row small" style="gap:8px"><label for="bwm-${ei}" class="muted">Ingevuld gewicht is</label><select id="bwm-${ei}" data-bind="bwmode" data-ei="${ei}">${BW_MODES.map(([v, l]) => `<option value="${v}"${v === (en.bwMode || 'auto') ? ' selected' : ''}>${l}</option>`).join('')}</select><span class="muted">${(en.bwMode || 'auto') === 'auto' ? `Auto: onder ${esc(nl(round05((bwNow() || 0) * 0.5)))} kg = extra bovenop het lichaamsgewicht (${esc(nl(bwNow()))} kg), vanaf dan = totaal.` : (en.bwMode === 'total' ? 'Totaal gewicht, lichaamsgewicht inbegrepen.' : 'Extra gewicht bovenop het lichaamsgewicht.')}</span></div>` : ''}
+        ${unit === 'bw' ? bwModeHTML(en, ei) : ''}
         <div class="tablewrap"><table><thead><tr><th>Set</th>${head}<th class="num">Reps</th><th class="num" title="Rate of perceived exertion: 10 = niets meer in reserve">RPE</th><th class="num">e1RM</th><th>Signaal</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
         <div><button class="btn small" data-act="add-set" data-ei="${ei}">+ set</button></div>
-        <div class="exfb"><label class="field"><span>Wat was te moeilijk?</span><input id="hard-${ei}" data-bind="entry" data-ei="${ei}" data-f="hard" value="${esc(en.hard ?? '')}" placeholder="bv. laatste reps, lockout, grip, techniek"></label><label class="field"><span>Score op 10</span><input id="score-${ei}" type="number" min="1" max="10" inputmode="numeric" data-bind="entry" data-ei="${ei}" data-f="score" value="${esc(en.score ?? '')}" placeholder="optioneel"></label></div></div>`;
+        ${exfbHTML(en, ei)}</div>`;
     }).join('');
-    const fbv = d.feedback || {};
-    return `<section class="card"><div class="card-h"><div><h2>${esc(slotLabel(d.day))}${d.id ? ' bewerken' : ''}</h2><p class="sub">${esc(c.name)} · ${esc(b?.code || '')} ${esc(phaseOf(b?.phase))} · week ${esc(d.week)}</p></div></div>
-      <div class="form"><label class="field"><span>Datum</span><input type="date" id="d-date" data-bind="meta" data-f="date" value="${esc(d.date)}"></label>
+    return `<section class="card"><div class="card-h"><div><h2>${esc(slotLabel(d.day))}${d.id ? ' bewerken' : ''}</h2><p class="sub">${esc(client().name)} · ${esc(b?.code || '')} ${esc(phaseOf(b?.phase))} · week ${esc(d.week)}</p></div><button class="btn small" data-act="gym-toggle">Gymmodus</button></div>
+      ${metaFormHTML(d)}</section>
+      ${entries ? `<div class="ex-list">${entries}</div>` : '<div class="empty">Geen oefeningen voor deze training in het schema. Voeg er hieronder een toe.</div>'}
+      ${addExHTML()}
+      ${fbHTML(d)}
+      ${stickyHTML(d, false)}`;
+  }
+
+  // ---------- training: gedeelde bouwstenen (lijst en gymmodus) ----------
+  const entryDone = (en) => (en.sets || []).length > 0 && en.sets.every(setDone);
+  // alles wat een oefening in het logboek toont: schema, plan per set, vorige keer
+  function entryInfo(en, date) {
+    const ex = S.exercises[en.exId] || {}, unit = ex.unit || 'kg', tg = en.target || {}, strength = STRENGTH.includes(unit);
+    const prev = prevSummary(en.exId, date), plan = Array.isArray(tg.setPlan) ? tg.setPlan : [], rk = reeksOf(tg.code);
+    const planTxt = plan.some((p) => num(p.kg) != null || num(p.reps) != null) ? plan.map((p) => `${kgPlanTxt(unit, num(p.kg))} × ${nl(p.reps, 0) || '?'}${p.note ? ' (' + p.note + ')' : ''}`).join(' · ') : '';
+    const ad = rk !== 'F' ? adaptInfo(tg.repsMin, tg.repsMax) : null;
+    const tgt = [normMethod(tg.method), ad && ad.txt, tg.sets && `${tg.sets} sets`, (tg.repsMin || tg.repsMax) && `${tg.repsMin ?? ''}${tg.repsMax && tg.repsMax !== tg.repsMin ? '-' + tg.repsMax : ''} reps`, tg.rir != null && tg.rir !== '' && `RPE ${nl(rirToRpe(tg.rir))}`, tg.tempo && `tempo ${tg.tempo}`, tutInfo(tg) && `TUT ${tutInfo(tg).txt}`, tg.rest && `${restTxt(tg.rest)} rust`].filter(Boolean).join(' · ');
+    return { ex, unit, tg, strength, prev, plan, rk, planTxt, tgt };
+  }
+  // ✓ in de lijst: knop zolang het voorstel niet bevestigd is, vinkje zodra de set een waarde heeft
+  const setNoHTML = (en, ei, si) => (setDone(en.sets[si]) ? '<span class="setok" title="Bevestigd">✓</span>' : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')) + `<span class="muted">${si + 1}</span>`;
+  // ± knoppen naast een veld: sneller dan het toetsenbord op de gsm
+  const stepBtn = (ei, si, f, dlt, lab) => `<button type="button" class="stepb" data-act="step" data-ei="${ei}" data-si="${si}" data-f="${f}" data-d="${dlt}" aria-label="${esc(lab)} ${dlt > 0 ? 'plus' : 'min'} ${Math.abs(dlt)}">${dlt > 0 ? '+' : '−'}</button>`;
+  const stepWrap = (el, ei, si, f, stp) => `<div class="step">${stepBtn(ei, si, f, -stp, f)}${el}${stepBtn(ei, si, f, stp, f)}</div>`;
+  const planLineHTML = (I, ei) => (I.planTxt ? `<div class="prev"><span>Plan per set: <b>${esc(I.planTxt)}</b>${I.unit === 'bw' ? ' <span class="muted">(LG = lichaamsgewicht ' + esc(nl(bwNow())) + ' kg)</span>' : ''}</span><button class="btn small" data-act="copy-plan" data-ei="${ei}">Alles zoals gepland</button></div>` : '');
+  const prevLineHTML = (I, ei) => { const p = I.prev; return `<div class="prev">${p ? `<span>Vorige keer <b>${esc(fmtDate(p.date, false))}</b>: ${esc(p.text)}${p.best ? ` · beste e1RM <b>${nl(p.best)} kg</b>` : ''}${p.score != null ? ` · score <b>${nl(p.score, 0)}/10</b>` : ''}${p.hard ? ` · te moeilijk: <b>${esc(p.hard)}</b>` : ''}</span><button class="btn small" data-act="copy-prev" data-ei="${ei}">Neem vorige over</button>` : '<span class="muted">Nog niet eerder gelogd.</span>'}</div>`; };
+  // opwarmsets met ✓: een opwarmset staat al ingevuld uit het schema, dus "gedaan" is een aparte vlag (done)
+  const wuRowHTML = (en, ei) => `<div class="wu-row"><span class="lab">Opwarming</span>${(en.warmup || []).map((w, wi) => `<span class="wucell${w.done ? ' done' : ''}"><input class="xs" inputmode="decimal" id="w-${ei}-${wi}-kg" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="kg" value="${esc(w.kg ?? '')}" placeholder="kg" aria-label="kg opwarmset ${wi + 1}"><span class="muted">×</span><input class="xs" inputmode="numeric" id="w-${ei}-${wi}-reps" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="reps" value="${esc(w.reps ?? '')}" placeholder="reps" aria-label="reps opwarmset ${wi + 1}"><button type="button" class="btn small wuok" data-act="wset-ok" data-ei="${ei}" data-wi="${wi}" aria-pressed="${!!w.done}" aria-label="Opwarmset ${wi + 1} ${w.done ? 'gedaan' : 'bevestigen'}">✓</button><button class="btn ghost small" style="padding:0 4px" data-act="wset-del" data-ei="${ei}" data-wi="${wi}" aria-label="Opwarmset verwijderen">×</button></span>`).join('') || '<span class="small muted">geen gepland</span>'}<button class="btn ghost small" data-act="wset-add" data-ei="${ei}">+ opwarmset</button></div>`;
+  const bwModeHTML = (en, ei) => `<div class="row small" style="gap:8px"><label for="bwm-${ei}" class="muted">Ingevuld gewicht is</label><select id="bwm-${ei}" data-bind="bwmode" data-ei="${ei}">${BW_MODES.map(([v, l]) => `<option value="${v}"${v === (en.bwMode || 'auto') ? ' selected' : ''}>${l}</option>`).join('')}</select><span class="muted">${(en.bwMode || 'auto') === 'auto' ? `Auto: onder ${esc(nl(round05((bwNow() || 0) * 0.5)))} kg = extra bovenop het lichaamsgewicht (${esc(nl(bwNow()))} kg), vanaf dan = totaal.` : (en.bwMode === 'total' ? 'Totaal gewicht, lichaamsgewicht inbegrepen.' : 'Extra gewicht bovenop het lichaamsgewicht.')}</span></div>`;
+  const exfbHTML = (en, ei) => `<div class="exfb"><label class="field"><span>Wat was te moeilijk?</span><input id="hard-${ei}" data-bind="entry" data-ei="${ei}" data-f="hard" value="${esc(en.hard ?? '')}" placeholder="bv. laatste reps, lockout, grip, techniek"></label><label class="field"><span>Score op 10</span><input id="score-${ei}" type="number" min="1" max="10" inputmode="numeric" data-bind="entry" data-ei="${ei}" data-f="score" value="${esc(en.score ?? '')}" placeholder="optioneel"></label></div>`;
+  const metaFormHTML = (d) => { const b = S.blocks[d.blockId]; return `<div class="form"><label class="field"><span>Datum</span><input type="date" id="d-date" data-bind="meta" data-f="date" value="${esc(d.date)}"></label>
       <label class="field"><span>Blok</span><select id="d-block" data-bind="meta" data-f="blockId">${sortedBlocks().map((x) => `<option value="${esc(x.id)}"${x.id === d.blockId ? ' selected' : ''}>${esc(x.code)}</option>`).join('')}</select></label>
       <label class="field"><span>Week</span><input id="d-week" type="number" min="1" data-bind="meta" data-f="week" value="${esc(d.week)}"></label>
-      <label class="field"><span>Training</span><select id="d-day" data-bind="meta" data-f="day"><option value="">Vrije training</option>${[...new Set([...slotsOf(b), d.day].filter(Boolean))].map((x) => `<option value="${esc(x)}"${x === d.day ? ' selected' : ''}>${esc(slotLabel(x))}</option>`).join('')}</select></label></div></section>
-      ${entries ? `<div class="ex-list">${entries}</div>` : '<div class="empty">Geen oefeningen voor deze training in het schema. Voeg er hieronder een toe.</div>'}
-      <div class="row"><select id="add-ex" aria-label="Oefening toevoegen"><option value="">Oefening toevoegen…</option>${exOpts('')}</select><button class="btn" data-act="add-entry">+ Toevoegen</button></div>
-      <details class="card" open><summary>Feedback van de klant <span class="small muted" style="text-transform:none;letter-spacing:0;font-family:var(--f-body)">optioneel</span></summary>
+      <label class="field"><span>Training</span><select id="d-day" data-bind="meta" data-f="day"><option value="">Vrije training</option>${[...new Set([...slotsOf(b), d.day].filter(Boolean))].map((x) => `<option value="${esc(x)}"${x === d.day ? ' selected' : ''}>${esc(slotLabel(x))}</option>`).join('')}</select></label></div>`; };
+  const addExHTML = () => `<div class="row"><select id="add-ex" aria-label="Oefening toevoegen"><option value="">Oefening toevoegen…</option>${Object.values(S.exercises).sort((a, z) => a.name.localeCompare(z.name)).map((e) => `<option value="${esc(e.id)}">${esc(e.name)}</option>`).join('')}</select><button class="btn" data-act="add-entry">+ Toevoegen</button></div>`;
+  const fbHTML = (d) => { const c = client(), fbv = d.feedback || {}; return `<details class="card" open><summary>Feedback van de klant <span class="small muted" style="text-transform:none;letter-spacing:0;font-family:var(--f-body)">optioneel</span></summary>
         <div class="form" style="margin-top:12px">
-          <label class="field"><span>Lichaamsgewicht (kg)</span><input id="fb-bw" inputmode="decimal" data-bind="fb" data-f="bodyweight" value="${esc(fbv.bodyweight ?? '')}" placeholder="${esc(nl(client().stats?.lastBodyweight ?? client().bodyweight))}"></label>
+          <label class="field"><span>Lichaamsgewicht (kg)</span><input id="fb-bw" inputmode="decimal" data-bind="fb" data-f="bodyweight" value="${esc(fbv.bodyweight ?? '')}" placeholder="${esc(nl(c.stats?.lastBodyweight ?? c.bodyweight))}"></label>
           ${tracks(c, 'whoop') ? `<label class="field"><span>Whoop recovery (%)</span><input id="fb-whoop" inputmode="numeric" data-bind="fb" data-f="whoop" value="${esc(fbv.whoop ?? '')}"></label>` : ''}
           ${tracks(c, 'attention') ? `<label class="field"><span>${ATT} (0-10)</span><input id="fb-pain" type="number" min="0" max="10" data-bind="fb" data-f="pain" value="${esc(fbv.pain ?? '')}" placeholder="${esc(c.constraints || '')}"></label>` : ''}
           <label class="field"><span>Energie (1-5)</span><input id="fb-energy" type="number" min="1" max="5" data-bind="fb" data-f="energy" value="${esc(fbv.energy ?? '')}"></label>
           <label class="field wide"><span>Notitie</span><textarea id="fb-note" data-bind="fb" data-f="note">${esc(fbv.note ?? '')}</textarea></label>
-        </div></details>
-      <div class="sticky-actions"><span class="small muted" id="save-state" style="margin-right:auto;align-self:center">${esc(S.saveState || 'Wordt automatisch bewaard')}</span><button class="btn danger" data-act="del-session"${d.id ? '' : ' hidden'}>Verwijderen</button>${d.report?.at ? `<span class="pill ok" style="align-self:center">Rapport ${esc(fmtDate(d.report.at.slice(0, 10), false))}</span>` : ''}<button class="btn" data-act="rep-open"${d.id ? '' : ' disabled'}>Rapport naar klant</button><button class="btn primary" data-act="done-training">Klaar</button></div>`;
-  }
+        </div></details>`; };
+  const delRepHTML = (d) => `<button class="btn danger" data-act="del-session"${d.id ? '' : ' hidden'}>Verwijderen</button>${d.report?.at ? `<span class="pill ok" style="align-self:center">Rapport ${esc(fmtDate(d.report.at.slice(0, 10), false))}</span>` : ''}<button class="btn" data-act="rep-open"${d.id ? '' : ' disabled'}>Rapport naar klant</button>`;
+  // onderste balk: rusttimer, bewaarstatus, Klaar. In gymmodus is "Set klaar" de hoofdknop, dus Klaar is daar gewoon.
+  const stickyHTML = (d, gym) => `<div class="sticky-actions">${restHTML()}<span class="small muted" id="save-state" style="margin-right:auto;align-self:center">${esc(S.saveState || 'Wordt automatisch bewaard')}</span>${gym ? '' : delRepHTML(d)}<button class="btn${gym ? '' : ' primary'}" data-act="done-training">Klaar</button></div>`;
+
   function sigHTML(st, tg) {
     const r = num(st.reps), rm = num(tg?.repsMax), rir = num(st.rir);
     if (r != null && rm != null && r > rm) return '<span class="sig-up">↑ verhoog</span>';
@@ -793,6 +908,76 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   }
   const METHOD_HINT = { 'Standard Sets': 'Alle sets zelfde gewicht en reps.', 'Standard Sets: pre-exhaustion': 'Isolatieoefening voor dezelfde spiergroep vlak vóór deze oefening; sets zelfde gewicht en reps.', 'Standard Sets: post-exhaustion': 'Isolatieoefening voor dezelfde spiergroep vlak ná deze oefening; sets zelfde gewicht en reps.', 'Standard Sets: trisets': 'Drie oefeningen na elkaar zonder rust, daarna de volledige rust.', 'Standard Sets: giant sets': 'Vier of meer oefeningen na elkaar zonder rust, daarna de volledige rust.', 'Standard Sets: heavy-light': 'Afwisselend een zware set (laag in de rep range) en een lichte set (hoog in de rep range).', 'Descending Reps': 'Elke set minder reps en zwaarder, van reps max naar reps min.', 'Ascending Reps': 'Elke set meer reps en lichter, van reps min naar reps max.', 'Back-Off Set': 'Werksets zwaar op reps min, laatste set lichter op reps max.', 'Broad Pyramid': 'Reps dalen naar reps min en stijgen terug; gewicht volgt mee.', 'Stage System Descending': 'Sets in 2 of 3 stages; per stage minder reps en zwaarder.', 'Stage System Ascending': 'Sets in 2 of 3 stages; per stage meer reps en lichter.', 'Paler System Descending': 'Voorstel: reps dalen per set. Setopbouw nog te bevestigen door Stijn.', 'Paler System Ascending': 'Voorstel: reps stijgen per set. Setopbouw nog te bevestigen door Stijn.', 'Wave Loading': 'Golven van dalende reps met stijgend gewicht; tweede golf +2,5%.', 'Cluster': 'Zwaardere set opgesplitst in mini-reeksen met korte pauze.', 'Rest-pause': 'Eén zware hoofdset, daarna korte mini-sets met hetzelfde gewicht.', 'Drop set': 'Topset, daarna telkens ongeveer 20% lichter zonder rust.', 'Tempo': 'Trager tempo, daarom ongeveer 10% lichter.' };
 
+  // ---------- gymmodus: één oefening per scherm (gsm) ----------
+  // Grote cijfers met ± knoppen, RPE als knoppen, één hoofdknop "Set klaar". Vegen of ‹ › = vorige of volgende oefening.
+  // Planning, tempo en TUT staan achter "Details". Zelfde regels als de lijst: grijs = voorstel, zwart = bevestigd.
+  const RPE_CHIPS = [6, 7, 7.5, 8, 8.5, 9, 9.5, 10];
+  const bigStep = (ei, si, f, lab, val, phv, stp, dg) => `<div class="bigstep"><span class="lab">${esc(lab)}</span><div class="ctl">${stp ? stepBtn(ei, si, f, -stp, lab) : ''}<input id="s-${ei}-${si}-${f}" inputmode="decimal" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="${f}" value="${esc(val ?? '')}" placeholder="${esc(phv != null && phv !== '' ? nl(phv, dg) : '')}" aria-label="${esc(lab)}">${stp ? stepBtn(ei, si, f, stp, lab) : ''}</div></div>`;
+  // korte weergave van een set in de lijst onder de huidige set: bevestigde waarde, anders "plan …"
+  function setShort(exId, x, sg) {
+    const has = setDone(x), src = has ? x : sg || {}, u = unitOf(exId);
+    let w;
+    if (u === 'blok') w = num(src.blocks) != null ? `blok ${nl(src.blocks)}${num(src.extra) ? ' + ' + nl(src.extra) : ''}` : '?';
+    else if (u === 'bw') w = num(src.kg) ? bwFmt(num(src.kg), src.mode || 'auto') : 'LG';
+    else if (STRENGTH.includes(u)) w = num(src.kg) != null ? nl(src.kg) + ' kg' : '?';
+    else w = num(src.value) != null ? `${nl(src.value)} ${u}` : '?';
+    return `${has ? '' : 'plan '}${w}${num(src.reps) != null ? ' × ' + nl(src.reps, 0) : ''}${has && num(x.rpe) != null ? ' @ RPE ' + nl(x.rpe) : ''}`;
+  }
+  function viewGym(d, b) {
+    const c = client(), n = d.entries.length; S.gymIdx = Math.max(0, Math.min(S.gymIdx || 0, n)); const i = S.gymIdx;
+    // voortgang: één bolletje per oefening (vol = alle sets bevestigd); navigeren gaat met ‹ › of vegen
+    const dots = d.entries.map((en, k) => `<span data-rk="${reeksOf(en.target?.code) || 'X'}" class="${entryDone(en) ? 'full' : ''}"${k === i ? ' aria-current="true"' : ''}></span>`).join('') + `<span class="fin"${i === n ? ' aria-current="true"' : ''}></span>`;
+    return `<section class="gym" id="gym">
+      <div class="gym-top"><div class="small"><b>${esc(slotLabel(d.day))}</b> <span class="muted">· ${esc(c.name)} · ${esc(b?.code || '')} week ${esc(d.week)}</span></div><button class="btn small" data-act="gym-toggle">Lijst</button></div>
+      <div class="gym-nav"><button class="btn navb" data-act="gym-go" data-i="${i - 1}"${i === 0 ? ' disabled' : ''} aria-label="Vorige oefening">‹</button><div class="gym-dots" role="img" aria-label="Oefening ${Math.min(i + 1, n)} van ${n}${i === n ? ', afronden' : ''}">${dots}</div><button class="btn navb" data-act="gym-go" data-i="${i + 1}"${i >= n ? ' disabled' : ''} aria-label="Volgende oefening">›</button></div>
+      ${i < n ? gymEntry(d, i) : gymFinish(d)}
+    </section>${stickyHTML(d, true)}`;
+  }
+  function gymEntry(d, ei) {
+    const en = d.entries[ei], I = entryInfo(en, d.date), { ex, unit, tg, strength, rk } = I, n = d.entries.length;
+    const sel = S.gymSet != null && en.sets[S.gymSet] ? S.gymSet : en.sets.findIndex((x) => !setDone(x));
+    const sub = [REEKS_LABEL[rk], tg.sets && `${tg.sets} sets`, (tg.repsMin || tg.repsMax) && `${tg.repsMin ?? ''}${tg.repsMax && tg.repsMax !== tg.repsMin ? '-' + tg.repsMax : ''} reps`, tg.rest && `${restTxt(tg.rest)} rust`].filter(Boolean).join(' · ');
+    const title = `<div class="gym-title" data-rk="${rk || 'X'}"><span class="code">${esc(tg.code || '+')}</span><div style="min-width:0"><div class="nm">${esc(ex.name || 'Oefening')}${en.variant ? ` <span class="muted small">(${esc(en.variant)})</span>` : ''}</div><div class="small muted">${esc(sub)}</div></div></div>`;
+    let cur;
+    if (sel < 0) cur = `<div class="gym-cur gym-done" data-rk="${rk || 'X'}"><div class="gym-donemsg">✓ Alle ${en.sets.length} sets gedaan</div>${exfbHTML(en, ei)}<button class="btn primary gym-ok" data-act="gym-go" data-i="${ei + 1}">${ei + 1 < n ? 'Volgende oefening ›' : 'Afronden ›'}</button></div>`;
+    else {
+      const st = en.sets[sel], sg = setSuggest(en, sel) || {}, pv = I.prev?.sets?.[sel], pl = I.plan[sel];
+      const kgLab = unit === 'kg per hand' ? 'Kg per hand' : unit === 'bw' ? 'Extra kg' : 'Kg';
+      const fields = unit === 'blok' ? [['blocks', 'Blok', 1, 0], ['extra', '+ kg', 1, 1]] : strength ? [['kg', kgLab, 1, 1]] : [['value', (UNITS.find((u) => u[0] === unit) || [, unit])[1], 0, 1]];
+      fields.push(['reps', 'Reps', 1, 0]);
+      const tot = unit === 'bw' ? setKg(st, en.exId) : null, rpe = num(st.rpe), tRpe = tg.rir != null && tg.rir !== '' ? rirToRpe(tg.rir) : null;
+      const planLine = [pl && (num(pl.kg) != null || num(pl.reps) != null) && `Plan ${kgPlanTxt(unit, num(pl.kg))} × ${nl(pl.reps, 0) || '?'}`, pv && `vorige ${setLabel(en.exId, pv)} × ${nl(pv.reps, 0) || '?'}`].filter(Boolean).join(' · ');
+      cur = `<div class="gym-cur" data-rk="${rk || 'X'}"><div class="row" style="justify-content:space-between"><span class="lab">Set ${sel + 1} van ${en.sets.length}</span><span class="small muted">${esc(planLine)}</span></div>
+        <div class="gym-big">${fields.map(([f, l, stp, dg]) => bigStep(ei, sel, f, l, st[f], sg[f], stp, dg)).join('')}${!strength ? `<div class="bigstep"><span class="lab">Tijd</span><div class="ctl"><input id="s-${ei}-${sel}-time" data-bind="set" data-ei="${ei}" data-si="${sel}" data-f="time" value="${esc(st.time ?? '')}" placeholder="${esc(sg.time || 'mm:ss')}" aria-label="Tijd"></div></div>` : ''}</div>
+        ${unit === 'bw' ? `<div class="small muted" style="text-align:center">Totaal <span id="tot-${ei}-${sel}">${tot != null && setDone(st) ? nl(tot) + ' kg' : 'LG'}</span> · lichaamsgewicht ${esc(nl(bwNow()))} kg</div>` : ''}
+        <div class="rpe-row"><span class="lab">RPE${tRpe != null ? ' · plan ' + esc(nl(tRpe)) : ''}</span><div class="chips">${RPE_CHIPS.map((v) => `<button type="button" class="chipbtn" data-act="rpe-set" data-ei="${ei}" data-si="${sel}" data-v="${v}" aria-pressed="${rpe === v}">${nl(v)}</button>`).join('')}</div></div>
+        <button class="btn primary gym-ok" data-act="confirm-set" data-ei="${ei}" data-si="${sel}">${S.gymSet === sel && setDone(st) ? '✓ Bewaren' : `✓ Set ${sel + 1} klaar`}</button>
+        ${setDone(st) ? `<button class="btn ghost small" data-act="set-clear" data-ei="${ei}" data-si="${sel}">Set leegmaken</button>` : ''}</div>`;
+    }
+    const list = `<div class="gym-sets">${en.sets.map((x, k) => `<div class="gs${k === sel ? ' cur' : ''}${setDone(x) ? ' done' : ''}"><button type="button" class="gs-main" data-act="gym-set" data-si="${k}"><span class="muted">Set ${k + 1}</span> <b>${esc(setShort(en.exId, x, setSuggest(en, k)))}</b></button>${setDone(x) ? '<span class="setok" title="Bevestigd">✓</span>' : `<button type="button" class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${k}" aria-label="Set ${k + 1} bevestigen zoals voorgesteld">✓</button>`}</div>`).join('')}
+      <div class="row" style="gap:6px"><button class="btn ghost small" data-act="add-set" data-ei="${ei}">+ set</button>${en.sets.length > 1 ? `<button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${sel < 0 ? en.sets.length - 1 : sel}">− set</button>` : ''}</div></div>`;
+    const tut = tutPill(tg);
+    const det = `<details class="gym-det"><summary>Details</summary><div class="gym-det-b">
+      ${I.tgt ? `<div class="target">Schema: ${esc(I.tgt)}${tg.note ? ' · ' + esc(tg.note) : ''}</div>` : ''}${tut ? `<div>${tut}</div>` : ''}
+      ${planLineHTML(I, ei)}${prevLineHTML(I, ei)}
+      ${unit === 'bw' ? bwModeHTML(en, ei) : ''}
+      <div class="row" style="gap:6px"><input style="flex:1;min-width:10rem" id="var-${ei}" data-bind="entry" data-ei="${ei}" data-f="variant" value="${esc(en.variant)}" placeholder="variant: grip, hoek…" aria-label="Variant"><button class="btn ghost small" data-act="del-entry" data-ei="${ei}">Oefening verwijderen</button></div></div></details>`;
+    return `<div class="gym-page${S.gymAnim ? ' ' + S.gymAnim : ''}">${title}${strength ? wuRowHTML(en, ei) : ''}${tg.filler ? `<div class="small">Filler tijdens de rust: <b>${esc(tg.filler)}</b></div>` : ''}${cur}${list}${sel >= 0 ? exfbHTML(en, ei) : ''}${det}</div>`;
+  }
+  function gymFinish(d) {
+    const all = d.entries.reduce((a, en) => a + en.sets.length, 0), done = d.entries.reduce((a, en) => a + en.sets.filter(setDone).length, 0);
+    const open = d.entries.map((en, k) => (en.exId && !entryDone(en) ? `<button class="btn small" data-act="gym-go" data-i="${k}">${esc(en.target?.code || '+')} ${esc(exName(en.exId))}: ${en.sets.filter(setDone).length}/${en.sets.length}</button>` : '')).join('');
+    return `<div class="gym-page${S.gymAnim ? ' ' + S.gymAnim : ''}"><div class="gym-title" data-rk="X"><span class="code">✓</span><div><div class="nm">Afronden</div><div class="small muted">${done} van ${all} sets bevestigd</div></div></div>
+      ${open ? `<div class="notice">Nog open: <div class="row" style="gap:6px;margin-top:6px">${open}</div></div>` : ''}
+      ${fbHTML(d)}${addExHTML()}
+      <details class="gym-det"><summary>Datum, blok en week</summary><div class="gym-det-b">${metaFormHTML(d)}</div></details>
+      <div class="row">${delRepHTML(d)}</div>
+      <p class="small muted">Tik op Klaar: je krijgt de samenvatting en kan ze meteen naar ${esc(client().coach || 'de coach')} en de klant sturen.</p></div>`;
+  }
+  function gymGo(i) {
+    const n = S.draft?.entries.length ?? 0; if (i < 0 || i > n || i === S.gymIdx) return;
+    S.gymAnim = i > S.gymIdx ? 'in-r' : 'in-l'; S.gymIdx = i; S.gymSet = null; renderMain(); S.gymAnim = ''; window.scrollTo({ top: 0 });
+  }
   // ---------- view: planning ----------
   const lastRealBlock = () => sortedBlocks().filter((b) => !b._unsaved && (b.exercises || []).length).pop() || null;
   const nextCode = (phase) => { const n = Math.max(0, ...sortedBlocks().map((b) => parseInt((String(b.code).match(/(\d+)/) || [])[1], 10) || 0)); return `${phase.slice(0, 3)} ${n + 1}`; };
@@ -1047,7 +1232,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       <section class="card"><div class="card-h"><div><h2>Logboek</h2><p class="sub">Alle trainingen. Oude schema's zijn enkel als topsets ingeladen (week "top").</p></div></div>
       ${ss.length ? `<div class="tablewrap"><table><thead><tr><th>Datum</th><th>Periode</th><th>Week</th><th>Training</th><th>Oefeningen</th><th class="num">Gewicht</th>${tracks(c, 'attention') ? `<th class="num">${ATT}</th>` : ''}${tracks(c, 'whoop') ? '<th class="num">Whoop</th>' : ''}<th>Rapport</th></tr></thead><tbody>${ss.map((s) => `<tr class="click" data-act="open-session" data-id="${esc(s.id)}"><td>${esc(fmtDate(s.date))}</td><td>${esc(S.blocks[s.blockId]?.code || '')}</td><td>${s.historical ? 'top' : esc(s.week)}</td><td>${s.historical ? '' : esc(slotShort(sessSlot(s)))}</td><td class="small">${(s.entries || []).map((e) => esc(exName(e.exId))).join(', ')}</td><td class="num">${nl(s.feedback?.bodyweight)}</td>${tracks(c, 'attention') ? `<td class="num">${nl(s.feedback?.pain, 0)}</td>` : ''}${tracks(c, 'whoop') ? `<td class="num">${s.feedback?.whoop != null && s.feedback?.whoop !== '' ? nl(s.feedback.whoop, 0) + '%' : ''}</td>` : ''}<td class="small">${s.report?.at ? '<span class="sig-up">✓</span> ' + esc(fmtDate(s.report.at.slice(0, 10), false)) : ''}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">Nog geen trainingen.</div>'}</section>`;
   }
-  function afterRender() { drawProgress(); }
+  function afterRender() { drawProgress(); restTick(); wake(S.view === 'training' && !!S.draft && S.gym); }
 
   // ---------- view: statistiek ----------
   function heat(v, max) { if (!v) return ''; const a = Math.round(10 + 55 * Math.min(1, v / (max || 1))); return ` style="background:color-mix(in srgb,var(--heat,var(--accent)) ${a}%,transparent)"`; }
@@ -1096,6 +1281,59 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
         <p class="small muted" style="margin:10px 0 0">Het patroon per oefening staat in Oefeningen: automatisch herkend, aan te passen.</p></section>`;
   }
 
+  // ---------- rusttimer (scherm, geluid, trilling, scherm aan) ----------
+  // De regels staan in 21-rustregels. Hier alleen wat de gebruiker ziet en hoort.
+  const soundOn = () => store.get('ec.sound') !== 'off';
+  let AC = null, WL = null;
+  // geluid mag pas na een tik van de gebruiker: elke ✓ ontgrendelt het
+  const audioUnlock = () => { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch {} };
+  const beep = (t0, f, dur) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.5, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + dur + 0.03); };
+  // signaal 1: één korte toon en trilling; signaal 2: drie tonen en een lange trilling. iPhone kent geen trilling.
+  function signal(n) {
+    try { navigator.vibrate?.(n === 1 ? 200 : [400, 150, 400, 150, 400]); } catch {}
+    if (!soundOn() || !AC) return;
+    try { const t = AC.currentTime; if (n === 1) beep(t, 880, 0.18); else [0, 0.28, 0.56].forEach((dl, k) => beep(t + dl, k === 2 ? 1320 : 990, 0.2)); } catch {}
+  }
+  function restStart(sec, label) {
+    const left = restLeft(sec);
+    S.rest = { end: Date.now() + left * 1000, total: sec, label, warned: left <= REST_WARN, rang: false };
+    clearInterval(restStart.iv); restStart.iv = setInterval(restTick, 250); restTick();
+  }
+  function restStop() { S.rest = null; clearInterval(restStart.iv); const el = $('#rest'); if (el) { el.hidden = true; el.innerHTML = ''; } }
+  function restTick() {
+    const r = S.rest; if (!r) return;
+    if (!(S.view === 'training' && S.draft)) { restStop(); return; }
+    const st = restState(r, Date.now());
+    if (st.signal === 1) { r.warned = true; signal(1); }
+    if (st.signal === 2) { r.warned = r.rang = true; signal(2); }
+    if (st.expired) { restStop(); return; }
+    const el = $('#rest'); if (!el) return;
+    if (!el.firstChild) el.innerHTML = restInner();
+    el.hidden = false; el.className = 'rest ' + st.phase;
+    el.querySelector('.t').textContent = st.ms > 0 ? mmss(st.s) : '+' + mmss(Math.floor(-st.ms / 1000));
+    el.querySelector('.st').textContent = st.phase === 'over' ? 'Start!' : st.phase === 'soon' ? 'Klaarmaken' : 'Rust';
+  }
+  const restInner = () => { const r = S.rest; return `<span class="t" aria-hidden="true"></span><div class="info"><b class="st">Rust</b> <span class="muted">${esc(restTxt(r.total))}, ${REST_CONFIRM} s al verrekend</span><br><span>Volgende: <b>${esc(r.label)}</b></span></div><div class="row" style="gap:6px"><button class="btn small" data-act="rest-add" data-d="-15">−15 s</button><button class="btn small" data-act="rest-add" data-d="15">+15 s</button><button class="btn small" data-act="rest-sound" aria-pressed="${soundOn()}" aria-label="Geluid ${soundOn() ? 'uit' : 'aan'} zetten">${soundOn() ? 'Geluid aan' : 'Geluid uit'}</button><button class="btn small" data-act="rest-stop">Ik start nu</button></div>`; };
+  const restHTML = () => `<div id="rest" class="rest" role="timer"${S.rest ? '' : ' hidden'}>${S.rest ? restInner() : ''}</div>`;
+  // volgende set: eerst de open sets van dezelfde oefening, dan de volgende oefening met open sets
+  function nextLabel(ei) {
+    const es = S.draft.entries, en = es[ei], k = en.sets.findIndex((x) => !setDone(x));
+    if (k >= 0) return `${en.target?.code ? en.target.code + ' ' : ''}set ${k + 1}`;
+    for (let j = 1; j < es.length; j++) { const x = es[(ei + j) % es.length]; if (x.exId && !entryDone(x)) return `${x.target?.code ? x.target.code + ' ' : ''}${exName(x.exId)}`; }
+    return null;
+  }
+  // start de rust na een bevestigde set; na de laatste set van de training geen timer
+  function restAfter(ei) {
+    const en = S.draft.entries[ei], nxt = nextLabel(ei), sec = restOf(en.target, S.blocks[S.draft.blockId]?.phase);
+    if (nxt && sec) restStart(sec, nxt); else if (!nxt) { restStop(); toastMsg('Alle sets gedaan: tik op Klaar'); }
+  }
+  // scherm aan houden in gymmodus (Wake Lock); stil falen waar de browser het niet kent
+  async function wake(on) {
+    try {
+      if (on && !WL && 'wakeLock' in navigator && document.visibilityState === 'visible') { WL = await navigator.wakeLock.request('screen'); WL.addEventListener('release', () => { WL = null; }); }
+      else if (!on && WL) { const w = WL; WL = null; await w.release(); }
+    } catch {}
+  }
   // ---------- sessierapport (PDF + e-mail) ----------
   const sessOf = (sid) => (S.draft && S.draft.id === sid ? { id: sid, ...trainingBody(S.draft) } : S.sessions[sid]);
   function nextFor(s) {
@@ -1311,21 +1549,122 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       if (S.draft && S.draft.id === r.sid) { S.draft.report = rep; S.draft._dirty = true; await saveTraining(); } else if (S.canWrite) await write(`clients/${S.cid}/sessions/${r.sid}`, { report: rep }, true);
       repStatus(`<span class="sig-up">Concept staat klaar in Gmail.</span> ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open het concept</a>, kijk het na en verstuur.` : 'Open Gmail, kijk het concept na en verstuur.'}`);
     } catch (e) {
-      const code = e?.code, msg = {
-        needs_reauth: 'Gmail moet opnieuw verbonden worden: claude.ai, Instellingen, Connectors.',
-        server_not_connected: 'Gmail is niet verbonden. Voeg Gmail toe via claude.ai, Instellingen, Connectors.',
-        selection_required: 'Kies eerst welk Gmail-account deze pagina gebruikt (melding bovenaan).',
-        not_in_manifest: 'Gmail is niet toegestaan voor deze pagina. Sta het toe via het menu Rechten van de app.',
-        approval_required: 'Gmail vraagt je goedkeuring. Klik opnieuw op "Concept in Gmail" en sta het toe.',
-        blocked_by_policy: 'Je organisatie blokkeert Gmail voor deze pagina.',
-        tool_error: 'Gmail weigerde het concept: ' + (e?.message || ''),
-        server_unavailable: 'Gmail reageert niet. Kijk eerst in Gmail of het concept toch werd aangemaakt voor je opnieuw probeert.',
-      }[code] || 'Het concept maken lukte niet' + (e?.message ? ': ' + e.message : '') + '. Download de PDF en mail hem zelf.';
+      const msg = gmailErr(e);
       repStatus(`<span class="sig-bad">${esc(msg)}</span>`);
     }
     repBusy(false);
   }
 
+
+  // foutmelding van de Gmail-connector in gewone taal (rapport en samenvatting)
+  const gmailErr = (e) => ({
+        needs_reauth: 'Gmail moet opnieuw verbonden worden: claude.ai, Instellingen, Connectors.',
+        server_not_connected: 'Gmail is niet verbonden. Voeg Gmail toe via claude.ai, Instellingen, Connectors.',
+        selection_required: 'Kies eerst welk Gmail-account deze pagina gebruikt (melding bovenaan).',
+        not_in_manifest: 'Gmail is niet toegestaan voor deze pagina. Sta het toe via het menu Rechten van de app.',
+        approval_required: 'Gmail vraagt je goedkeuring. Klik opnieuw en sta het toe.',
+        blocked_by_policy: 'Je organisatie blokkeert Gmail voor deze pagina.',
+        tool_error: 'Gmail weigerde het concept: ' + (e?.message || ''),
+        server_unavailable: 'Gmail reageert niet. Kijk eerst in Gmail of het concept toch werd aangemaakt voor je opnieuw probeert.',
+      }[e?.code] || 'Het concept maken lukte niet' + (e?.message ? ': ' + e.message : '') + '. Download de PDF en mail hem zelf.');
+  // ---------- samenvatting bij "Klaar" ----------
+  // Plan tegenover gedaan, nieuwe records en wat te moeilijk was. Eén Gmail-concept naar klant, coach of beide.
+  // "Te moeilijk" = wat de klant noteerde, een score van 5 of lager, minder reps dan gepland of een RPE duidelijk boven het plan.
+  function summaryModel(d) {
+    const c = client(), b = S.blocks[d.blockId], first = String(c.name || '').trim().split(' ')[0];
+    let setsPlan = 0, setsDone = 0; const rows = [], recs = [], hard = [];
+    d.entries.forEach((en) => {
+      if (!en.exId) return;
+      const tg = en.target || {}, name = exName(en.exId), code = tg.code || '', rk = reeksOf(code), str = isStrength(en.exId), bw = unitOf(en.exId) === 'bw';
+      const st = (en.sets || []).filter(setDone), planN = num(tg.sets) || 0;
+      const rMin = num(tg.repsMin), rMax = num(tg.repsMax) ?? rMin, tRpe = tg.rir != null && tg.rir !== '' ? rirToRpe(tg.rir) : null;
+      const planKgs = (tg.setPlan || []).map((p) => num(p.kg)).filter((v) => v != null), topPlan = planKgs.length ? Math.max(...planKgs) : null;
+      const blok = unitOf(en.exId) === 'blok' && topPlan != null ? { blocks: Math.floor(topPlan / kgPerBlock()), extra: Math.round((topPlan - Math.floor(topPlan / kgPerBlock()) * kgPerBlock()) * 10) / 10 } : null;
+      const kgPart = topPlan != null || bw ? ' · ' + (bw ? kgPlanTxt('bw', topPlan) : blok ? setLabel(en.exId, blok) : kgTxt(en.exId, topPlan)) : '';
+      const plan = !planN ? '' : rk === 'F' || !str ? `${planN} ${rk === 'F' ? (planN === 1 ? 'ronde' : 'rondes') : 'sets'}` : `${planN} × ${rMin != null && rMax != null && rMin !== rMax ? rMin + '-' + rMax : rMax ?? '?'}${tRpe != null ? ' @ RPE ' + nl(tRpe) : ''}${kgPart}`;
+      setsPlan += planN || st.length; setsDone += st.length;
+      if (!st.length) { rows.push({ code, rk, name, plan, did: 'niet gedaan', status: ['Niet gedaan', 'bad'], score: null }); return; }
+      const under = rMin != null && st.some((x) => num(x.reps) != null && num(x.reps) < rMin);
+      const over = rMax != null && st.some((x) => num(x.reps) > rMax);
+      const maxRpe = Math.max(0, ...st.map((x) => num(x.rpe) || 0)), heavy = tRpe != null && maxRpe >= Math.max(9.5, tRpe + 1.5);
+      let status = ['Volgens plan', 'ok'];
+      if (planN && st.length < planN) status = [`${st.length} van ${planN} sets`, 'warn'];
+      else if (under) status = ['Onder het repbereik', 'warn'];
+      else if (over) status = ['Boven bereik: zwaarder', 'ok'];
+      else if (heavy) status = ['Zwaarder dan gepland', 'warn'];
+      if (str) {
+        const best = Math.max(0, ...st.map((x) => e1p(x, en.exId) || 0)), prior = history(en.exId, d.date).filter((p) => p.bestP != null).map((p) => p.bestP);
+        const pb = prior.length ? Math.max(...prior) : null;
+        if (pb != null && best > pb * 1.005) { recs.push({ name, best, pb }); if (status[0] === 'Volgens plan') status = ['Record', 'ok']; }
+      }
+      const why = [String(en.hard || '').trim(), num(en.score) != null && num(en.score) <= 5 && `score ${nl(en.score, 0)}/10`, under && `minder dan ${rMin} reps`, heavy && `RPE ${nl(maxRpe)} (plan ${nl(tRpe)})`].filter(Boolean);
+      if (why.length) hard.push({ name, why: why.join(', ') });
+      rows.push({ code, rk, name, plan, did: doneTxt(en.exId, st), status, score: num(en.score) });
+    });
+    const fb = d.feedback || {}, fbTxt = [num(fb.energy) != null && 'energie ' + nl(fb.energy, 0) + ' op 5', num(fb.bodyweight) != null && 'lichaamsgewicht ' + nl(fb.bodyweight) + ' kg', num(fb.pain) != null && ATT.toLowerCase() + ' ' + nl(fb.pain, 0) + ' op 10', fb.note].filter(Boolean).join(' · ');
+    return { sid: d.id, client: c.name, first, coach: c.coach || '', title: slotLabel(d.day), dateTxt: fmtDate(d.date), dateShort: fmtDate(d.date, false), block: b ? `${b.code} ${phaseOf(b.phase)} · week ${d.week}` : '', setsPlan, setsDone, rows, recs, hard, fbTxt };
+  }
+  const summaryText = (m) => [
+    `${m.title} · ${m.client} · ${m.dateTxt}${m.block ? ' · ' + m.block : ''}`,
+    `Sets gedaan: ${m.setsDone} van ${m.setsPlan} gepland`, '',
+    'PLAN TEGENOVER GEDAAN', ...m.rows.map((r) => `- ${r.code ? r.code + ' ' : ''}${r.name}: ${r.did}${r.plan ? ' (plan ' + r.plan + ')' : ''} · ${r.status[0]}${r.score != null ? ' · score ' + r.score + '/10' : ''}`), '',
+    'NIEUWE RECORDS', ...(m.recs.length ? m.recs.map((r) => `- ${r.name}: e1RM ${nl(r.best)} kg (was ${nl(r.pb)} kg)`) : ['- geen']), '',
+    'TE MOEILIJK', ...(m.hard.length ? m.hard.map((h) => `- ${h.name}: ${h.why}`) : ['- niets gemeld']),
+    ...(m.fbTxt ? ['', 'FEEDBACK', m.fbTxt] : []),
+  ].join('\n');
+  function summaryMail(m, toClient, toCoach) {
+    const coach = m.coach || 'coach', hi = toClient && toCoach ? `Hoi ${m.first} en ${coach}` : toClient ? `Hoi ${m.first}` : `Hoi ${coach}`;
+    const intro = toClient ? `Hierbij de samenvatting van je training van ${m.dateShort}. Het volledige rapport zit als PDF in bijlage.` : `Hierbij de samenvatting van de training van ${m.client} op ${m.dateShort}.`;
+    const txt = summaryText(m);
+    return { subject: `Samenvatting training ${m.dateShort} · ${m.client} · EnCORE Coaching`, text: `${hi},\n\n${intro}\n\n${txt}\n\nSportieve groet,\nEnCORE Coaching`, html: `<p>${esc(hi)},</p><p>${esc(intro)}</p><pre style="font-family:inherit;white-space:pre-wrap">${esc(txt)}</pre><p>Sportieve groet,<br>EnCORE Coaching</p>` };
+  }
+  const MAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function openSummary(m) { const c = client(); S.summary = { m, toClient: !!c?.email, toCoach: true, clientMail: c?.email || '', coachMail: (S.config.coachEmails || {})[c?.coach || ''] || '', busy: false }; renderSummary(); }
+  function renderSummary() {
+    let el = $('#sum-modal'); if (!el) { el = document.createElement('div'); el.id = 'sum-modal'; document.body.appendChild(el); }
+    const s = S.summary; if (!s) { el.innerHTML = ''; return; }
+    const m = s.m, kpi = (l, v, dd) => `<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="d">${dd}</span></div>`;
+    el.innerHTML = `<div class="confirm" role="dialog" aria-modal="true" aria-labelledby="sum-h"><div class="card sum">
+      <h3 id="sum-h">Samenvatting · ${esc(m.title)}</h3><p class="sub">${esc(m.client)} · ${esc(m.dateTxt)}${m.block ? ' · ' + esc(m.block) : ''}</p>
+      <div class="sum-kpis">${kpi('Sets', `${m.setsDone}<small>/ ${m.setsPlan}</small>`, 'gedaan tegenover plan')}${kpi('Records', m.recs.length, 'beste e1RM ooit')}${kpi('Te moeilijk', m.hard.length, 'oefeningen met signaal')}</div>
+      <h4>Plan tegenover gedaan</h4><div class="sum-rows">${m.rows.map((r) => `<div class="sr" data-rk="${r.rk || 'X'}"><div class="sr-h"><b class="rkc">${esc(r.code)}</b> <b>${esc(r.name)}</b>${r.score != null ? ` <span class="small muted">${r.score}/10</span>` : ''}<span class="pill ${r.status[1]}">${esc(r.status[0])}</span></div><div class="small">Gedaan: <b>${esc(r.did)}</b></div><div class="small muted">Plan: ${esc(r.plan || 'vrij')}</div></div>`).join('')}</div>
+      ${m.recs.length ? `<h4>Nieuwe records</h4><ul class="sum-l">${m.recs.map((r) => `<li><b>${esc(r.name)}</b>: e1RM ${nl(r.best)} kg <span class="muted">(was ${nl(r.pb)} kg)</span></li>`).join('')}</ul>` : ''}
+      <h4>Te moeilijk</h4>${m.hard.length ? `<ul class="sum-l">${m.hard.map((h) => `<li><b>${esc(h.name)}</b>: ${esc(h.why)}</li>`).join('')}</ul>` : '<p class="small muted" style="margin:0">Niets gemeld.</p>'}
+      ${m.fbTxt ? `<p class="small" style="margin:8px 0 0">Feedback: ${esc(m.fbTxt)}</p>` : ''}
+      <h4>Versturen</h4>
+      <div class="sendto"><label><input type="checkbox" data-bind="sum" data-f="toClient"${s.toClient ? ' checked' : ''}> Klant</label><input type="email" data-bind="sum" data-f="clientMail" value="${esc(s.clientMail)}" placeholder="klant@voorbeeld.be" aria-label="E-mail klant"></div>
+      <div class="sendto"><label><input type="checkbox" data-bind="sum" data-f="toCoach"${s.toCoach ? ' checked' : ''}> Coach${m.coach ? ' ' + esc(m.coach) : ''}</label><input type="email" data-bind="sum" data-f="coachMail" value="${esc(s.coachMail)}" placeholder="coach@encore.be" aria-label="E-mail coach"></div>
+      <p class="small muted" id="sum-status" role="status" style="margin:8px 0 0">Eén concept in Gmail met de samenvatting; met klant erbij ook het PDF-rapport. Je kijkt na en verstuurt zelf.</p>
+      <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn" data-act="sum-close">Sluiten</button><button class="btn" data-act="sum-copy">Kopieer tekst</button><button class="btn" data-act="sum-report">Alleen PDF-rapport</button><button class="btn primary" data-act="sum-gmail">Concept in Gmail</button></div></div></div>`;
+  }
+  const sumStatus = (h) => { const el = $('#sum-status'); if (el) el.innerHTML = h; };
+  const sumBusy = (on) => { if (S.summary) S.summary.busy = on; document.querySelectorAll('#sum-modal [data-act^="sum-"]').forEach((x) => { if (x.dataset.act !== 'sum-close') x.disabled = on; }); };
+  async function summaryGmail() {
+    const s = S.summary; if (!s || s.busy) return; const m = s.m, c = client(), to = [];
+    const cm = String(s.clientMail || '').trim(), co = String(s.coachMail || '').trim();
+    if (s.toClient) { if (!MAIL_RE.test(cm)) { sumStatus('<span class="sig-bad">Vul een geldig e-mailadres voor de klant in.</span>'); return; } to.push(cm); }
+    if (s.toCoach) { if (!MAIL_RE.test(co)) { sumStatus('<span class="sig-bad">Vul een geldig e-mailadres voor de coach in.</span>'); return; } to.push(co); }
+    if (!to.length) { sumStatus('<span class="sig-bad">Kies klant, coach of beide.</span>'); return; }
+    sumBusy(true); sumStatus('Concept wordt gemaakt…');
+    try {
+      if (S.canWrite && s.toClient && cm !== (c.email || '')) await write(`clients/${S.cid}`, { email: cm }, true);
+      if (S.canWrite && s.toCoach && c.coach && co !== (S.config.coachEmails || {})[c.coach]) { const ce = { ...(S.config.coachEmails || {}), [c.coach]: co }; if (await write('config/app', { coachEmails: ce }, true)) S.config.coachEmails = ce; }
+      const mail = summaryMail(m, s.toClient, s.toCoach), args = { to, subject: mail.subject, body: mail.text, htmlBody: mail.html };
+      if (s.toClient) { sumStatus('PDF-rapport wordt gemaakt…'); const J = await loadPdf(), rm = reportModel(m.sid, ''), doc = drawReport(J, rm); args.attachments = [{ content: doc.output('datauristring').split(',')[1], filename: reportFile(rm), mimeType: 'application/pdf' }]; }
+      const mcp = await useCap('mcp');
+      if (!mcp) { sumStatus('Gmail is niet bereikbaar in deze weergave. Gebruik "Kopieer tekst".'); sumBusy(false); return; }
+      sumStatus('Concept wordt aangemaakt in Gmail…');
+      const res = await mcp.callTool('Gmail', 'create_draft', args), url = res?.payload?.viewUrl || res?.structuredContent?.viewUrl || '';
+      if (s.toClient && S.canWrite) await write(`clients/${S.cid}/sessions/${m.sid}`, { report: { at: new Date().toISOString(), to: to.join(', '), type: 'gmail-concept' } }, true);
+      sumStatus(`<span class="sig-up">Concept staat klaar in Gmail.</span> ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open het concept</a>, kijk het na en verstuur.` : 'Open Gmail, kijk het concept na en verstuur.'}`);
+    } catch (e) { sumStatus(`<span class="sig-bad">${esc(gmailErr(e))}</span>`); }
+    sumBusy(false);
+  }
+  async function summaryCopy() {
+    const txt = summaryText(S.summary.m);
+    try { await navigator.clipboard.writeText(txt); sumStatus('Tekst gekopieerd.'); return; } catch {}
+    try { const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); sumStatus(ok ? 'Tekst gekopieerd.' : 'Kopiëren lukte niet hier.'); } catch { sumStatus('Kopiëren lukte niet hier.'); }
+  }
   // ---------- view: event ----------
   function viewEvent() {
     const c = client(), ev = c.event;
@@ -1439,7 +1778,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   // ---------- actions ----------
   const setView = (v) => { if (!S.intakeDraft?.dirty) S.intakeDraft = null; if (!S.settingsDraft?.dirty) S.settingsDraft = null; S.view = v; store.set('ec.view', v); render(); window.scrollTo({ top: 0 }); };
   const ACT = {
-    view: async (b) => { if (blocking()) { confirmLeave(); return; } await flushAll(); S.draft = null; S.schemaDraft = null; S.schemaDirty = false; setView(b.dataset.v); },
+    view: async (b) => { if (blocking()) { confirmLeave(); return; } await flushAll(); restStop(); S.draft = null; S.schemaDraft = null; S.schemaDirty = false; setView(b.dataset.v); },
     'open-client': (b) => selectClient(b.dataset.id, 'overview'),
     'new-client': () => { S.newClient = { name: '', coach: S.coachFilter && S.coachFilter !== '-' ? S.coachFilter : '', goal: '', constraints: '', trainingDays: '', perWeek: 2, bodyweight: '', trackAttention: false, trackWhoop: false, anchorsNA: [] }; renderMain(); $('#cf-name')?.focus(); },
     'edit-profile': () => { const c = client(); S.profileDraft = clone({ name: c.name, email: c.email || '', coach: c.coach || '', goal: c.goal, constraints: c.constraints, trainingDays: c.trainingDays, perWeek: c.perWeek ?? 2, bodyweight: c.bodyweight, trackAttention: tracks(c, 'attention'), trackWhoop: tracks(c, 'whoop'), anchorsNA: c.anchorsNA || [] }); renderMain(); },
@@ -1459,7 +1798,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     'set-save': async () => {
       const d = S.settingsDraft; const coaches = [...new Set(d.coaches.map((c) => c.trim()).filter(Boolean))];
       const kpb = num(d.kgPerBlock) ?? 6.4, ppt = num(d.pullPushTarget) ?? 2, ppc = !!d.pullPushConfirmed;
-      if (await write('config/app', { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc }; toastMsg('Instellingen opgeslagen'); render(); }
+      if (await write('config/app', { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} }; toastMsg('Instellingen opgeslagen'); render(); }
     },
     'cf-cancel': () => { S.newClient = null; S.profileDraft = null; render(); },
     'cf-save': async () => {
@@ -1471,8 +1810,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       } else if (await write(`clients/${S.cid}`, body, true)) { S.profileDraft = null; toastMsg('Profiel opgeslagen'); render(); }
     },
     'goto-progress': (b) => { S.progEx = b.dataset.id; setView('progress'); },
-    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null) x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
-    'start-slot': (b) => { const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); renderMain(); window.scrollTo({ top: 0 }); },
+    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null) x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.gymIdx = 0; S.gymSet = null; S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
+    'start-slot': (b) => { const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); S.gymIdx = 0; S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
     'open-block': (b) => { S.blockSel = b.dataset.id; S.schemaDraft = null; S.schemaDirty = false; S.slotFilter = ''; setView('planning'); },
     'slot-filter': (b) => { S.slotFilter = b.dataset.v; renderMain(); },
     'gen-open': async () => { await savePlan(); S.gen = genDefaults(); renderMain(); },
@@ -1486,22 +1825,51 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       S.blocks[id] = { ...clone(S.schemaDraft), _unsaved: true }; S.blockSel = id; S.gen = null; S.slotFilter = '';
       markSchemaDirty(); savePlan(); renderMain(); toastMsg('Voorstel klaar en bewaard: pas het aan waar nodig');
     },
-    'done-training': async () => { if (!(await saveTraining())) return; const had = !!S.draft?.id; S.draft = null; S.saveState = ''; if (had) toastMsg('Training bewaard'); render(); },
+    // v1.3.0: na Klaar de samenvatting (plan tegenover gedaan, records, te moeilijk), klaar om te mailen
+    'done-training': async () => {
+      if (!(await saveTraining())) return; const d = S.draft, had = !!d?.id, m = had ? summaryModel(d) : null;
+      if (had) S.lastSess = { id: d.id, ...trainingBody(d) };
+      restStop(); S.draft = null; S.saveState = ''; render(); if (m) openSummary(m);
+    },
     'add-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.push({ mode: en.bwMode || 'auto' }); renderMain(); scheduleTraining(); },
-    'del-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); renderMain(); scheduleTraining(); },
-    'del-entry': (b) => { S.draft.entries.splice(+b.dataset.ei, 1); renderMain(); scheduleTraining(); },
-    'add-entry': () => { const id = $('#add-ex').value; if (!id) return; S.draft.entries.push({ exId: id, variant: '', target: {}, bwMode: 'auto', sets: [{ mode: 'auto' }, { mode: 'auto' }, { mode: 'auto' }] }); renderMain(); scheduleTraining(); },
+    'del-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'del-entry': (b) => { S.draft.entries.splice(+b.dataset.ei, 1); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'add-entry': () => { const id = $('#add-ex').value; if (!id) return; S.draft.entries.push({ exId: id, variant: '', target: {}, bwMode: 'auto', sets: [{ mode: 'auto' }, { mode: 'auto' }, { mode: 'auto' }] }); if (S.gym) { S.gymIdx = S.draft.entries.length - 1; S.gymSet = null; } renderMain(); scheduleTraining(); },
     'copy-prev': (b) => {
       const ei = +b.dataset.ei, en = S.draft.entries[ei], prev = prevSummary(en.exId, S.draft.date); if (!prev) return;
       en.sets = prev.sets.map((x) => ({ kg: x.blocks != null && x.blocks !== '' ? '' : (unitOf(en.exId) === 'bw' ? x.kg ?? '' : setKg(x, en.exId) ?? x.kg ?? ''), blocks: x.blocks ?? '', extra: x.extra ?? '', reps: x.reps ?? '', value: x.value ?? '', time: x.time ?? '', mode: 'extra' }));
       if (unitOf(en.exId) === 'bw') en.bwMode = 'extra';
       renderMain(); scheduleTraining();
     },
+    // ✓ bevestigt een set: lege velden krijgen het voorstel (plan, anders vorige keer), RPE nooit; daarna start de rust
     'confirm-set': (b) => {
-      const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], sg = setSuggest(en, si); if (!sg) return;
-      en.sets[si] = { ...en.sets[si], ...sg, rpe: en.sets[si]?.rpe ?? '' };
-      renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next) next.focus();
+      const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], st = en.sets[si]; if (!st) return;
+      audioUnlock();
+      const sg = setSuggest(en, si) || {};
+      Object.entries(sg).forEach(([f, v]) => { if (f !== 'rpe' && (st[f] == null || st[f] === '') && v !== '' && v != null) st[f] = v; });
+      if (!setDone(st)) { toastMsg('Vul eerst de herhalingen in.'); return; }
+      st._rest = true; S.gymSet = null; restAfter(ei);
+      renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next && !S.gym) next.focus();
     },
+    'set-clear': (b) => { const en = S.draft.entries[+b.dataset.ei], si = +b.dataset.si; en.sets[si] = { mode: en.bwMode || 'auto' }; S.gymSet = si; renderMain(); scheduleTraining(); },
+    'wset-ok': (b) => { const w = S.draft.entries[+b.dataset.ei].warmup[+b.dataset.wi]; w.done = !w.done; audioUnlock(); renderMain(); scheduleTraining(); },
+    // ± knoppen: vertrekt van de ingevulde waarde, anders van het grijze voorstel
+    step: (b) => {
+      const { ei, si, f } = b.dataset, inp = $(`#s-${ei}-${si}-${f}`); if (!inp) return;
+      const cur = num(inp.value) ?? num(inp.placeholder) ?? 0, v = Math.max(0, Math.round((cur + Number(b.dataset.d)) * 2) / 2);
+      inp.value = nl(v); onInput({ target: inp, type: 'input' });
+    },
+    'rpe-set': (b) => { const st = S.draft.entries[+b.dataset.ei].sets[+b.dataset.si], v = Number(b.dataset.v); if (num(st.rpe) === v) { st.rpe = ''; st.rir = ''; } else { st.rpe = v; st.rir = rpeToRir(v); } S.gymSet = +b.dataset.si; renderMain(); scheduleTraining(); },
+    'gym-toggle': () => { S.gym = !S.gym; store.set('ec.gym', S.gym ? '1' : '0'); S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
+    'gym-go': (b) => gymGo(+b.dataset.i),
+    'gym-set': (b) => { S.gymSet = +b.dataset.si; renderMain(); },
+    'rest-stop': () => restStop(),
+    'rest-add': (b) => { const r = S.rest; if (!r) return; r.end = Math.max(Date.now() + 1000, r.end + Number(b.dataset.d) * 1000); const left = r.end - Date.now(); if (left > REST_WARN * 1000) r.warned = false; if (left > 0) r.rang = false; restTick(); },
+    'rest-sound': () => { store.set('ec.sound', soundOn() ? 'off' : null); audioUnlock(); const el = $('#rest'); if (el) { el.innerHTML = restInner(); restTick(); } },
+    'sum-close': () => { S.summary = null; renderSummary(); },
+    'sum-copy': () => summaryCopy(),
+    'sum-gmail': () => summaryGmail(),
+    'sum-report': () => { const sid = S.summary?.m.sid; S.summary = null; renderSummary(); if (sid) openReport(sid); },
     'copy-plan': (b) => {
       const en = S.draft.entries[+b.dataset.ei], plan = en.target?.setPlan || [], kpb = kgPerBlock();
       en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: p.reps ?? '' }; } return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
@@ -1590,7 +1958,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       if (c1) c1.textContent = isStrength(en.exId) ? nl(e1(en.sets[si], en.exId, en.target?.code)) : ''; if (c2) c2.innerHTML = sigHTML(en.sets[si], en.target);
       // v1.2.0: typing turns a suggestion into a confirmed set; update the check and the progress without re-rendering (keeps focus)
       const row = t.closest('tr'), no = row && row.querySelector('.setno'), ok = setDone(en.sets[si]);
-      if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = (ok ? '<span class="setok" title="Bevestigd">✓</span>' : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')) + `<span class="muted">${si + 1}</span>`; }
+      if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = setNoHTML(en, ei, si); }
+      // v1.3.0: een getypte afwijking (reps ingevuld en veld verlaten) start ook de rusttimer, één keer per set
+      if (e.type === 'change' && ['reps', 'value'].includes(t.dataset.f) && ok && !en.sets[si]._rest) { en.sets[si]._rest = true; audioUnlock(); restAfter(ei); }
       const pg = t.closest('.ex-card')?.querySelector('.setprog'); if (pg) { const n = en.sets.filter(setDone).length; pg.textContent = `${n} van ${en.sets.length} sets`; pg.className = `pill ${n === en.sets.length ? 'ok' : 'neutral'} setprog`; }
     } else if (b === 'entry') S.draft.entries[+t.dataset.ei][t.dataset.f] = v;
     else if (b === 'bwmode') { const en = S.draft.entries[+t.dataset.ei]; en.bwMode = v; en.sets.forEach((x) => { x.mode = v; }); if (e.type === 'change') renderMain(); }
@@ -1627,6 +1997,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     else if (b === 'bwu') { const r = S.schemaDraft.exercises[+t.dataset.ri]; r.warmup[+t.dataset.wi][t.dataset.f] = v; r.warmupAuto = false; markSchemaDirty(); }
     else if (b === 'wset') { S.draft.entries[+t.dataset.ei].warmup[+t.dataset.wi][t.dataset.f] = v; }
     else if (b === 'rep') { if (S.report) S.report[t.dataset.f] = v; }
+    else if (b === 'sum') { if (S.summary) S.summary[t.dataset.f] = v; }
     else if (b === 'set-ppt') { S.settingsDraft.pullPushTarget = v; markSettingsDirty(); }
     else if (b === 'set-ppc') { S.settingsDraft.pullPushConfirmed = t.checked; markSettingsDirty(); }
     else if (b === 'splan') { const r = S.schemaDraft.exercises[+t.dataset.ri]; r.setPlan[+t.dataset.si][t.dataset.f] = v; markSchemaDirty(); }
@@ -1647,7 +2018,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     setSaveState('Niet opgeslagen: probeer opnieuw'); return false;
   }
   function trainingBody(d) {
-    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps) })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), rir: num(x.rpe) != null ? rpeToRir(x.rpe) : num(x.rir), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
+    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps), done: !!w.done })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), rir: num(x.rpe) != null ? rpeToRir(x.rpe) : num(x.rir), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
     const fb = d.feedback || {};
     return { date: d.date, blockId: d.blockId, week: num(d.week) ?? 1, day: d.day || '', done: true, historical: !!d.historical, note: d.note || '', entries, feedback: { bodyweight: num(fb.bodyweight), whoop: num(fb.whoop), pain: num(fb.pain), energy: num(fb.energy), note: fb.note || '' }, report: d.report || null, updatedAt: new Date().toISOString() };
   }
@@ -1687,6 +2058,13 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     if (x + tip.offsetWidth > box.width - 6) x = e.clientX - box.left - tip.offsetWidth - 12;
     tip.style.left = Math.max(4, x) + 'px'; tip.style.top = Math.min(y, box.height - tip.offsetHeight - 4) + 'px';
   });
+  // gymmodus: horizontaal vegen = vorige of volgende oefening (niet vanuit een invulveld)
+  let sw = null;
+  document.addEventListener('touchstart', (e) => { sw = e.touches.length === 1 && e.target.closest('#gym') && !e.target.closest('input,select,textarea') ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true });
+  document.addEventListener('touchend', (e) => { if (!sw) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) gymGo(S.gymIdx + (dx < 0 ? 1 : -1)); }, { passive: true });
+  // "Meer"-menu sluit bij een tik ernaast of na een keuze
+  document.addEventListener('click', (e) => { document.querySelectorAll('details.more[open]').forEach((x) => { if (!x.contains(e.target) || e.target.closest('.more-menu')) x.open = false; }); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { restTick(); wake(S.view === 'training' && !!S.draft && S.gym); } });
   let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(drawProgress, 150); });
 
   // ---------- boot ----------
@@ -1699,7 +2077,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     db.collection('exercises').onSnapshot((snap) => { S.exercises = {}; snap.docs.forEach((d) => { S.exercises[d.id] = { id: d.id, ...d.data() }; }); S.loaded.ex = true; soft(); }, dbErr);
     db.collection('config').onSnapshot((snap) => {
       const d = snap.docs.find((x) => x.id === 'app')?.data() || {};
-      S.config = { anchors: Array.isArray(d.anchors) ? d.anchors : DEFAULT_ANCHORS, coaches: Array.isArray(d.coaches) ? d.coaches : [], kgPerBlock: num(d.kgPerBlock) ?? 6.4, pullPushTarget: num(d.pullPushTarget) ?? 2, pullPushConfirmed: !!d.pullPushConfirmed }; soft();
+      S.config = { anchors: Array.isArray(d.anchors) ? d.anchors : DEFAULT_ANCHORS, coaches: Array.isArray(d.coaches) ? d.coaches : [], kgPerBlock: num(d.kgPerBlock) ?? 6.4, pullPushTarget: num(d.pullPushTarget) ?? 2, pullPushConfirmed: !!d.pullPushConfirmed, coachEmails: d.coachEmails && typeof d.coachEmails === 'object' ? d.coachEmails : {} }; soft();
     }, dbErr);
     db.collection('clients').onSnapshot((snap) => {
       S.clients = {}; snap.docs.forEach((d) => { S.clients[d.id] = { id: d.id, ...d.data() }; }); S.loaded.cl = true;

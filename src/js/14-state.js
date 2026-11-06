@@ -7,7 +7,9 @@
     unsub: [], draft: null, schemaDraft: null, schemaDirty: false, blockSel: null,
     progEx: null, profileDraft: null, newClient: null, eventDraft: null, eventDirty: false,
     exEdit: null, exNew: null, confirm: null, toast: '', pending: false,
-    config: { anchors: DEFAULT_ANCHORS, coaches: [], kgPerBlock: 6.4, pullPushTarget: 2, pullPushConfirmed: false }, statBlock: null, report: null, lastSelf: 0, saveTimer: null, planTimer: null, saveState: '', coachFilter: store.get('ec.coach') || '', intakeDraft: null, settingsDraft: null,
+    config: { anchors: DEFAULT_ANCHORS, coaches: [], kgPerBlock: 6.4, pullPushTarget: 2, pullPushConfirmed: false, coachEmails: {} }, statBlock: null, report: null, lastSelf: 0, saveTimer: null, planTimer: null, saveState: '', coachFilter: store.get('ec.coach') || '', intakeDraft: null, settingsDraft: null,
+    // v1.3.0 gymmodus (standaard op de gsm), rusttimer, samenvatting na Klaar
+    gym: store.get('ec.gym') != null ? store.get('ec.gym') === '1' : !!window.matchMedia?.('(max-width: 700px)').matches, gymIdx: 0, gymSet: null, gymAnim: '', rest: null, summary: null, lastSess: null,
   };
   const client = () => (S.cid ? S.clients[S.cid] : null);
   const kgPerBlock = () => num(S.config.kgPerBlock) ?? 6.4;

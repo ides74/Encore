@@ -17,4 +17,4 @@ pip install playwright && playwright install chromium     # once
 ./tools/check_all.sh            # build + syntax + unit + end-to-end on 4 devices
 ./tools/check_all.sh --shots    # same, plus screenshots in test/shots/ for the UX review
 ```
-See `docs/ARCHITECTURE.md` (what happens where), `docs/RELEASE.md` (how an upgrade goes live), `docs/TESTPLAN.md`, `docs/BACKLOG.md`.
+Working with an AI assistant: `CLAUDE.md` holds the rules it must follow. See `docs/ARCHITECTURE.md` (what happens where), `docs/RELEASE.md` (how an upgrade goes live), `docs/TESTPLAN.md`, `docs/BACKLOG.md`.

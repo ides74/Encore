@@ -1,5 +1,12 @@
 # Backlog
 
+## After v1.3.0 (06/11/2026)
+- Real rest per set: store the time of each ✓ so Stijn sees the rest that was really taken.
+- Coach e-mail addresses in Instellingen (today they are filled in once from the summary).
+- Supersets and trisets: rest only after the last exercise of the group.
+- Timer while the phone is locked: browsers pause the page; only possible with a native app or a notification service.
+- UI copy rule (no "—" or "–" as punctuation, no comma before "en" or "of"): add a lint for prose strings. The "–" used as empty value in KPI tiles is allowed.
+
 ## Found in the test runs (06/11/2026)
 - Fixed in v1.0.1: Planning on a phone scrolled sideways (pills did not wrap).
 - iPad and phone: the Planning editor has about 350 fields and buttons under 40 px high; fine with a mouse, tight with a finger. Coach edits schemas best on PC or iPad landscape.

@@ -13,6 +13,11 @@ DEVICES = {  # name: viewport, touch
     'phone': ({'width': 390, 'height': 844}, True),
 }
 
+def launch(pw):
+    """Playwright's own Chromium when installed, otherwise the system Chrome (CI or a machine without the download)."""
+    try: return pw.chromium.launch()
+    except Exception: return pw.chromium.launch(channel='chrome')
+
 def route(r):
     u = r.request.url
     if u.startswith('https://encore.local/'):
