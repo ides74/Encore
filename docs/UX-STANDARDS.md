@@ -1,6 +1,6 @@
 # UX standards
 
-The full standard and the release checklist (U1 to U17) live in the shared doc "BuMa UX-standaarden en checklist":
+The general BuMa standard is in `docs/BuMa-UX-standaard.md`. The EnCORE checklist (U1 to U17) lives in the shared doc "BuMa UX-standaarden en checklist":
 https://claude.ai/artifact/2njWgZdWfmw4pBqdpzcSQy
 
 - Automatic rules U1 to U10: `python3 test/ux_audit.py --strict` in `tools/check_all.sh`: MUST rules block a release.
