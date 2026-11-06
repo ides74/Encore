@@ -13,3 +13,10 @@
 - Split squat and back extension: one or two dumbbells. Trap bar starting load Int 25.
 - "Step loading": which method in his list.
 - Who fills in what: coach the schema, client the log, coach the review.
+
+## v1.1.0 "touch en contrast" (from the UX audit, see docs/UX-STANDARDS.md)
+- U2: text and primary buttons to #B8461B (brand orange #E25F23 stays for lines and surfaces); warning text #8F5500.
+- U3: aria-labels on code and exercise fields per row in Planning.
+- U7/U8: on touch devices (pointer: coarse) fields and buttons 44 px high and 16 px text, so iPhone and iPad stop zooming.
+- U9: nothing under 12 px. U10: one primary button on Overzicht.
+- Then: tokens.css as the single place for colours and sizes; ux_audit --strict in check_all.

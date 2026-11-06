@@ -4,3 +4,4 @@ test/shots/
 test/__pycache__/
 upstream/
 node_modules/
+test/ux_audit.json

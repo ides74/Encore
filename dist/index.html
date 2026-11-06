@@ -173,9 +173,12 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
 .hint{background:var(--ok-soft);color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13.5px}
 @media (max-width:560px){h1{font-size:25px}.countdown{font-size:48px}.client-pick{margin-left:0;width:100%}.client-pick select{flex:1}}
 @media (prefers-reduced-motion:no-preference){.toast{animation:pop .25s ease-out}@keyframes pop{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}}
+/* v1.0.1: on a phone the info pills (adaptation, TUT) wrap instead of pushing the page sideways */
+@media (max-width:560px){.pill{white-space:normal;max-width:100%}}
 </style>
 
 <div class="app" id="app"><div class="top"><div class="top-row"><div class="brand"><b>EnCORE</b> Coach<small>Personal coaching logboek</small></div></div></div><main><div class="empty">De app laadt de klanten, schema's en trainingen…</div></main></div>
+<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.0.1</p>
 <div id="overlay"></div>
 
 <script>
