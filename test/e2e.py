@@ -47,6 +47,8 @@ def flows(b):
     # 1. home, coach filter
     ctx = new_context(b); p = open_page(ctx)
     check('home lists both clients', p.locator('#client-sel option').count() == 3)
+    ver = open(os.path.join(os.path.dirname(__file__), '..', 'VERSION')).read().strip()
+    check('U17 version visible under the app', p.locator('.ver').inner_text().strip() == 'EnCORE Coach v' + ver, p.locator('.ver').inner_text())
     clean(p, 'home'); shot(p, '00_home_desktop'); ctx.close()
     # 2. every tab on every device: renders, no errors, no sideways scroll
     for dev in DEVICES:

@@ -1,5 +1,5 @@
   // ---------- view: statistiek ----------
-  function heat(v, max) { if (!v) return ''; const a = Math.round(10 + 55 * Math.min(1, v / (max || 1))); return ` style="background:color-mix(in srgb,var(--accent) ${a}%,transparent)"`; }
+  function heat(v, max) { if (!v) return ''; const a = Math.round(10 + 55 * Math.min(1, v / (max || 1))); return ` style="background:color-mix(in srgb,var(--heat,var(--accent)) ${a}%,transparent)"`; }
   function viewStats() {
     const t = todayStr(), cur = blockFor(t), withEx = sortedBlocks().filter((b) => (b.exercises || []).length);
     if (!S.statBlock || !S.blocks[S.statBlock]) S.statBlock = (cur && (cur.exercises || []).length ? cur.id : withEx[withEx.length - 1]?.id) || null;

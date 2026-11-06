@@ -1,0 +1,36 @@
+
+/* ===== tokens.css: BuMa UX standard (U2, U7, U8, U9). Loaded after styles.css, so it wins.
+   Rule: colours and sizes come from these variables; no loose colour codes in new code.
+   Brand orange (--accent) stays for lines, surfaces and the logo; text and filled buttons use --accent-text. */
+:root{
+  --accent-text:#B8461B;   /* 5,3:1 on white: text, codes, primary button with white text */
+  --warn-text:#8F5500;     /* 5,4:1 on --warn-soft */
+  --rkA-text:#B8461B; --rkF-text:#6E6963;
+  --tap:44px;              /* minimum touch target on touch screens */
+  --input-font:16px;       /* below 16 px iPhone and iPad zoom in on every tap */
+  --text-min:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--heat:#B8461B;--accent-text:var(--accent);--warn-text:var(--warn);--rkA-text:var(--rkA);--rkF-text:var(--rkF)}}
+:root[data-theme="dark"]{--heat:#B8461B;--accent-text:var(--accent);--warn-text:var(--warn);--rkA-text:var(--rkA);--rkF-text:var(--rkF)}
+
+/* U2 contrast */
+.btn.primary{background:var(--accent-text);border-color:var(--accent-text)}
+.pill.acc,.ex-card .code{color:var(--accent-text)}
+[data-rk]{--rk-text:var(--rk)}
+[data-rk="A"]{--rk-text:var(--rkA-text)}
+[data-rk="F"],[data-rk="X"]{--rk-text:var(--rkF-text)}
+.ex-card .code,.reeks-h{color:var(--rk-text,var(--accent-text))}
+.pill.warn,.notice{color:var(--warn-text)}
+
+/* U9 nothing under 12 px */
+.brand small,.blockchip .dd,.chart text{font-size:var(--text-min)}
+
+/* U7 + U8 touch screens: 44 px targets, 16 px input text */
+@media (pointer:coarse){
+  .btn,.tab,.chipbtn,summary,select,input:not([type=checkbox]):not([type=radio]),textarea{min-height:var(--tap)}
+  .btn,.chipbtn{min-width:var(--tap);justify-content:center}
+  .chipbtn{padding-inline:14px}
+  .btn.small{padding-block:10px}
+  input,select,textarea{font-size:var(--input-font)}
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}
+}

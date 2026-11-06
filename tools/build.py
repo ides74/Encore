@@ -12,6 +12,8 @@ SKELETON = None  # first line of a live page; only used by --compare
 def assemble(test):
     tpl = open(os.path.join(ROOT, 'src/index.template.html'), encoding='utf-8').read()
     css = open(os.path.join(ROOT, 'src/styles.css'), encoding='utf-8').read()
+    tok = os.path.join(ROOT, 'src/tokens.css')   # BuMa UX standard, loaded last so it wins
+    if os.path.exists(tok): css += open(tok, encoding='utf-8').read()
     files = sorted(glob.glob(os.path.join(ROOT, 'src/js/[0-9][0-9]-*.js')))
     if not test: files = [f for f in files if 'testhook' not in os.path.basename(f)]
     js = ''.join(open(f, encoding='utf-8').read() for f in files)

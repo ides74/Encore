@@ -175,10 +175,46 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
 @media (prefers-reduced-motion:no-preference){.toast{animation:pop .25s ease-out}@keyframes pop{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}}
 /* v1.0.1: on a phone the info pills (adaptation, TUT) wrap instead of pushing the page sideways */
 @media (max-width:560px){.pill{white-space:normal;max-width:100%}}
+
+/* ===== tokens.css: BuMa UX standard (U2, U7, U8, U9). Loaded after styles.css, so it wins.
+   Rule: colours and sizes come from these variables; no loose colour codes in new code.
+   Brand orange (--accent) stays for lines, surfaces and the logo; text and filled buttons use --accent-text. */
+:root{
+  --accent-text:#B8461B;   /* 5,3:1 on white: text, codes, primary button with white text */
+  --warn-text:#8F5500;     /* 5,4:1 on --warn-soft */
+  --rkA-text:#B8461B; --rkF-text:#6E6963;
+  --tap:44px;              /* minimum touch target on touch screens */
+  --input-font:16px;       /* below 16 px iPhone and iPad zoom in on every tap */
+  --text-min:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--heat:#B8461B;--accent-text:var(--accent);--warn-text:var(--warn);--rkA-text:var(--rkA);--rkF-text:var(--rkF)}}
+:root[data-theme="dark"]{--heat:#B8461B;--accent-text:var(--accent);--warn-text:var(--warn);--rkA-text:var(--rkA);--rkF-text:var(--rkF)}
+
+/* U2 contrast */
+.btn.primary{background:var(--accent-text);border-color:var(--accent-text)}
+.pill.acc,.ex-card .code{color:var(--accent-text)}
+[data-rk]{--rk-text:var(--rk)}
+[data-rk="A"]{--rk-text:var(--rkA-text)}
+[data-rk="F"],[data-rk="X"]{--rk-text:var(--rkF-text)}
+.ex-card .code,.reeks-h{color:var(--rk-text,var(--accent-text))}
+.pill.warn,.notice{color:var(--warn-text)}
+
+/* U9 nothing under 12 px */
+.brand small,.blockchip .dd,.chart text{font-size:var(--text-min)}
+
+/* U7 + U8 touch screens: 44 px targets, 16 px input text */
+@media (pointer:coarse){
+  .btn,.tab,.chipbtn,summary,select,input:not([type=checkbox]):not([type=radio]),textarea{min-height:var(--tap)}
+  .btn,.chipbtn{min-width:var(--tap);justify-content:center}
+  .chipbtn{padding-inline:14px}
+  .btn.small{padding-block:10px}
+  input,select,textarea{font-size:var(--input-font)}
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}
+}
 </style>
 
 <div class="app" id="app"><div class="top"><div class="top-row"><div class="brand"><b>EnCORE</b> Coach<small>Personal coaching logboek</small></div></div></div><main><div class="empty">De app laadt de klanten, schema's en trainingen…</div></main></div>
-<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.0.1</p>
+<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.1.0</p>
 <div id="overlay"></div>
 
 <script>
@@ -603,7 +639,7 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
     return `<div class="card"><div class="card-h"><div><h2>Huidige periode</h2><p class="sub">${esc(cur.code)} · ${esc(phaseOf(cur.phase))} · week ${Math.min(wk, wks)} van ${wks}${cur.reps ? ' · ' + esc(cur.reps) + ' reps' : ''}</p></div><button class="btn ghost small" data-act="view" data-v="planning">Planning</button></div>
       <div class="tablewrap"><table><thead><tr><th>Training</th><th class="num">Oef.</th><th class="num">Gedaan</th><th>Laatst</th></tr></thead><tbody>${slots.map((sl) => { const done = inCur.filter((s) => sessSlot(s) === sl); return `<tr><td><b style="font-weight:600">${slotLabel(sl)}</b></td><td class="num">${(cur.exercises || []).filter((r) => normDay(cur, r.day) === sl).length}</td><td class="num">${done.length} / ${wks}</td><td class="small">${done.length ? esc(fmtDate(done[done.length - 1].date, false)) : '<span class="muted">nog niet</span>'}</td></tr>`; }).join('')}</tbody></table></div>
       ${wk >= wks && !upcoming ? `<p class="notice" style="margin-top:10px">Laatste week van deze periode. Bouw de volgende periode op (start ${esc(fmtDate(nextStart, false))}).</p>` : ''}
-      <div class="row" style="margin-top:12px"><button class="btn primary" data-act="view" data-v="training">+ Training loggen</button></div></div>`;
+      <div class="row" style="margin-top:12px"><button class="btn" data-act="view" data-v="training">+ Training loggen</button></div></div>`;
   }
 
   // ---------- view: training ----------
@@ -844,7 +880,7 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
     const unit = unitOf(r.exId), strength = STRENGTH.includes(unit), base = r.exId && strength ? baseRM(r.exId) : null;
     const prev = r.exId ? prevSummary(r.exId) : null, rk = reeksOf(r.code);
     const exOpts = (sel) => `<option value="">Kies oefening…</option>` + Object.values(S.exercises).sort((a, z) => a.name.localeCompare(z.name)).map((e) => `<option value="${esc(e.id)}"${e.id === sel ? ' selected' : ''}>${esc(e.name)}</option>`).join('');
-    const sel = (f, opts, cur, style = '') => `<select id="br-${ri}-${f}" data-bind="brow" data-ri="${ri}" data-f="${f}"${style ? ` style="${style}"` : ''}>${opts.map(([v, l]) => `<option value="${esc(v)}"${String(v) === String(cur ?? '') ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    const sel = (f, opts, cur, style = '') => `<select id="br-${ri}-${f}" aria-label="${esc(({ code: 'Code', day: 'Training', method: 'Methode' })[f] || f)} rij ${ri + 1}" data-bind="brow" data-ri="${ri}" data-f="${f}"${style ? ` style="${style}"` : ''}>${opts.map(([v, l]) => `<option value="${esc(v)}"${String(v) === String(cur ?? '') ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
     const fld = (f, label, val, cls = 'xs', mode = 'decimal') => `<label class="field"><span>${label}</span><input class="${cls}" id="br-${ri}-${f}" inputmode="${mode}" data-bind="brow" data-ri="${ri}" data-f="${f}" value="${esc(val ?? '')}"></label>`;
     const kgLabel = unit === 'bw' ? 'extra of totaal kg' : unit === 'blok' ? 'kg totaal' : strength ? 'kg' : esc(unit);
     const isF = rk === 'F';
@@ -854,7 +890,7 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
     }).join('');
     const slotOpts = [...new Set([...slotsOf(d), r.day].filter(Boolean))].map((x) => [x, slotShort(x)]);
     return `<div class="ex-card" data-rk="${rk || 'X'}">
-      <div class="head"><div class="row" style="gap:8px;flex:1;min-width:0">${sel('code', [['', 'Code'], ...[...new Set([...CODES, r.code].filter(Boolean))].map((c) => [c, c])], r.code, 'width:5rem;font-weight:700')}<select id="br-${ri}-ex" data-bind="brow" data-ri="${ri}" data-f="exId" style="flex:1;min-width:12rem;font-weight:600">${exOpts(r.exId)}</select></div>
+      <div class="head"><div class="row" style="gap:8px;flex:1;min-width:0">${sel('code', [['', 'Code'], ...[...new Set([...CODES, r.code].filter(Boolean))].map((c) => [c, c])], r.code, 'width:5rem;font-weight:700')}<select id="br-${ri}-ex" aria-label="Oefening rij ${ri + 1}" data-bind="brow" data-ri="${ri}" data-f="exId" style="flex:1;min-width:12rem;font-weight:600">${exOpts(r.exId)}</select></div>
         <div class="row" style="gap:6px"><label class="small muted" for="br-${ri}-day">Training</label>${sel('day', slotOpts, r.day, 'width:4.6rem')}<button class="btn ghost small" data-act="del-brow" data-ri="${ri}" aria-label="Oefening verwijderen">Verwijder</button></div></div>
       ${isF ? '' : `<div class="row" style="gap:10px;align-items:flex-end"><label class="field" style="min-width:12rem"><span>1. Methode</span><select id="br-${ri}-method" data-bind="brow" data-ri="${ri}" data-f="method">${methodOpts(r.method)}</select></label><span class="small muted" style="flex:1;min-width:12rem;padding-bottom:8px">${esc(METHOD_HINT[normMethod(r.method) || DEF_METHOD] || '')}${rk === 'A' ? '' : ' Methode geldt normaal enkel voor de A-oefeningen.'}</span></div>`}
       <div class="form" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,6.5rem),1fr));gap:10px">
@@ -991,7 +1027,7 @@ details>summary{cursor:pointer;font-family:var(--f-display);font-size:18px;font-
   function afterRender() { drawProgress(); }
 
   // ---------- view: statistiek ----------
-  function heat(v, max) { if (!v) return ''; const a = Math.round(10 + 55 * Math.min(1, v / (max || 1))); return ` style="background:color-mix(in srgb,var(--accent) ${a}%,transparent)"`; }
+  function heat(v, max) { if (!v) return ''; const a = Math.round(10 + 55 * Math.min(1, v / (max || 1))); return ` style="background:color-mix(in srgb,var(--heat,var(--accent)) ${a}%,transparent)"`; }
   function viewStats() {
     const t = todayStr(), cur = blockFor(t), withEx = sortedBlocks().filter((b) => (b.exercises || []).length);
     if (!S.statBlock || !S.blocks[S.statBlock]) S.statBlock = (cur && (cur.exercises || []).length ? cur.id : withEx[withEx.length - 1]?.id) || null;

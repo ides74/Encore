@@ -11,7 +11,7 @@ JS = r"""() => {
   const vis = e => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none'; };
   const rgb = c => { const v = (c.match(/[\d.]+/g) || [0,0,0,0]).map(Number); return c.startsWith('color(') ? v.map((x, i) => i < 3 ? x * 255 : x) : v; };
   const lum = ([r,g,b]) => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }; return .2126*f(r) + .7152*f(g) + .0722*f(b); };
-  const bgOf = e => { for (let n = e; n; n = n.parentElement) { const c = rgb(getComputedStyle(n).backgroundColor); if (c.length < 4 || c[3] > .5) return c; } return [255,255,255]; };
+  const bgOf = e => { const layers = []; for (let n = e; n; n = n.parentElement) { const c = rgb(getComputedStyle(n).backgroundColor); const a = c.length < 4 ? 1 : c[3]; if (a > 0) { layers.push([c[0], c[1], c[2], a]); if (a >= 1) break; } } let out = [255,255,255]; for (let i = layers.length - 1; i >= 0; i--) { const [r,g,b,a] = layers[i]; out = [r*a + out[0]*(1-a), g*a + out[1]*(1-a), b*a + out[2]*(1-a)]; } return out; };  // alpha layers blended, like the eye sees it
   const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x,y) + .05) / (Math.min(x,y) + .05); };
   const main = document.querySelector('.app') || document.body;
   const ctrls = [...main.querySelectorAll('button,a[href],input:not([type=hidden]),select,textarea,summary')].filter(vis);

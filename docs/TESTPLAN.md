@@ -17,3 +17,6 @@ Runs: `./tools/check_all.sh`. All checks must pass.
 | Write failure | user is told, draft stays on screen |
 | Coach changes the schema while the client logs | typed reps are kept |
 | Dark mode | renders |
+
+## UX (permanent, see docs/UX-STANDARDS.md)
+`test/ux_audit.py` renders 9 tabs on 4 devices in light and dark (72 screens) and measures: sideways scroll, text contrast with transparent layers blended, labels, focus ring (MUST, blocking); touch targets 44 px, input text 16 px, text 12 px, one primary button (SHOULD, reported). `tools/lint_ux.py` checks the source.

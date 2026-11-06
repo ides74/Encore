@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.0 · 06/11/2026 · touch en contrast
+- New `src/tokens.css` (BuMa UX standard): colours and sizes as variables, loaded after styles.css.
+- Contrast AA everywhere: primary buttons, exercise codes, series headers, pills and notices; dark heat map in Statistiek.
+- iPad and phone: buttons, chips and fields at least 44 px, input text 16 px (no more zoom on every tap).
+- No text under 12 px. Labels on the code and exercise fields in Planning. One primary button on Overzicht.
+- Permanent tests: UX audit (U1 to U10) blocks a release on MUST rules; static lint forbids hard-coded colours in the scripts; version check (U17).
+
 ## v1.0.1 · 06/11/2026
 - Phone: info pills in Planning wrap; the page no longer scrolls sideways (found by the new device tests).
 - Version shown under the app.

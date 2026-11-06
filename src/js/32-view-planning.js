@@ -108,7 +108,7 @@
     const unit = unitOf(r.exId), strength = STRENGTH.includes(unit), base = r.exId && strength ? baseRM(r.exId) : null;
     const prev = r.exId ? prevSummary(r.exId) : null, rk = reeksOf(r.code);
     const exOpts = (sel) => `<option value="">Kies oefening…</option>` + Object.values(S.exercises).sort((a, z) => a.name.localeCompare(z.name)).map((e) => `<option value="${esc(e.id)}"${e.id === sel ? ' selected' : ''}>${esc(e.name)}</option>`).join('');
-    const sel = (f, opts, cur, style = '') => `<select id="br-${ri}-${f}" data-bind="brow" data-ri="${ri}" data-f="${f}"${style ? ` style="${style}"` : ''}>${opts.map(([v, l]) => `<option value="${esc(v)}"${String(v) === String(cur ?? '') ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    const sel = (f, opts, cur, style = '') => `<select id="br-${ri}-${f}" aria-label="${esc(({ code: 'Code', day: 'Training', method: 'Methode' })[f] || f)} rij ${ri + 1}" data-bind="brow" data-ri="${ri}" data-f="${f}"${style ? ` style="${style}"` : ''}>${opts.map(([v, l]) => `<option value="${esc(v)}"${String(v) === String(cur ?? '') ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
     const fld = (f, label, val, cls = 'xs', mode = 'decimal') => `<label class="field"><span>${label}</span><input class="${cls}" id="br-${ri}-${f}" inputmode="${mode}" data-bind="brow" data-ri="${ri}" data-f="${f}" value="${esc(val ?? '')}"></label>`;
     const kgLabel = unit === 'bw' ? 'extra of totaal kg' : unit === 'blok' ? 'kg totaal' : strength ? 'kg' : esc(unit);
     const isF = rk === 'F';
@@ -118,7 +118,7 @@
     }).join('');
     const slotOpts = [...new Set([...slotsOf(d), r.day].filter(Boolean))].map((x) => [x, slotShort(x)]);
     return `<div class="ex-card" data-rk="${rk || 'X'}">
-      <div class="head"><div class="row" style="gap:8px;flex:1;min-width:0">${sel('code', [['', 'Code'], ...[...new Set([...CODES, r.code].filter(Boolean))].map((c) => [c, c])], r.code, 'width:5rem;font-weight:700')}<select id="br-${ri}-ex" data-bind="brow" data-ri="${ri}" data-f="exId" style="flex:1;min-width:12rem;font-weight:600">${exOpts(r.exId)}</select></div>
+      <div class="head"><div class="row" style="gap:8px;flex:1;min-width:0">${sel('code', [['', 'Code'], ...[...new Set([...CODES, r.code].filter(Boolean))].map((c) => [c, c])], r.code, 'width:5rem;font-weight:700')}<select id="br-${ri}-ex" aria-label="Oefening rij ${ri + 1}" data-bind="brow" data-ri="${ri}" data-f="exId" style="flex:1;min-width:12rem;font-weight:600">${exOpts(r.exId)}</select></div>
         <div class="row" style="gap:6px"><label class="small muted" for="br-${ri}-day">Training</label>${sel('day', slotOpts, r.day, 'width:4.6rem')}<button class="btn ghost small" data-act="del-brow" data-ri="${ri}" aria-label="Oefening verwijderen">Verwijder</button></div></div>
       ${isF ? '' : `<div class="row" style="gap:10px;align-items:flex-end"><label class="field" style="min-width:12rem"><span>1. Methode</span><select id="br-${ri}-method" data-bind="brow" data-ri="${ri}" data-f="method">${methodOpts(r.method)}</select></label><span class="small muted" style="flex:1;min-width:12rem;padding-bottom:8px">${esc(METHOD_HINT[normMethod(r.method) || DEF_METHOD] || '')}${rk === 'A' ? '' : ' Methode geldt normaal enkel voor de A-oefeningen.'}</span></div>`}
       <div class="form" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,6.5rem),1fr));gap:10px">

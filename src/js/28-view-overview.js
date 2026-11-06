@@ -55,6 +55,6 @@
     return `<div class="card"><div class="card-h"><div><h2>Huidige periode</h2><p class="sub">${esc(cur.code)} · ${esc(phaseOf(cur.phase))} · week ${Math.min(wk, wks)} van ${wks}${cur.reps ? ' · ' + esc(cur.reps) + ' reps' : ''}</p></div><button class="btn ghost small" data-act="view" data-v="planning">Planning</button></div>
       <div class="tablewrap"><table><thead><tr><th>Training</th><th class="num">Oef.</th><th class="num">Gedaan</th><th>Laatst</th></tr></thead><tbody>${slots.map((sl) => { const done = inCur.filter((s) => sessSlot(s) === sl); return `<tr><td><b style="font-weight:600">${slotLabel(sl)}</b></td><td class="num">${(cur.exercises || []).filter((r) => normDay(cur, r.day) === sl).length}</td><td class="num">${done.length} / ${wks}</td><td class="small">${done.length ? esc(fmtDate(done[done.length - 1].date, false)) : '<span class="muted">nog niet</span>'}</td></tr>`; }).join('')}</tbody></table></div>
       ${wk >= wks && !upcoming ? `<p class="notice" style="margin-top:10px">Laatste week van deze periode. Bouw de volgende periode op (start ${esc(fmtDate(nextStart, false))}).</p>` : ''}
-      <div class="row" style="margin-top:12px"><button class="btn primary" data-act="view" data-v="training">+ Training loggen</button></div></div>`;
+      <div class="row" style="margin-top:12px"><button class="btn" data-act="view" data-v="training">+ Training loggen</button></div></div>`;
   }
 
