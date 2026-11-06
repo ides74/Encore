@@ -1,0 +1,871 @@
+{
+ "exercises/bench-press-plat-bb": {
+  "category": "Borst",
+  "name": "Flat BB bench press",
+  "unit": "kg",
+  "secondary": [
+   "Triceps",
+   "Schouders"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/bench-press-45-incline-bb": {
+  "category": "Borst",
+  "name": "45° incline BB bench press",
+  "unit": "kg",
+  "secondary": [
+   "Schouders",
+   "Triceps"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/standing-overhead-press-bb": {
+  "category": "Schouders",
+  "name": "Standing overhead press BB",
+  "unit": "kg",
+  "secondary": [
+   "Triceps",
+   "Core"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/pull-up-chin-up": {
+  "category": "Bovenrug",
+  "name": "Pull-up / chin-up",
+  "unit": "bw",
+  "secondary": [
+   "Biceps"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/dip": {
+  "category": "Triceps",
+  "name": "Dip",
+  "unit": "bw",
+  "secondary": [
+   "Borst",
+   "Schouders"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/trap-bar-deadlift": {
+  "category": "Gluteus",
+  "name": "Trap bar deadlift",
+  "unit": "kg",
+  "secondary": [
+   "Quadriceps",
+   "Hamstrings"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/pulldown-chin-up-toestel": {
+  "category": "Bovenrug",
+  "name": "Pulldown / chin-up (toestel)",
+  "unit": "blok",
+  "secondary": [
+   "Biceps"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/inverted-row": {
+  "category": "Bovenrug",
+  "name": "Inverted row",
+  "unit": "bw",
+  "secondary": [
+   "Biceps"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/split-squat-feet-elevated-db": {
+  "category": "Quadriceps",
+  "name": "Split squat feet elevated DB (supported)",
+  "unit": "kg",
+  "secondary": [
+   "Gluteus",
+   "Adductoren"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/one-arm-db-snatch": {
+  "category": "Fullbody",
+  "name": "One-arm DB snatch",
+  "unit": "kg",
+  "secondary": [],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/sled-push": {
+  "category": "Conditie",
+  "name": "Sled push",
+  "unit": "kg",
+  "secondary": [
+   "Quadriceps",
+   "Gluteus"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/db-shoulder-press-zittend": {
+  "category": "Schouders",
+  "name": "DB shoulder press zittend",
+  "unit": "kg per hand",
+  "secondary": [
+   "Triceps"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/back-extension-incline-db": {
+  "category": "Gluteus",
+  "name": "Back extension incline DB",
+  "unit": "kg",
+  "secondary": [
+   "Hamstrings",
+   "Onderrug"
+  ],
+  "note": "",
+  "type": "kracht"
+ },
+ "exercises/burpees": {
+  "category": "Conditie",
+  "name": "Burpees",
+  "unit": "reps",
+  "secondary": [],
+  "note": "",
+  "type": "conditie"
+ },
+ "exercises/rowerg": {
+  "category": "Conditie",
+  "name": "RowErg",
+  "unit": "meter",
+  "secondary": [],
+  "note": "",
+  "type": "conditie"
+ },
+ "config/app": {
+  "coaches": [
+   "Coach A",
+   "Coach B"
+  ],
+  "anchors": [
+   "bench-press-plat-bb",
+   "trap-bar-deadlift",
+   "pull-up-chin-up"
+  ],
+  "kgPerBlock": 6.4,
+  "pullPushTarget": 2,
+  "pullPushConfirmed": false
+ },
+ "clients/test-klant": {
+  "name": "Testklant",
+  "coach": "Coach A",
+  "bodyweight": 80,
+  "perWeek": 2,
+  "goal": "Testdoel",
+  "createdAt": "2026-09-01",
+  "stats": {
+   "sessionCount": 2,
+   "lastSession": "2026-10-31",
+   "lastBodyweight": null
+  }
+ },
+ "clients/tweede-klant": {
+  "name": "Tweede klant",
+  "coach": "Coach B",
+  "bodyweight": 65,
+  "perWeek": 3,
+  "createdAt": "2026-10-01",
+  "stats": {
+   "sessionCount": 0
+  }
+ },
+ "clients/test-klant/blocks/int-25": {
+  "code": "Int 25",
+  "exercises": [
+   {
+    "code": "A1",
+    "day": "T1",
+    "exId": "pulldown-chin-up-toestel",
+    "filler": "",
+    "method": "Standard Sets",
+    "note": "Blok 10 + 2,3 kg · blok 10 + 4,6 kg · blok 11 · blok 11 + 2,3 kg",
+    "repsMax": 7,
+    "repsMin": 5,
+    "rest": 120,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 66.3,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 68.6,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 70.4,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 72.7,
+      "note": "",
+      "reps": 6
+     }
+    ],
+    "sets": 4,
+    "startKg": 66.3,
+    "tempo": "30X0",
+    "variant": "wide, neutrale grip",
+    "warmup": [
+     {
+      "kg": 32.0,
+      "reps": 6
+     },
+     {
+      "kg": 51.2,
+      "reps": 4
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "A2",
+    "day": "T1",
+    "exId": "bench-press-plat-bb",
+    "filler": "",
+    "method": "Standard Sets",
+    "note": "",
+    "repsMax": 7,
+    "repsMin": 5,
+    "rest": 120,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 52,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 55,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 58,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 60,
+      "note": "",
+      "reps": 5
+     }
+    ],
+    "sets": 4,
+    "startKg": 52,
+    "tempo": "30X0",
+    "variant": "medium grip",
+    "warmup": [
+     {
+      "kg": 25.0,
+      "reps": 6
+     },
+     {
+      "kg": 40.0,
+      "reps": 4
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "B1",
+    "day": "T1",
+    "exId": "inverted-row",
+    "filler": "",
+    "method": "",
+    "note": "LG, hoogte 4/5",
+    "repsMax": 8,
+    "repsMin": 6,
+    "rest": 90,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": null,
+      "note": "",
+      "reps": 8
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 8
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 8
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 8
+     }
+    ],
+    "sets": 4,
+    "startKg": null,
+    "tempo": "3010",
+    "variant": "medium, semi-pronated grip",
+    "warmup": []
+   },
+   {
+    "code": "B2",
+    "day": "T1",
+    "exId": "split-squat-feet-elevated-db",
+    "filler": "",
+    "method": "",
+    "note": "Per been. Gelezen als één dumbbell: navragen bij Stijn",
+    "repsMax": 8,
+    "repsMin": 6,
+    "rest": 90,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 18,
+      "note": "",
+      "reps": 8
+     },
+     {
+      "kg": 20,
+      "note": "",
+      "reps": 8
+     },
+     {
+      "kg": 22,
+      "note": "",
+      "reps": 8
+     },
+     {
+      "kg": 22,
+      "note": "",
+      "reps": 8
+     }
+    ],
+    "sets": 4,
+    "startKg": 18,
+    "tempo": "3010",
+    "variant": "feet elevated (2-1), supported",
+    "warmup": [
+     {
+      "kg": 10.0,
+      "reps": 12
+     },
+     {
+      "kg": 17.5,
+      "reps": 4
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "C1",
+    "day": "T1",
+    "exId": "one-arm-db-snatch",
+    "filler": "",
+    "method": "",
+    "note": "Per arm",
+    "repsMax": 10,
+    "repsMin": 8,
+    "rest": 60,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 12,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": 12,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": 12,
+      "note": "",
+      "reps": 10
+     }
+    ],
+    "sets": 3,
+    "startKg": 12,
+    "tempo": "Max.",
+    "variant": "one arm",
+    "warmup": []
+   },
+   {
+    "code": "C2",
+    "day": "T1",
+    "exId": "sled-push",
+    "filler": "",
+    "method": "",
+    "note": "3 × 20 m",
+    "repsMax": null,
+    "repsMin": null,
+    "rest": 60,
+    "rir": null,
+    "setPlan": [
+     {
+      "kg": 140,
+      "note": "",
+      "reps": null
+     },
+     {
+      "kg": 140,
+      "note": "",
+      "reps": null
+     },
+     {
+      "kg": 140,
+      "note": "",
+      "reps": null
+     }
+    ],
+    "sets": 3,
+    "startKg": 140,
+    "tempo": "Max.",
+    "variant": "prowler push",
+    "warmup": []
+   },
+   {
+    "code": "A1",
+    "day": "T2",
+    "exId": "trap-bar-deadlift",
+    "filler": "",
+    "method": "Standard Sets",
+    "note": "Schema geeft 2 gewichten voor 4 sets; vorige cyclus 10 en 8 reps (boven 5-7): startgewicht navragen bij Stijn",
+    "repsMax": 7,
+    "repsMin": 5,
+    "rest": 90,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 116,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 121,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 121,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 121,
+      "note": "",
+      "reps": 7
+     }
+    ],
+    "sets": 4,
+    "startKg": 116,
+    "tempo": "30X0",
+    "variant": "high handles",
+    "warmup": [
+     {
+      "kg": 57.5,
+      "reps": 6
+     },
+     {
+      "kg": 87.5,
+      "reps": 4
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "A2",
+    "day": "T2",
+    "exId": "db-shoulder-press-zittend",
+    "filler": "",
+    "method": "Standard Sets",
+    "note": "2 × 16 kg",
+    "repsMax": 7,
+    "repsMin": 5,
+    "rest": 90,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 16,
+      "note": "",
+      "reps": 6
+     },
+     {
+      "kg": 16,
+      "note": "",
+      "reps": 6
+     },
+     {
+      "kg": 16,
+      "note": "",
+      "reps": 6
+     },
+     {
+      "kg": 16,
+      "note": "",
+      "reps": 6
+     }
+    ],
+    "sets": 4,
+    "startKg": 16,
+    "tempo": "30X0",
+    "variant": "80° incline, pronated grip",
+    "warmup": [
+     {
+      "kg": 8,
+      "reps": 6
+     },
+     {
+      "kg": 12,
+      "reps": 4
+     },
+     {
+      "kg": 14,
+      "reps": 2
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "B1",
+    "day": "T2",
+    "exId": "pulldown-chin-up-toestel",
+    "filler": "",
+    "method": "",
+    "note": "Blok 10 + 2,3 kg · blok 10 + 4,6 kg · blok 11 · blok 11 + 2,3 kg",
+    "repsMax": 7,
+    "repsMin": 5,
+    "rest": 90,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 66.3,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 68.6,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 70.4,
+      "note": "",
+      "reps": 7
+     },
+     {
+      "kg": 72.7,
+      "note": "",
+      "reps": 6
+     }
+    ],
+    "sets": 4,
+    "startKg": 66.3,
+    "tempo": "3010",
+    "variant": "medium, supinated grip",
+    "warmup": [
+     {
+      "kg": 38.4,
+      "reps": 10
+     },
+     {
+      "kg": 51.2,
+      "reps": 4
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "B2",
+    "day": "T2",
+    "exId": "back-extension-incline-db",
+    "filler": "",
+    "method": "",
+    "note": "3-4 sets, 10 sec hold + 8-10 reps. Vorige cyclus 12 reps: één DB of 2 × 20 navragen",
+    "repsMax": 10,
+    "repsMin": 8,
+    "rest": 90,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": 40,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": 40,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": 40,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": 40,
+      "note": "",
+      "reps": 10
+     }
+    ],
+    "sets": 4,
+    "startKg": 40,
+    "tempo": "3010",
+    "variant": "incline",
+    "warmup": [
+     {
+      "kg": 20.0,
+      "reps": 12
+     },
+     {
+      "kg": 30.0,
+      "reps": 5
+     }
+    ],
+    "warmupAuto": true
+   },
+   {
+    "code": "C1",
+    "day": "T2",
+    "exId": "inverted-row",
+    "filler": "",
+    "method": "",
+    "note": "LG, hoogte 4/5",
+    "repsMax": 10,
+    "repsMin": 8,
+    "rest": 60,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": null,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 10
+     }
+    ],
+    "sets": 3,
+    "startKg": null,
+    "tempo": "3010",
+    "variant": "TRX, close, neutrale grip",
+    "warmup": []
+   },
+   {
+    "code": "C2",
+    "day": "T2",
+    "exId": "burpees",
+    "filler": "",
+    "method": "",
+    "note": "LG, 8-10 / 8-10",
+    "repsMax": 10,
+    "repsMin": 8,
+    "rest": 60,
+    "rir": 1,
+    "setPlan": [
+     {
+      "kg": null,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 10
+     },
+     {
+      "kg": null,
+      "note": "",
+      "reps": 10
+     }
+    ],
+    "sets": 3,
+    "startKg": null,
+    "tempo": "3010",
+    "variant": "push-up burpee",
+    "warmup": []
+   }
+  ],
+  "goal": "Functionele hypertrofie",
+  "intensity": 80,
+  "perWeek": 2,
+  "phase": "Intensificatie",
+  "reps": "5-7",
+  "start": "2026-10-28",
+  "weeks": 4
+ },
+ "clients/test-klant/blocks/acc-old": {
+  "code": "Acc 24",
+  "phase": "Ontlasting",
+  "goal": "Hypertrofie",
+  "intensity": 74,
+  "reps": "8-10",
+  "start": "2026-09-01",
+  "exercises": [
+   {
+    "code": "A1",
+    "day": "Wo",
+    "exId": "bench-press-plat-bb",
+    "method": "Straight sets",
+    "sets": 4,
+    "repsMin": 8,
+    "repsMax": 10,
+    "rir": 2,
+    "tempo": "3010",
+    "rest": 120,
+    "setPlan": [
+     {
+      "kg": 50,
+      "reps": 10
+     },
+     {
+      "kg": 50,
+      "reps": 10
+     },
+     {
+      "kg": 50,
+      "reps": 10
+     },
+     {
+      "kg": 50,
+      "reps": 10
+     }
+    ],
+    "warmup": []
+   },
+   {
+    "code": "A1",
+    "day": "Za",
+    "exId": "trap-bar-deadlift",
+    "method": "Wave loading",
+    "sets": 4,
+    "repsMin": 8,
+    "repsMax": 10,
+    "rir": 2,
+    "tempo": "3010",
+    "rest": 120,
+    "setPlan": [
+     {
+      "kg": 110,
+      "reps": 10
+     },
+     {
+      "kg": 110,
+      "reps": 10
+     },
+     {
+      "kg": 110,
+      "reps": 10
+     },
+     {
+      "kg": 110,
+      "reps": 10
+     }
+    ],
+    "warmup": []
+   }
+  ]
+ },
+ "clients/test-klant/sessions/s-1": {
+  "date": "2026-10-28",
+  "blockId": "int-25",
+  "day": "T1",
+  "week": 1,
+  "entries": [
+   {
+    "exId": "bench-press-plat-bb",
+    "target": {
+     "code": "A2"
+    },
+    "sets": [
+     {
+      "kg": 52,
+      "reps": 7,
+      "rpe": 9
+     },
+     {
+      "kg": 55,
+      "reps": 7,
+      "rpe": 9
+     },
+     {
+      "kg": 58,
+      "reps": 6,
+      "rpe": 9
+     },
+     {
+      "kg": 60,
+      "reps": 5,
+      "rpe": 9
+     }
+    ]
+   }
+  ],
+  "feedback": {}
+ },
+ "clients/test-klant/sessions/s-2": {
+  "date": "2026-11-04",
+  "blockId": "int-25",
+  "day": "T1",
+  "week": 2,
+  "entries": [
+   {
+    "exId": "bench-press-plat-bb",
+    "target": {
+     "code": "A2"
+    },
+    "sets": [
+     {
+      "kg": 52,
+      "reps": 7,
+      "rpe": 9
+     },
+     {
+      "kg": 55,
+      "reps": 7,
+      "rpe": 9
+     },
+     {
+      "kg": 58,
+      "reps": 7,
+      "rpe": 9
+     },
+     {
+      "kg": 60,
+      "reps": 6,
+      "rpe": 9
+     }
+    ]
+   }
+  ],
+  "feedback": {}
+ }
+}

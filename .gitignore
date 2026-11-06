@@ -1,0 +1,6 @@
+dist/test.html
+dist/.check.js
+test/shots/
+test/__pycache__/
+upstream/
+node_modules/
