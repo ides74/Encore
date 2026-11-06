@@ -15,10 +15,14 @@
   }
   function headerHTML() {
     const cl = visibleClients();
-    const tabs = [['overview', 'Overzicht'], ['planning', 'Planning'], ['training', 'Training loggen'], ['progress', 'Progressie'], ['stats', 'Statistiek'], ['history', 'Historiek'], ['intake', 'Intake'], ['event', 'Event'], ['exercises', 'Oefeningen']];
+    const tabs = [['overview', 'Overzicht'], ['planning', 'Planning'], ['training', 'Training loggen'], ['progress', 'Progressie'], ['stats', 'Statistiek'], ['history', 'Historiek']];
+    // v1.3.0: op de gsm hoogstens 7 tabs; minder gebruikte onderdelen onder "Meer" (op iPad en pc gewoon zichtbaar)
+    const more = [['intake', 'Intake'], ['event', 'Event'], ['exercises', 'Oefeningen']], curMore = more.find(([v]) => v === S.view);
+    const tab = ([v, l], cls = '') => `<button class="tab${cls}" data-act="view" data-v="${v}"${S.view === v ? ' aria-current="page"' : ''}>${l}</button>`;
+    const clientTabs = tabs.map((t) => tab(t)).join('') + more.map((t) => tab(t, ' wide-only')).join('') + `<details class="more narrow-only"><summary class="tab"${curMore ? ' aria-current="page"' : ''}>${curMore ? curMore[1] : 'Meer'} ▾</summary><div class="more-menu">${more.map((t) => tab(t)).join('')}</div></details>`;
     return `<div class="top-row"><div class="brand"><b>EnCORE</b> Coach<small>Personal coaching logboek</small></div>
       <div class="client-pick"><label for="client-sel">Klant</label><select id="client-sel" data-change="client"><option value="">${S.coachFilter ? 'Klanten van ' + esc(S.coachFilter) : 'Alle klanten'}</option>${cl.map((c) => `<option value="${esc(c.id)}"${c.id === S.cid ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div></div>
-      <nav class="tabs" aria-label="Onderdelen">${S.cid ? tabs.map(([v, l]) => `<button class="tab" data-act="view" data-v="${v}"${S.view === v ? ' aria-current="page"' : ''}>${l}</button>`).join('') : [['home', 'Klanten'], ['exercises', 'Oefeningen'], ['settings', 'Instellingen']].map(([v, l]) => `<button class="tab" data-act="view" data-v="${v}"${S.view === v ? ' aria-current="page"' : ''}>${l}</button>`).join('')}</nav>`;
+      <nav class="tabs" aria-label="Onderdelen">${S.cid ? clientTabs : [['home', 'Klanten'], ['exercises', 'Oefeningen'], ['settings', 'Instellingen']].map((t) => tab(t)).join('')}</nav>`;
   }
   function mainHTML() {
     if (S.offline) return `<div class="empty">Deze weergave kan de gedeelde database niet openen. Open de app via claude.ai terwijl je aangemeld bent.</div>`;

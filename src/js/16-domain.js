@@ -13,7 +13,9 @@
   const BW_MODES = [['auto', 'Auto'], ['extra', 'Extra kg'], ['total', 'Totaal kg']];
   const bwIsTotal = (kg, bw, mode) => mode === 'total' || (mode === 'auto' && kg != null && bw != null && kg >= bw * 0.5);
   const bwTotal = (kg, bw, mode = 'extra') => Math.round((bwIsTotal(kg, bw, mode) ? kg : bw + (kg || 0)) * 10) / 10;
-  const bwFmt = (kg, mode = 'auto') => { const bw = bwNow(); if (kg == null) return '?'; return bwIsTotal(kg, bw, mode) ? `${nl(kg)} totaal` : `LG+${nl(kg)}`; };
+  const bwFmt = (kg, mode = 'auto') => { const bw = bwNow(); if (kg == null) return '?'; if (kg === 0) return 'LG'; return bwIsTotal(kg, bw, mode) ? `${nl(kg)} totaal` : `LG+${nl(kg)}`; };
+  // gewicht in een planregel: lichaamsgewicht zonder extra gewicht toont "LG" (LG × 8), niet "?"
+  const kgPlanTxt = (unit, kg) => (unit === 'bw' ? (kg ? bwFmt(kg) : 'LG') : kg != null ? nl(kg) : '?');
   // geschat 1RM: A-reeks via %-tabel, anders Epley; RIR telt mee (8 reps + 2 RIR = 10RM)
   const e1 = (st, exId, code) => { const kg = setKg(st, exId), r = num(st?.reps); if (!kg || !r) return null; const p = pctFor(r + (num(st?.rir) || 0), code); return p ? Math.round((kg / p) * 10) / 10 : null; };
   const intakeRM = (exId) => num(client()?.intake?.tests?.[exId]?.rm);
@@ -66,7 +68,7 @@
   const setLabel = (exId, st) => {
     const u = S.exercises[exId]?.unit || 'kg';
     if (u === 'blok' && num(st.blocks) != null) return `blok ${nl(st.blocks)}${num(st.extra) ? ' + ' + nl(st.extra) : ''}`;
-    if (u === 'bw') return `LG${num(st.kg) ? ' + ' + nl(st.kg) : ''} kg`;
+    if (u === 'bw') return num(st.kg) ? `LG + ${nl(st.kg)} kg` : 'LG';
     if (!STRENGTH.includes(u)) return `${nl(st.value)} ${u === 'reps' ? 'reps' : u}${st.time ? ' in ' + st.time : ''}`;
     return `${nl(setKg(st, exId))} kg`;
   };

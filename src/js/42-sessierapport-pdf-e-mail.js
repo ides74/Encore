@@ -213,18 +213,21 @@
       if (S.draft && S.draft.id === r.sid) { S.draft.report = rep; S.draft._dirty = true; await saveTraining(); } else if (S.canWrite) await write(`clients/${S.cid}/sessions/${r.sid}`, { report: rep }, true);
       repStatus(`<span class="sig-up">Concept staat klaar in Gmail.</span> ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open het concept</a>, kijk het na en verstuur.` : 'Open Gmail, kijk het concept na en verstuur.'}`);
     } catch (e) {
-      const code = e?.code, msg = {
-        needs_reauth: 'Gmail moet opnieuw verbonden worden: claude.ai, Instellingen, Connectors.',
-        server_not_connected: 'Gmail is niet verbonden. Voeg Gmail toe via claude.ai, Instellingen, Connectors.',
-        selection_required: 'Kies eerst welk Gmail-account deze pagina gebruikt (melding bovenaan).',
-        not_in_manifest: 'Gmail is niet toegestaan voor deze pagina. Sta het toe via het menu Rechten van de app.',
-        approval_required: 'Gmail vraagt je goedkeuring. Klik opnieuw op "Concept in Gmail" en sta het toe.',
-        blocked_by_policy: 'Je organisatie blokkeert Gmail voor deze pagina.',
-        tool_error: 'Gmail weigerde het concept: ' + (e?.message || ''),
-        server_unavailable: 'Gmail reageert niet. Kijk eerst in Gmail of het concept toch werd aangemaakt voor je opnieuw probeert.',
-      }[code] || 'Het concept maken lukte niet' + (e?.message ? ': ' + e.message : '') + '. Download de PDF en mail hem zelf.';
+      const msg = gmailErr(e);
       repStatus(`<span class="sig-bad">${esc(msg)}</span>`);
     }
     repBusy(false);
   }
 
+
+  // foutmelding van de Gmail-connector in gewone taal (rapport en samenvatting)
+  const gmailErr = (e) => ({
+        needs_reauth: 'Gmail moet opnieuw verbonden worden: claude.ai, Instellingen, Connectors.',
+        server_not_connected: 'Gmail is niet verbonden. Voeg Gmail toe via claude.ai, Instellingen, Connectors.',
+        selection_required: 'Kies eerst welk Gmail-account deze pagina gebruikt (melding bovenaan).',
+        not_in_manifest: 'Gmail is niet toegestaan voor deze pagina. Sta het toe via het menu Rechten van de app.',
+        approval_required: 'Gmail vraagt je goedkeuring. Klik opnieuw en sta het toe.',
+        blocked_by_policy: 'Je organisatie blokkeert Gmail voor deze pagina.',
+        tool_error: 'Gmail weigerde het concept: ' + (e?.message || ''),
+        server_unavailable: 'Gmail reageert niet. Kijk eerst in Gmail of het concept toch werd aangemaakt voor je opnieuw probeert.',
+      }[e?.code] || 'Het concept maken lukte niet' + (e?.message ? ': ' + e.message : '') + '. Download de PDF en mail hem zelf.');

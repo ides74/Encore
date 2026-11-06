@@ -3,7 +3,7 @@ Every check prints PASS/FAIL; the last line is 'N passed, M failed'. --shots als
 import os, sys, json
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, os.path.dirname(__file__))
-from harness import new_context, open_page, DEVICES
+from harness import new_context, open_page, DEVICES, launch
 SHOTS = os.path.join(os.path.dirname(__file__), 'shots'); os.makedirs(SHOTS, exist_ok=True)
 TABS = ['overview', 'planning', 'training', 'progress', 'stats', 'history', 'intake', 'event', 'exercises']
 R = {'pass': 0, 'fail': 0}; UX = []
@@ -14,7 +14,12 @@ def clean(page, name):
 def shot(page, name):
     if '--shots' in sys.argv: page.screenshot(path=os.path.join(SHOTS, name + '.png'), full_page=True)
 def goto(page, v):
-    page.click(f'.tab[data-v="{v}"]'); page.wait_for_timeout(120)
+    # v1.3.0: on the phone Intake, Event and Oefeningen sit under "Meer"
+    if not page.locator(f'.tab[data-v="{v}"]:visible').count(): page.click('details.more > summary'); page.wait_for_timeout(60)
+    page.click(f'.tab[data-v="{v}"]:visible'); page.wait_for_timeout(120)
+SWIPE = """(dx) => { const g = document.querySelector('#gym .gym-title'); const t = (x) => new Touch({ identifier: 1, target: g, clientX: x, clientY: 300 });
+  g.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [t(300)], changedTouches: [t(300)] }));
+  g.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [], changedTouches: [t(300 + dx)] })); }"""
 
 def unit(b):
     ctx = new_context(b); p = open_page(ctx, 'test-klant', 'planning')
@@ -37,6 +42,19 @@ def unit(b):
         ('no warm-up for C-series', "a.warmupPlan({exId:'bench-press-plat-bb',code:'C1',setPlan:[{kg:60,reps:8}]}).length", 0),
         ('block 10 + 2,3 kg: 66,3 kg shows as blok 10 + 2,3', "(() => { const k = 66.3, b = Math.floor(k / a.kgPerBlock()); return b + ' + ' + Math.round((k - b * a.kgPerBlock()) * 10) / 10; })()", '10 + 2.3'),
         ('schema Int 25 has 2 trainings', "a.slotsOf(a.S.blocks['int-25']).join(',')", 'T1,T2'),
+        # v1.3.0 rest timer (Stijn: rest from the schema, the 10 s to confirm are already gone)
+        ('rest 2 min starts at 1:50', 'a.mmss(a.restLeft(120))', '1:50'),
+        ('rest 90 s starts at 80 s', 'a.restLeft(90)', 80),
+        ('rest never below 5 s', 'a.restLeft(12)', 5),
+        ('rest from the schema row', "a.restOf({code: 'B1', rest: 90}, 'Intensificatie')", 90),
+        ('rest without schema value: phase default (Intensificatie A = 180 s)', "a.restOf({code: 'A1'}, 'Intensificatie')", 180),
+        ('finisher: no rest timer', "a.restOf({code: 'F1', rest: 60}, 'Accumulatie')", None),
+        ('timer at 11 s left: rest, no signal', "JSON.stringify((({phase, signal}) => [phase, signal])(a.restState({end: 11000, warned: false, rang: false}, 0)))", '["rest",0]'),
+        ('timer at 10 s left: first signal', "JSON.stringify((({phase, signal}) => [phase, signal])(a.restState({end: 10000, warned: false, rang: false}, 0)))", '["soon",1]'),
+        ('first signal only once', "a.restState({end: 10000, warned: true, rang: false}, 0).signal", 0),
+        ('timer at 0: second signal', "JSON.stringify((({phase, signal}) => [phase, signal])(a.restState({end: 10000, warned: true, rang: false}, 10000)))", '["over",2]'),
+        ('timer stops itself after 5 min over time', "a.restState({end: 0, warned: true, rang: true}, 301000).expired", True),
+        ('plan line bodyweight without extra kg: LG', "a.kgPlanTxt('bw', null) + '|' + a.kgPlanTxt('bw', 0) + '|' + a.kgPlanTxt('kg', null)", 'LG|LG|?'),
     ]
     for name, js, want in cases:
         got = T(js); ok = (abs(got - want) < 1e-9) if isinstance(want, float) else got == want
@@ -98,6 +116,9 @@ def flows(b):
     check('v1.2 RPE is never filled in for you', p.input_value('#s-1-0-rpe') == '')
     check('v1.2 confirmed set shows a check, progress 1 of 4', p.locator('#s-1-0-kg').locator('xpath=ancestor::tr').locator('.setok').count() == 1 and '1 van 4 sets' in p.locator(bench + ' >> .setprog').inner_text())
     check('v1.2 focus moves to the next set to confirm', p.evaluate("document.activeElement && document.activeElement.dataset.si") == '1')
+    check('v1.3 ✓ starts the rest timer at rest minus 10 s (2 min = 1:50)', p.is_visible('#rest') and p.inner_text('#rest .t') in ('1:50', '1:49'), p.is_visible('#rest') and p.inner_text('#rest .t'))
+    p.click('[data-act="rest-stop"]'); p.wait_for_timeout(60)
+    check('v1.3 "Ik start nu" stops the timer', p.is_hidden('#rest'))
     p.fill('#s-1-1-kg', '54'); p.fill('#s-1-1-reps', '6'); p.dispatch_event('#s-1-1-reps', 'change'); p.wait_for_timeout(100)
     check('v1.2 typing a deviation counts as confirmed', '2 van 4 sets' in p.locator(bench + ' >> .setprog').inner_text())
     p.click('[data-act="copy-plan"][data-ei="0"]'); p.wait_for_timeout(120)
@@ -137,11 +158,51 @@ def flows(b):
     p.evaluate("window.__remoteSet('clients/test-klant/blocks/int-25', Object.assign({}, window.__mock.data()['clients/test-klant/blocks/int-25'], {goal: 'Gewijzigd'}))"); p.wait_for_timeout(300)
     check('remote change: logged reps still there', p.input_value('#s-1-0-reps') == '6')
     clean(p, 'remote change'); ctx.close()
+    # 10. v1.3.0 phone: gym mode, ± buttons, rest timer, swipe, warm-up ✓, LG, summary, 7 tabs
+    ctx = new_context(b, 'phone'); p = open_page(ctx, 'test-klant', 'training')
+    tabs = p.locator('nav.tabs > .tab:visible, nav.tabs > details > summary:visible').count()
+    check('v1.3 phone shows at most 7 tabs (rest under Meer)', tabs == 7, str(tabs))
+    p.select_option('#nt-block', 'int-25'); p.click('[data-act="start-slot"][data-slot="T1"]'); p.wait_for_timeout(150)
+    check('v1.3 phone opens in gym mode, one exercise per screen', p.locator('#gym').count() == 1 and 'A1' in p.inner_text('.gym-title .code'))
+    check('v1.3 gym: suggestion grey in the big field (blok 10)', p.input_value('#s-0-0-blocks') == '' and p.get_attribute('#s-0-0-blocks', 'placeholder') == '10')
+    p.click('[data-act="step"][data-f="blocks"][data-d="1"]'); p.wait_for_timeout(60)
+    check('v1.3 + button starts from the suggestion (10 + 1 = 11)', p.input_value('#s-0-0-blocks') == '11', p.input_value('#s-0-0-blocks'))
+    p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(150)
+    check('v1.3 Set klaar: rest timer 1:50 and next set named', p.is_visible('#rest') and p.inner_text('#rest .t') in ('1:50', '1:49') and 'A1 set 2' in p.inner_text('#rest'), p.inner_text('#rest') if p.locator('#rest').count() else '')
+    check('v1.3 gym moves to set 2', 'set 2 van 4' in p.inner_text('.gym-cur').lower())
+    p.click('[data-act="rest-add"][data-d="15"]'); p.wait_for_timeout(60)
+    check('v1.3 +15 s', p.inner_text('#rest .t') in ('2:05', '2:04'), p.inner_text('#rest .t'))
+    p.evaluate(SWIPE, -160); p.wait_for_timeout(150)
+    check('v1.3 swipe left = next exercise (A2)', 'A2' in p.inner_text('.gym-title .code'))
+    p.click('[data-act="wset-ok"][data-ei="1"][data-wi="0"]'); p.wait_for_timeout(80)
+    check('v1.3 warm-up set confirmed with ✓', p.get_attribute('[data-act="wset-ok"][data-ei="1"][data-wi="0"]', 'aria-pressed') == 'true')
+    p.click('[data-act="rpe-set"][data-v="8.5"]'); p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(120)
+    p.click('.gym-nav [data-act="gym-go"][data-i="2"]'); p.wait_for_timeout(120)
+    p.click('.gym-det > summary'); p.wait_for_timeout(60)
+    check('v1.3 bodyweight plan line shows LG × 8', 'LG × 8' in p.inner_text('.gym-det'), p.inner_text('.gym-det')[:200])
+    p.evaluate(SWIPE, 160); p.wait_for_timeout(150)
+    check('v1.3 swipe right = previous exercise', 'A2' in p.inner_text('.gym-title .code'))
+    shot(p, 'phone_gym')
+    p.click('[data-act="done-training"]'); p.wait_for_timeout(400)
+    sm = p.inner_text('#sum-modal') if p.locator('#sum-modal').count() else ''
+    check('v1.3 Klaar shows the summary: plan versus done', 'Plan tegenover gedaan' in sm.title() or 'PLAN TEGENOVER GEDAAN' in sm.upper(), sm[:120])
+    check('v1.3 summary: A1 1 of 4 sets, skipped exercise marked', '1 van 4 sets' in sm and 'Niet gedaan' in sm, sm[:400])
+    check('v1.3 summary can go to client and coach', p.locator('#sum-modal [data-f="toClient"]').count() == 1 and p.locator('#sum-modal [data-f="toCoach"]').count() == 1)
+    shot(p, 'phone_summary')
+    data = p.evaluate('window.__mock.data()')
+    s = [v for k, v in data.items() if '/sessions/' in k and k.split('/')[-1] not in ('s-1', 's-2')][0]
+    pd = next(e for e in s['entries'] if e['exId'] == 'pulldown-chin-up-toestel'); bp = next(e for e in s['entries'] if e['exId'] == 'bench-press-plat-bb')
+    check('v1.3 saved: + button value and the rest of the suggestion (blok 11 + 2,3 × 7)', pd['sets'][0]['blocks'] == 11 and abs((pd['sets'][0]['extra'] or 0) - 2.3) < 1e-9 and pd['sets'][0]['reps'] == 7, json.dumps(pd['sets'][0]))
+    check('v1.3 saved: RPE chip and warm-up ✓', bp['sets'][0].get('rpe') == 8.5 and bp['warmup'][0].get('done') is True and bp['warmup'][1].get('done') is False, json.dumps([bp['sets'][0], bp['warmup']]))
+    p.click('[data-act="sum-close"]'); p.wait_for_timeout(80)
+    check('v1.3 summary closes', p.locator('#sum-modal .confirm').count() == 0)
+    goto(p, 'intake'); check('v1.3 Meer > Intake opens the intake', p.evaluate('document.querySelector(".tab[aria-current=page], summary[aria-current=page]")?.textContent || ""').startswith('Intake'))
+    clean(p, 'v1.3 phone gym'); ctx.close()
     # 9. dark mode renders
     ctx = new_context(b, 'phone', dark=True); p = open_page(ctx, 'test-klant', 'training'); shot(p, 'phone_training_dark'); clean(p, 'dark'); ctx.close()
 
 with sync_playwright() as pw:
-    b = pw.chromium.launch()
+    b = launch(pw)
     unit(b); flows(b)
     b.close()
 print('UX touch targets under 40 px (device, tab, count):', ' '.join(f'{d}/{v}={n}' for d, v, n in UX if n))

@@ -10,7 +10,9 @@
       if (c1) c1.textContent = isStrength(en.exId) ? nl(e1(en.sets[si], en.exId, en.target?.code)) : ''; if (c2) c2.innerHTML = sigHTML(en.sets[si], en.target);
       // v1.2.0: typing turns a suggestion into a confirmed set; update the check and the progress without re-rendering (keeps focus)
       const row = t.closest('tr'), no = row && row.querySelector('.setno'), ok = setDone(en.sets[si]);
-      if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = (ok ? '<span class="setok" title="Bevestigd">✓</span>' : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')) + `<span class="muted">${si + 1}</span>`; }
+      if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = setNoHTML(en, ei, si); }
+      // v1.3.0: een getypte afwijking (reps ingevuld en veld verlaten) start ook de rusttimer, één keer per set
+      if (e.type === 'change' && ['reps', 'value'].includes(t.dataset.f) && ok && !en.sets[si]._rest) { en.sets[si]._rest = true; audioUnlock(); restAfter(ei); }
       const pg = t.closest('.ex-card')?.querySelector('.setprog'); if (pg) { const n = en.sets.filter(setDone).length; pg.textContent = `${n} van ${en.sets.length} sets`; pg.className = `pill ${n === en.sets.length ? 'ok' : 'neutral'} setprog`; }
     } else if (b === 'entry') S.draft.entries[+t.dataset.ei][t.dataset.f] = v;
     else if (b === 'bwmode') { const en = S.draft.entries[+t.dataset.ei]; en.bwMode = v; en.sets.forEach((x) => { x.mode = v; }); if (e.type === 'change') renderMain(); }
@@ -47,6 +49,7 @@
     else if (b === 'bwu') { const r = S.schemaDraft.exercises[+t.dataset.ri]; r.warmup[+t.dataset.wi][t.dataset.f] = v; r.warmupAuto = false; markSchemaDirty(); }
     else if (b === 'wset') { S.draft.entries[+t.dataset.ei].warmup[+t.dataset.wi][t.dataset.f] = v; }
     else if (b === 'rep') { if (S.report) S.report[t.dataset.f] = v; }
+    else if (b === 'sum') { if (S.summary) S.summary[t.dataset.f] = v; }
     else if (b === 'set-ppt') { S.settingsDraft.pullPushTarget = v; markSettingsDirty(); }
     else if (b === 'set-ppc') { S.settingsDraft.pullPushConfirmed = t.checked; markSettingsDirty(); }
     else if (b === 'splan') { const r = S.schemaDraft.exercises[+t.dataset.ri]; r.setPlan[+t.dataset.si][t.dataset.f] = v; markSchemaDirty(); }
@@ -67,7 +70,7 @@
     setSaveState('Niet opgeslagen: probeer opnieuw'); return false;
   }
   function trainingBody(d) {
-    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps) })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), rir: num(x.rpe) != null ? rpeToRir(x.rpe) : num(x.rir), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
+    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps), done: !!w.done })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), rir: num(x.rpe) != null ? rpeToRir(x.rpe) : num(x.rir), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
     const fb = d.feedback || {};
     return { date: d.date, blockId: d.blockId, week: num(d.week) ?? 1, day: d.day || '', done: true, historical: !!d.historical, note: d.note || '', entries, feedback: { bodyweight: num(fb.bodyweight), whoop: num(fb.whoop), pain: num(fb.pain), energy: num(fb.energy), note: fb.note || '' }, report: d.report || null, updatedAt: new Date().toISOString() };
   }
@@ -107,5 +110,12 @@
     if (x + tip.offsetWidth > box.width - 6) x = e.clientX - box.left - tip.offsetWidth - 12;
     tip.style.left = Math.max(4, x) + 'px'; tip.style.top = Math.min(y, box.height - tip.offsetHeight - 4) + 'px';
   });
+  // gymmodus: horizontaal vegen = vorige of volgende oefening (niet vanuit een invulveld)
+  let sw = null;
+  document.addEventListener('touchstart', (e) => { sw = e.touches.length === 1 && e.target.closest('#gym') && !e.target.closest('input,select,textarea') ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true });
+  document.addEventListener('touchend', (e) => { if (!sw) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) gymGo(S.gymIdx + (dx < 0 ? 1 : -1)); }, { passive: true });
+  // "Meer"-menu sluit bij een tik ernaast of na een keuze
+  document.addEventListener('click', (e) => { document.querySelectorAll('details.more[open]').forEach((x) => { if (!x.contains(e.target) || e.target.closest('.more-menu')) x.open = false; }); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { restTick(); wake(S.view === 'training' && !!S.draft && S.gym); } });
   let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(drawProgress, 150); });
 

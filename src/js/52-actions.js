@@ -1,7 +1,7 @@
   // ---------- actions ----------
   const setView = (v) => { if (!S.intakeDraft?.dirty) S.intakeDraft = null; if (!S.settingsDraft?.dirty) S.settingsDraft = null; S.view = v; store.set('ec.view', v); render(); window.scrollTo({ top: 0 }); };
   const ACT = {
-    view: async (b) => { if (blocking()) { confirmLeave(); return; } await flushAll(); S.draft = null; S.schemaDraft = null; S.schemaDirty = false; setView(b.dataset.v); },
+    view: async (b) => { if (blocking()) { confirmLeave(); return; } await flushAll(); restStop(); S.draft = null; S.schemaDraft = null; S.schemaDirty = false; setView(b.dataset.v); },
     'open-client': (b) => selectClient(b.dataset.id, 'overview'),
     'new-client': () => { S.newClient = { name: '', coach: S.coachFilter && S.coachFilter !== '-' ? S.coachFilter : '', goal: '', constraints: '', trainingDays: '', perWeek: 2, bodyweight: '', trackAttention: false, trackWhoop: false, anchorsNA: [] }; renderMain(); $('#cf-name')?.focus(); },
     'edit-profile': () => { const c = client(); S.profileDraft = clone({ name: c.name, email: c.email || '', coach: c.coach || '', goal: c.goal, constraints: c.constraints, trainingDays: c.trainingDays, perWeek: c.perWeek ?? 2, bodyweight: c.bodyweight, trackAttention: tracks(c, 'attention'), trackWhoop: tracks(c, 'whoop'), anchorsNA: c.anchorsNA || [] }); renderMain(); },
@@ -21,7 +21,7 @@
     'set-save': async () => {
       const d = S.settingsDraft; const coaches = [...new Set(d.coaches.map((c) => c.trim()).filter(Boolean))];
       const kpb = num(d.kgPerBlock) ?? 6.4, ppt = num(d.pullPushTarget) ?? 2, ppc = !!d.pullPushConfirmed;
-      if (await write('config/app', { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc }; toastMsg('Instellingen opgeslagen'); render(); }
+      if (await write('config/app', { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} }; toastMsg('Instellingen opgeslagen'); render(); }
     },
     'cf-cancel': () => { S.newClient = null; S.profileDraft = null; render(); },
     'cf-save': async () => {
@@ -33,8 +33,8 @@
       } else if (await write(`clients/${S.cid}`, body, true)) { S.profileDraft = null; toastMsg('Profiel opgeslagen'); render(); }
     },
     'goto-progress': (b) => { S.progEx = b.dataset.id; setView('progress'); },
-    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null) x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
-    'start-slot': (b) => { const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); renderMain(); window.scrollTo({ top: 0 }); },
+    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null) x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.gymIdx = 0; S.gymSet = null; S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
+    'start-slot': (b) => { const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); S.gymIdx = 0; S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
     'open-block': (b) => { S.blockSel = b.dataset.id; S.schemaDraft = null; S.schemaDirty = false; S.slotFilter = ''; setView('planning'); },
     'slot-filter': (b) => { S.slotFilter = b.dataset.v; renderMain(); },
     'gen-open': async () => { await savePlan(); S.gen = genDefaults(); renderMain(); },
@@ -48,22 +48,51 @@
       S.blocks[id] = { ...clone(S.schemaDraft), _unsaved: true }; S.blockSel = id; S.gen = null; S.slotFilter = '';
       markSchemaDirty(); savePlan(); renderMain(); toastMsg('Voorstel klaar en bewaard: pas het aan waar nodig');
     },
-    'done-training': async () => { if (!(await saveTraining())) return; const had = !!S.draft?.id; S.draft = null; S.saveState = ''; if (had) toastMsg('Training bewaard'); render(); },
+    // v1.3.0: na Klaar de samenvatting (plan tegenover gedaan, records, te moeilijk), klaar om te mailen
+    'done-training': async () => {
+      if (!(await saveTraining())) return; const d = S.draft, had = !!d?.id, m = had ? summaryModel(d) : null;
+      if (had) S.lastSess = { id: d.id, ...trainingBody(d) };
+      restStop(); S.draft = null; S.saveState = ''; render(); if (m) openSummary(m);
+    },
     'add-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.push({ mode: en.bwMode || 'auto' }); renderMain(); scheduleTraining(); },
-    'del-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); renderMain(); scheduleTraining(); },
-    'del-entry': (b) => { S.draft.entries.splice(+b.dataset.ei, 1); renderMain(); scheduleTraining(); },
-    'add-entry': () => { const id = $('#add-ex').value; if (!id) return; S.draft.entries.push({ exId: id, variant: '', target: {}, bwMode: 'auto', sets: [{ mode: 'auto' }, { mode: 'auto' }, { mode: 'auto' }] }); renderMain(); scheduleTraining(); },
+    'del-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'del-entry': (b) => { S.draft.entries.splice(+b.dataset.ei, 1); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'add-entry': () => { const id = $('#add-ex').value; if (!id) return; S.draft.entries.push({ exId: id, variant: '', target: {}, bwMode: 'auto', sets: [{ mode: 'auto' }, { mode: 'auto' }, { mode: 'auto' }] }); if (S.gym) { S.gymIdx = S.draft.entries.length - 1; S.gymSet = null; } renderMain(); scheduleTraining(); },
     'copy-prev': (b) => {
       const ei = +b.dataset.ei, en = S.draft.entries[ei], prev = prevSummary(en.exId, S.draft.date); if (!prev) return;
       en.sets = prev.sets.map((x) => ({ kg: x.blocks != null && x.blocks !== '' ? '' : (unitOf(en.exId) === 'bw' ? x.kg ?? '' : setKg(x, en.exId) ?? x.kg ?? ''), blocks: x.blocks ?? '', extra: x.extra ?? '', reps: x.reps ?? '', value: x.value ?? '', time: x.time ?? '', mode: 'extra' }));
       if (unitOf(en.exId) === 'bw') en.bwMode = 'extra';
       renderMain(); scheduleTraining();
     },
+    // ✓ bevestigt een set: lege velden krijgen het voorstel (plan, anders vorige keer), RPE nooit; daarna start de rust
     'confirm-set': (b) => {
-      const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], sg = setSuggest(en, si); if (!sg) return;
-      en.sets[si] = { ...en.sets[si], ...sg, rpe: en.sets[si]?.rpe ?? '' };
-      renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next) next.focus();
+      const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], st = en.sets[si]; if (!st) return;
+      audioUnlock();
+      const sg = setSuggest(en, si) || {};
+      Object.entries(sg).forEach(([f, v]) => { if (f !== 'rpe' && (st[f] == null || st[f] === '') && v !== '' && v != null) st[f] = v; });
+      if (!setDone(st)) { toastMsg('Vul eerst de herhalingen in.'); return; }
+      st._rest = true; S.gymSet = null; restAfter(ei);
+      renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next && !S.gym) next.focus();
     },
+    'set-clear': (b) => { const en = S.draft.entries[+b.dataset.ei], si = +b.dataset.si; en.sets[si] = { mode: en.bwMode || 'auto' }; S.gymSet = si; renderMain(); scheduleTraining(); },
+    'wset-ok': (b) => { const w = S.draft.entries[+b.dataset.ei].warmup[+b.dataset.wi]; w.done = !w.done; audioUnlock(); renderMain(); scheduleTraining(); },
+    // ± knoppen: vertrekt van de ingevulde waarde, anders van het grijze voorstel
+    step: (b) => {
+      const { ei, si, f } = b.dataset, inp = $(`#s-${ei}-${si}-${f}`); if (!inp) return;
+      const cur = num(inp.value) ?? num(inp.placeholder) ?? 0, v = Math.max(0, Math.round((cur + Number(b.dataset.d)) * 2) / 2);
+      inp.value = nl(v); onInput({ target: inp, type: 'input' });
+    },
+    'rpe-set': (b) => { const st = S.draft.entries[+b.dataset.ei].sets[+b.dataset.si], v = Number(b.dataset.v); if (num(st.rpe) === v) { st.rpe = ''; st.rir = ''; } else { st.rpe = v; st.rir = rpeToRir(v); } S.gymSet = +b.dataset.si; renderMain(); scheduleTraining(); },
+    'gym-toggle': () => { S.gym = !S.gym; store.set('ec.gym', S.gym ? '1' : '0'); S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
+    'gym-go': (b) => gymGo(+b.dataset.i),
+    'gym-set': (b) => { S.gymSet = +b.dataset.si; renderMain(); },
+    'rest-stop': () => restStop(),
+    'rest-add': (b) => { const r = S.rest; if (!r) return; r.end = Math.max(Date.now() + 1000, r.end + Number(b.dataset.d) * 1000); const left = r.end - Date.now(); if (left > REST_WARN * 1000) r.warned = false; if (left > 0) r.rang = false; restTick(); },
+    'rest-sound': () => { store.set('ec.sound', soundOn() ? 'off' : null); audioUnlock(); const el = $('#rest'); if (el) { el.innerHTML = restInner(); restTick(); } },
+    'sum-close': () => { S.summary = null; renderSummary(); },
+    'sum-copy': () => summaryCopy(),
+    'sum-gmail': () => summaryGmail(),
+    'sum-report': () => { const sid = S.summary?.m.sid; S.summary = null; renderSummary(); if (sid) openReport(sid); },
     'copy-plan': (b) => {
       const en = S.draft.entries[+b.dataset.ei], plan = en.target?.setPlan || [], kpb = kgPerBlock();
       en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: p.reps ?? '' }; } return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });

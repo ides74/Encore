@@ -5,7 +5,7 @@ Prints one line per rule with the worst cases. --strict exits 1 when a MUST rule
 import os, sys, json
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, os.path.dirname(__file__))
-from harness import new_context, open_page, DEVICES
+from harness import new_context, open_page, DEVICES, launch
 TABS = ['overview', 'planning', 'training', 'progress', 'stats', 'history', 'intake', 'event', 'exercises']
 JS = r"""() => {
   const vis = e => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none'; };
@@ -29,12 +29,13 @@ JS = r"""() => {
 }"""
 res = []
 with sync_playwright() as pw:
-    b = pw.chromium.launch()
+    b = launch(pw)
     for dark in (False, True):
         for dev in DEVICES:
             ctx = new_context(b, dev, dark=dark); p = open_page(ctx, 'test-klant', 'overview')
             for v in TABS:
-                p.click(f'.tab[data-v="{v}"]'); p.wait_for_timeout(100)
+                if not p.locator(f'.tab[data-v="{v}"]:visible').count(): p.click('details.more > summary')  # v1.3.0 "Meer" on the phone
+                p.click(f'.tab[data-v="{v}"]:visible'); p.wait_for_timeout(100)
                 if v == 'training':  # audit the logging screen itself, not the picker
                     p.select_option('#nt-block', 'int-25'); p.click('[data-act="start-slot"][data-slot="T1"]'); p.wait_for_timeout(150)
                 r = p.evaluate(JS); r.update(dev=dev, tab=v, dark=dark); res.append(r)

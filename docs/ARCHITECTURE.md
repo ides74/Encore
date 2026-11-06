@@ -7,10 +7,12 @@ One self-contained HTML page on claude.ai. The data does not live in the page bu
 |---|---|---|
 | Presentation | `src/index.template.html`, `src/styles.css` | page frame, layout, components |
 | UX standard | `src/tokens.css` | BuMa UX rules as variables: text colours (AA contrast), 44 px touch targets, 16 px inputs, 12 px minimum. Loaded last, so it wins over styles.css |
-| Rules (domain) | `16-domain`, `18-volume…`, `20-opwarmsets`, `34-krachtbalans…` | Stijn's rules: % 1RM table, RPE/RIR, warm-up, strength ratios, volume per muscle group, TUT, rest. Pure functions: tested one by one |
+| Rules (domain) | `16-domain`, `18-volume…`, `20-opwarmsets`, `21-rustregels`, `34-krachtbalans…` | Stijn's rules: % 1RM table, RPE/RIR, warm-up, rest timer (rest minus 10 s, signals at 10 s and 0), strength ratios, volume per muscle group, TUT. Pure functions: tested one by one |
 | Data access | `22-db` | the only place that writes to the database (`write`, `remove`); errors become a message for the user |
 | State | `14-state` | `S`: what is loaded, which client, which screen, unsaved drafts |
-| Screens (views) | `26-view-home` … `50-view-exercises` | one file per tab; they read `S` and return HTML, they never write |
+| Screens (views) | `26-view-home` … `50-view-exercises` | one file per tab; they read `S` and return HTML, they never write. `30-view-training` holds the list view and the shared building blocks of the training screen; `31-gymmodus` the phone view (one exercise per screen) |
+| Rest timer | `41-rusttimer` | display, sound, vibration and screen wake lock; the rules come from `21-rustregels` |
+| Summary | `43-samenvatting` | after "Klaar": plan versus done, records, too hard; one Gmail draft to client, coach or both |
 | Actions | `52-actions` | what a button does (`data-act`) |
 | Bindings | `54-bindings` | typing in fields, autosave of training and schema |
 | Report | `42-sessierapport…` | PDF/Excel download and Gmail draft to the client |
@@ -21,10 +23,10 @@ The modules are pieces of one script (one closure), in file order. `tools/build.
 
 ## Data model (database)
 - `exercises/<id>`: library shared by all coaches (name, category, secondary muscles, unit: kg, kg per hand, blok, bw, meter, kcal…)
-- `config/app`: coaches, anchor lifts, kg per block, pull/push target
+- `config/app`: coaches, anchor lifts, kg per block, pull/push target, `coachEmails` (coach name to e-mail, filled from the summary)
 - `clients/<id>`: profile, coach, goal, constraints, event, stats
 - `clients/<id>/blocks/<id>`: a period (schema): code, phase, start, weeks, trainings per week, exercises with set plan and warm-up
-- `clients/<id>/sessions/<id>`: a logged training: date, block, training (T1…), week, sets (kg or blocks, reps, RPE), feedback
+- `clients/<id>/sessions/<id>`: a logged training: date, block, training (T1…), week, sets (kg or blocks, reps, RPE), warm-up sets (kg, reps, `done` since v1.3.0), feedback. A set counts as done when it holds a value (v1.2.0 rule "voorstel is geen waarde")
 
 ## Runtime capabilities
 `db` + `user` (data and rights), `downloads` (report files), `mcp` Gmail `create_draft` (report mail as draft).
