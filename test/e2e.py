@@ -32,7 +32,7 @@ def unit(b):
         ('tempo 30X0 = 4 s per rep', "a.tempoSec('30X0')", 4), ('tempo invalid = null', "a.tempoSec('Max.')", None),
         ('Herstel: 4 sets -50% = 2', 'a.cutSets(4, 50)', 2), ('deload never below 1 set', 'a.cutSets(1, 67)', 1),
         ('bodyweight: LG 80 + 10 = 90', 'a.bwTotal(10, 80)', 90), ('bodyweight auto: 50 kg at 80 bw = total', "a.bwIsTotal(50, 80, 'auto')", True),
-        ('block: 10 + 2,3 kg at 6,4 = 66,3', "a.setKg({blocks: 10, extra: 2.3}, 'pulldown-chin-up-toestel')", 66.3),
+        ('block (Ides 07/11): small block 2,75 always + 10 x 5,5 + 2,3 = 60,05', "a.setKg({blocks: 10, extra: 2.3}, 'pulldown-chin-up-toestel')", 60.05),
         ('old method name mapped', "a.normMethod('Straight sets')", 'Standard Sets'),
         ('old phase Ontlasting = Herstel', "a.phaseOf('Ontlasting')", 'Herstel'),
         ('rest Intensificatie A = 180 s', "a.restFor('Intensificatie', 'A')", 180),
@@ -40,7 +40,18 @@ def unit(b):
         ('warm-up A, 5 reps (Stijn): 6x50%, 4x70%, 2x90%', "JSON.stringify(a.warmupPlan({exId:'bench-press-plat-bb',code:'A1',setPlan:[{kg:60,reps:5}]}))", '[{"kg":30,"reps":6},{"kg":42.5,"reps":4},{"kg":55,"reps":2}]'),
         ('warm-up A, 8 reps (Stijn): 6x50%, 4x75%', "JSON.stringify(a.warmupPlan({exId:'bench-press-plat-bb',code:'A1',setPlan:[{kg:60,reps:8}]}))", '[{"kg":30,"reps":6},{"kg":45,"reps":4}]'),
         ('no warm-up for C-series', "a.warmupPlan({exId:'bench-press-plat-bb',code:'C1',setPlan:[{kg:60,reps:8}]}).length", 0),
-        ('block 10 + 2,3 kg: 66,3 kg shows as blok 10 + 2,3', "(() => { const k = 66.3, b = Math.floor(k / a.kgPerBlock()); return b + ' + ' + Math.round((k - b * a.kgPerBlock()) * 10) / 10; })()", '10 + 2.3'),
+        ('block: 60,05 kg is blok 10 + 2,3', "JSON.stringify(a.splitBlocks(60.05))", '{"blocks":10,"extra":2.3}'),
+        ('block: 63,25 kg is blok 11 without extra', "JSON.stringify(a.splitBlocks(63.25))", '{"blocks":11,"extra":""}'),
+        # v1.4.1 rest suggestion (Stijn, blog Rust): type of exercise, reps and phase
+        ('rest suggestion: basic exercise 5-7 reps = 150 s', "a.restSuggest('bench-press-plat-bb', {code: 'A1', repsMin: 5, repsMax: 7}, 'Intensificatie').sec", 150),
+        ('rest suggestion: 1-5 reps = 180 s', "a.restSuggest('bench-press-plat-bb', {code: 'A1', repsMin: 3, repsMax: 5}, 'Intensificatie').sec", 180),
+        ('rest suggestion: C-series 8-10 reps = 60 s', "a.restSuggest('bench-press-plat-bb', {code: 'C1', repsMin: 8, repsMax: 10}, 'Accumulatie').sec", 60),
+        ('rest suggestion: finisher none', "a.restSuggest('sled-push', {code: 'F1'}, 'Accumulatie')", None),
+        # v1.4.0 impossible values (Ides 07/11: 567 kg typed instead of 57)
+        ('567 kg on bench is refused', "a.weightIssue({exId: 'bench-press-plat-bb', target: {setPlan: [{kg: 60}]}, sets: []}, {kg: 567, reps: 7}).hard", True),
+        ('dumbbell 32 where 16 per hand is planned: asks 2 x 16', "a.weightIssue({exId: 'db-shoulder-press-zittend', target: {setPlan: [{kg: 16}]}, sets: []}, {kg: 32, reps: 7}).fix", 16),
+        ('block 19 does not exist (18 blocks)', "a.weightIssue({exId: 'pulldown-chin-up-toestel', target: {}, sets: []}, {blocks: 19, reps: 7}).hard", True),
+        ('a set is only done with reps', "a.setDone({kg: 60}) + '|' + a.setDone({kg: 60, reps: 7}) + '|' + a.setDone({kg: 140, ok: true})", 'false|true|true'),
         ('schema Int 25 has 2 trainings', "a.slotsOf(a.S.blocks['int-25']).join(',')", 'T1,T2'),
         # v1.3.0 rest timer (Stijn: rest from the schema, the 10 s to confirm are already gone)
         ('rest 2 min starts at 1:50', 'a.mmss(a.restLeft(120))', '1:50'),
@@ -93,7 +104,7 @@ def flows(b):
     p.click('[data-act="start-slot"][data-slot="T1"]'); p.wait_for_timeout(150)
     n_ex = p.locator('.ex-card').count(); check('T1 opens with 6 exercises', n_ex == 6, str(n_ex))
     p.click('.ex-card >> nth=1 >> [data-act="copy-plan"]'); p.wait_for_timeout(100)
-    p.fill('#s-1-0-reps', '7'); p.fill('#s-1-0-rpe', '9'); p.dispatch_event('#s-1-0-rpe', 'change'); p.wait_for_timeout(100)
+    p.fill('#s-1-0-reps', '7'); p.dispatch_event('#s-1-0-reps', 'change'); p.wait_for_timeout(100)
     p.click('[data-act="done-training"]'); p.wait_for_timeout(400)
     data = p.evaluate('window.__mock.data()')
     new = [k for k in data if k.startswith('clients/test-klant/sessions/') and k not in ('clients/test-klant/sessions/s-1', 'clients/test-klant/sessions/s-2')]
@@ -113,12 +124,12 @@ def flows(b):
     check('v1.2 progress starts at 0 of 4', '0 van 4 sets' in p.locator(bench + ' >> .setprog').inner_text())
     p.click('[data-act="confirm-set"][data-ei="1"][data-si="0"]'); p.wait_for_timeout(120)
     check('v1.2 one tap confirms set 1: kg and reps become values', p.input_value('#s-1-0-kg') == '52' and p.input_value('#s-1-0-reps') == '7', p.input_value('#s-1-0-kg') + '/' + p.input_value('#s-1-0-reps'))
-    check('v1.2 RPE is never filled in for you', p.input_value('#s-1-0-rpe') == '')
+    check('v1.4 no RPE per set any more (evaluation per exercise)', p.locator('#s-1-0-rpe').count() == 0)
     check('v1.2 confirmed set shows a check, progress 1 of 4', p.locator('#s-1-0-kg').locator('xpath=ancestor::tr').locator('.setok').count() == 1 and '1 van 4 sets' in p.locator(bench + ' >> .setprog').inner_text())
     check('v1.2 focus moves to the next set to confirm', p.evaluate("document.activeElement && document.activeElement.dataset.si") == '1')
-    check('v1.3 ✓ starts the rest timer at rest minus 10 s (2 min = 1:50)', p.is_visible('#rest') and p.inner_text('#rest .t') in ('1:50', '1:49'), p.is_visible('#rest') and p.inner_text('#rest .t'))
+    check('v1.4.1 ✓ starts the rest timer at the suggestion minus 10 s (basic 5-7 reps: 2,5 min = 2:20)', p.is_visible('#rest') and p.inner_text('#rest .t') in ('2:20', '2:19'), p.is_visible('#rest') and p.inner_text('#rest .t'))
     p.click('[data-act="rest-stop"]'); p.wait_for_timeout(60)
-    check('v1.3 "Ik start nu" stops the timer', p.is_hidden('#rest'))
+    check('v1.4.1 "Ik start nu" stops the timer, the timer bar stays (idle)', p.locator('#rest.idle').count() == 1)
     p.fill('#s-1-1-kg', '54'); p.fill('#s-1-1-reps', '6'); p.dispatch_event('#s-1-1-reps', 'change'); p.wait_for_timeout(100)
     check('v1.2 typing a deviation counts as confirmed', '2 van 4 sets' in p.locator(bench + ' >> .setprog').inner_text())
     p.click('[data-act="copy-plan"][data-ei="0"]'); p.wait_for_timeout(120)
@@ -167,17 +178,25 @@ def flows(b):
     check('v1.3 gym: suggestion grey in the big field (blok 10)', p.input_value('#s-0-0-blocks') == '' and p.get_attribute('#s-0-0-blocks', 'placeholder') == '10')
     p.click('[data-act="step"][data-f="blocks"][data-d="1"]'); p.wait_for_timeout(60)
     check('v1.3 + button starts from the suggestion (10 + 1 = 11)', p.input_value('#s-0-0-blocks') == '11', p.input_value('#s-0-0-blocks'))
+    check('v1.5 big set number: SET 1 van 4', 'set 1 van 4' in p.inner_text('.setno-big').lower(), p.inner_text('.setno-big'))
+    cbh = p.evaluate("Math.min(...[...document.querySelectorAll('.codebar .cb')].map(b => b.getBoundingClientRect().height))")
+    check('v1.5 code bar: every button at least 68 px high', cbh >= 68, str(cbh))
     p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(150)
-    check('v1.3 Set klaar: rest timer 1:50 and next set named', p.is_visible('#rest') and p.inner_text('#rest .t') in ('1:50', '1:49') and 'A1 set 2' in p.inner_text('#rest'), p.inner_text('#rest') if p.locator('#rest').count() else '')
-    check('v1.3 gym moves to set 2', 'set 2 van 4' in p.inner_text('.gym-cur').lower())
+    check('v1.5 two tracks: A1 set 1 done goes to A2', 'A2' in p.inner_text('.gym-title .code') and 'A2' in p.inner_text('.cb.cur'))
+    check('v1.5 rest timer 2:20 (suggestion) and next = A2', p.inner_text('#rest .t') in ('2:20', '2:19') and 'A2' in p.inner_text('#rest'), p.inner_text('#rest'))
+    p.click('[data-act="undo"]'); p.wait_for_timeout(150)
+    check('v1.5 Terug: A1 set 1 open again, timer stopped', 'A1' in p.inner_text('.cb.cur') and '0/4' in p.inner_text('.cb[data-i="0"]') and p.locator('#rest.idle').count() == 1, p.inner_text('.codebar'))
+    check('v1.5 Terug keeps what was typed before the tap (blok 11)', p.input_value('#s-0-0-blocks') == '11', p.input_value('#s-0-0-blocks'))
+    p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(150)
     p.click('[data-act="rest-add"][data-d="15"]'); p.wait_for_timeout(60)
-    check('v1.3 +15 s', p.inner_text('#rest .t') in ('2:05', '2:04'), p.inner_text('#rest .t'))
-    p.evaluate(SWIPE, -160); p.wait_for_timeout(150)
-    check('v1.3 swipe left = next exercise (A2)', 'A2' in p.inner_text('.gym-title .code'))
+    check('v1.3 +15 s', p.inner_text('#rest .t') in ('2:35', '2:34'), p.inner_text('#rest .t'))
     p.click('[data-act="wset-ok"][data-ei="1"][data-wi="0"]'); p.wait_for_timeout(80)
     check('v1.3 warm-up set confirmed with ✓', p.get_attribute('[data-act="wset-ok"][data-ei="1"][data-wi="0"]', 'aria-pressed') == 'true')
-    p.click('[data-act="rpe-set"][data-v="8.5"]'); p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(120)
-    p.click('.gym-nav [data-act="gym-go"][data-i="2"]'); p.wait_for_timeout(120)
+    p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(120)
+    check('v1.5 two tracks: A2 set done goes back to A1', 'A1' in p.inner_text('.cb.cur'))
+    p.evaluate(SWIPE, -160); p.wait_for_timeout(150)
+    check('v1.3 swipe left = next exercise (A2)', 'A2' in p.inner_text('.gym-title .code'))
+    p.click('.cb[data-i="2"]'); p.wait_for_timeout(120)
     p.click('.gym-det > summary'); p.wait_for_timeout(60)
     check('v1.3 bodyweight plan line shows LG × 8', 'LG × 8' in p.inner_text('.gym-det'), p.inner_text('.gym-det')[:200])
     p.evaluate(SWIPE, 160); p.wait_for_timeout(150)
@@ -193,11 +212,29 @@ def flows(b):
     s = [v for k, v in data.items() if '/sessions/' in k and k.split('/')[-1] not in ('s-1', 's-2')][0]
     pd = next(e for e in s['entries'] if e['exId'] == 'pulldown-chin-up-toestel'); bp = next(e for e in s['entries'] if e['exId'] == 'bench-press-plat-bb')
     check('v1.3 saved: + button value and the rest of the suggestion (blok 11 + 2,3 × 7)', pd['sets'][0]['blocks'] == 11 and abs((pd['sets'][0]['extra'] or 0) - 2.3) < 1e-9 and pd['sets'][0]['reps'] == 7, json.dumps(pd['sets'][0]))
-    check('v1.3 saved: RPE chip and warm-up ✓', bp['sets'][0].get('rpe') == 8.5 and bp['warmup'][0].get('done') is True and bp['warmup'][1].get('done') is False, json.dumps([bp['sets'][0], bp['warmup']]))
+    check('v1.4 saved: no RPE, RIR from the plan marked as plan, warm-up ✓', bp['sets'][0].get('rpe') is None and bp['sets'][0].get('rirSrc') == 'plan' and bp['warmup'][0].get('done') is True and bp['warmup'][1].get('done') is False, json.dumps([bp['sets'][0], bp['warmup']]))
     p.click('[data-act="sum-close"]'); p.wait_for_timeout(80)
     check('v1.3 summary closes', p.locator('#sum-modal .confirm').count() == 0)
     goto(p, 'intake'); check('v1.3 Meer > Intake opens the intake', p.evaluate('document.querySelector(".tab[aria-current=page], summary[aria-current=page]")?.textContent || ""').startswith('Intake'))
     clean(p, 'v1.3 phone gym'); ctx.close()
+    # 11. v1.5.0 two tracks (Ides 07/11): A1 > B1 > C1 and A2 > B2 > C2, switch after every set; A1 done early: B1 alternates with A2
+    ctx = new_context(b, 'phone'); p = open_page(ctx, 'test-klant', 'training')
+    p.select_option('#nt-block', 'int-25'); p.click('[data-act="start-slot"][data-slot="T1"]'); p.wait_for_timeout(150)
+    p.click('.gym-sets [data-act="del-set"]'); p.wait_for_timeout(80)
+    seq = []
+    for _ in range(7):
+        c = p.inner_text('.cb.cur b'); p.click('.gym-ok[data-act="confirm-set"]'); p.wait_for_timeout(100); seq.append(c + '>' + p.inner_text('.cb.cur b'))
+    check('v1.5 track order with A1 3 sets and A2 4 sets', seq == ['A1>A2', 'A2>A1', 'A1>A2', 'A2>A1', 'A1>A2', 'A2>B1', 'B1>A2'], ' '.join(seq))
+    over = p.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth')
+    check('v1.5 phone: no sideways scroll during rest', over <= 1, str(over))
+    ok = p.evaluate("""(() => { const hit = (el) => { const r = el.getBoundingClientRect(), e = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return !!e && el.contains(e); }; window.scrollTo(0, 0); return hit(document.querySelector('.cb')) && hit(document.querySelector('[data-act=undo]')); })()""")
+    check('v1.5 code bar and Terug reachable during the rest timer', ok)
+    p.click('.cb[data-i="0"]'); p.wait_for_timeout(100)
+    p.click('.sc[data-v="8"]'); p.wait_for_timeout(60); a = p.get_attribute('.sc[data-v="8"]', 'aria-pressed')
+    p.click('.sc[data-v="8"]'); p.wait_for_timeout(60); b2 = p.get_attribute('.sc[data-v="8"]', 'aria-pressed')
+    check('v1.5 score buttons: tap sets, tap again clears', a == 'true' and b2 == 'false', a + b2)
+    shot(p, 'phone_gym_v15')
+    clean(p, 'v1.5 tracks'); ctx.close()
     # 9. dark mode renders
     ctx = new_context(b, 'phone', dark=True); p = open_page(ctx, 'test-klant', 'training'); shot(p, 'phone_training_dark'); clean(p, 'dark'); ctx.close()
 

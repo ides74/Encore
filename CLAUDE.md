@@ -23,14 +23,16 @@ It runs as one claude.ai artifact with a shared database:
 - **Colours and sizes come from variables** in `styles.css` and `tokens.css` (`--accent-text` for orange text). No `#rrggbb` or `rgb()` in `src/js`: `tools/lint_ux.py` blocks it.
 
 ## 3. Domain rules that are decided (do not change without Ides or Stijn)
-- Log in **RPE**, calculate in RIR (RIR = 10 − RPE). RPE is **never** filled in for the user.
+- No RPE per set since v1.4.0 (Ides): one evaluation per exercise (text + score 1 to 10). Calculations stay in RIR; without RPE the RIR of the plan is used and marked `rirSrc: 'plan'`.
 - **Grey italic = suggestion** (plan, else last time). **Black = confirmed or typed.** Only sets with a value are saved and counted.
 - ✓ fills only empty fields with the suggestion; typed values stay.
 - Warm-up A-series (Stijn), in % of the first working set: 7+ reps: 6 × 50%, 4 × 75%; 6 reps or fewer: 6 × 50%, 4 × 70%, 2 × 90%.
-- Rest timer: rest from the schema minus 10 s (time spent confirming); signal at 10 s left and at 0; no timer for a finisher or after the last set.
+- Rest timer: suggestion by type of exercise, reps and phase (`restSuggest`, Stijn's blog: strength 3-5 min, hypertrophy 2-2,5 min, isolation 30-60 s), minus 10 s for confirming; schema rest stays selectable; signal at 10 s left and at 0; no timer for a finisher or after the last set.
+- Two tracks in the gym (Ides 07/11): A1 > B1 > C1 and A2 > B2 > C2, switch track after every set (`nextOf`).
+- Pulldown tower: small block 2,75 kg always lifted + blocks × 5,5 kg (max 18) + extra plate 2,3 or 4,6 kg. Log blocks, not kg.
 - Strength ratios vs flat BB bench (100%): incline 91%, standing OHP 72%, dip 117%, chin-up 87%.
 - Training method is chosen per phase of 3 weeks and applied to the A-exercises. Olympic variants are Fullbody, not classic strength.
-- Roles: the coach manages schemas and exercises; the client or the coach logs trainings. Mails are always a Gmail draft, never sent automatically.
+- Roles: the coach manages schemas and exercises; the client or the coach logs trainings. Mails are never sent automatically: the user taps "Verstuur nu" (send) or "Concept in Gmail" (draft).
 
 ## 4. UX (BuMa UX standard, `docs/BuMa-UX-standaard.md`, `docs/UX-STANDARDS.md`)
 - Touch targets at least 44 px, input text 16 px, no text under 12 px, contrast AA, every field labelled, one primary button per screen.

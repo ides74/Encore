@@ -17,7 +17,7 @@
   // sets per spiergroep: hoofdspiergroep telt 1, secundaire spiergroep een halve set
   const addVol = (acc, exId, sets) => { const e = S.exercises[exId]; if (!e || !sets || !isStrength(exId) || NON_MUSCLE.includes(e.category)) return; acc[e.category] = (acc[e.category] || 0) + sets; (e.secondary || []).forEach((m) => { if (m && !NON_MUSCLE.includes(m) && m !== e.category) acc[m] = (acc[m] || 0) + sets / 2; }); };
   const addPat = (acc, exId, sets) => { if (!sets || !S.exercises[exId]) return; const k = patOf(exId); acc[k] = (acc[k] || 0) + sets; };
-  const doneSets = (en) => (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null).length;
+  const doneSets = (en) => (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null || x.ok === true).length;
   const planVol = (b) => {
     const per = {}, pat = {}, tot = {}, dir = {}, totPat = {}; slotsOf(b).forEach((sl) => { per[sl] = {}; pat[sl] = {}; });
     (b?.exercises || []).forEach((r) => { if (!r.exId) return; const sl = normDay(b, r.day), n = num(r.sets) || 0; if (per[sl]) { addVol(per[sl], r.exId, n); addPat(pat[sl], r.exId, n); } addVol(tot, r.exId, n); addPat(totPat, r.exId, n); const e = S.exercises[r.exId]; if (e && isStrength(r.exId) && !NON_MUSCLE.includes(e.category)) dir[e.category] = (dir[e.category] || 0) + n; });

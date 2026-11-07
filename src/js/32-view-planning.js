@@ -178,6 +178,34 @@
     return `<section class="card"><div class="card-h"><div><h2>Planning</h2><p class="sub">Lopende en komende periodes. Oudere periodes staan in Historiek.</p></div>
         <button class="btn primary" data-act="gen-open"${S.canWrite && !S.gen ? '' : ' disabled'}>+ Nieuwe periode opbouwen</button></div>
         <div class="blocks">${chips || '<span class="muted">Nog geen periodes.</span>'}</div></section>
-      ${S.gen ? genCard() : ''}${body}<datalist id="filler-list">${FILLERS.map((x) => `<option value="${esc(x)}">`).join('')}</datalist>`;
+      ${cycleCard()}${S.gen ? genCard() : ''}${body}<datalist id="filler-list">${FILLERS.map((x) => `<option value="${esc(x)}">`).join('')}</datalist>`;
+  }
+
+  // ---------- 12-wekenplan binnen een jaarlijn ----------
+  // 12 weken = 4 fases van 3 weken. Bestaande periodes eerst, daarna een voorstel volgens het gekozen model.
+  const CYCLE_MODELS = { golf: { l: 'Golvend (Acc, Int, Acc, Int)', seq: ['Accumulatie', 'Intensificatie'] }, lineair: { l: 'Lineair (Acc, Acc, Int, Herstel)', seq: ['Accumulatie', 'Accumulatie', 'Intensificatie', 'Herstel'] } };
+  function cycleCard() {
+    const c = client(), t = todayStr(), bl = sortedBlocks().filter((b) => !b._unsaved), cur = blockFor(t), mk = store.get('ec.cycle') || 'golf', M = CYCLE_MODELS[mk] || CYCLE_MODELS.golf;
+    const slots = []; let wk = 0, d = cur ? cur.start : t;
+    const i0 = cur ? bl.findIndex((b) => b.id === cur.id) : bl.length;
+    for (let i = Math.max(0, i0); i < bl.length && wk < 12; i++) { const b = bl[i]; slots.push({ b, start: b.start, weeks: blockWeeks(b), phase: phaseOf(b.phase) }); wk += blockWeeks(b); d = addDays(b.start, 7 * blockWeeks(b)); }
+    const last = slots.length ? slots[slots.length - 1].phase : 'Intensificatie';
+    let k = mk === 'golf' ? (last === 'Accumulatie' ? 1 : 0) : (last === 'Herstel' || last === 'Test' ? 0 : last === 'Intensificatie' ? 3 : 1);
+    while (wk < 12) { slots.push({ prop: true, start: d, weeks: 3, phase: M.seq[k % M.seq.length] }); wk += 3; d = addDays(d, 21); k++; }
+    const ev = c?.event?.date ? c.event : null;
+    const evIn = (sl) => ev && ev.date >= sl.start && ev.date < addDays(sl.start, 7 * sl.weeks);
+    const cards = slots.map((sl, i) => `<div class="cyc${sl.prop ? ' prop' : ''}" style="--pc:${phaseCol(sl.phase)}"><span class="small muted">Week ${slots.slice(0, i).reduce((a, x) => a + x.weeks, 0) + 1} tot ${slots.slice(0, i + 1).reduce((a, x) => a + x.weeks, 0)}</span><span class="nm">${esc(sl.b ? sl.b.code : sl.phase)}</span><span class="small">${esc(sl.phase)} · vanaf ${esc(fmtDate(sl.start, false))}</span>${evIn(sl) ? `<span class="pill acc">🏁 ${esc(ev.name || 'Event')} ${esc(fmtDate(ev.date, false))}</span>` : ''}${sl.prop ? `<span class="small muted">Voorstel</span><button class="btn small" data-act="cycle-build" data-start="${esc(sl.start)}" data-phase="${esc(sl.phase)}"${S.canWrite ? '' : ' disabled'}>Opbouwen</button>` : sl.b.id === cur?.id ? '<span class="pill ok">nu bezig</span>' : '<span class="pill neutral">gepland</span>'}</div>`).join('');
+    // jaarlijn: half jaar terug, half jaar vooruit
+    const w0 = addDays(t, -182), span = 364, pct = (dt) => Math.max(0, Math.min(100, (daysBetween(w0, dt) / span) * 100));
+    const bars = [...bl.map((b) => ({ start: b.start, weeks: blockWeeks(b), phase: phaseOf(b.phase), code: b.code })), ...slots.filter((x) => x.prop).map((x) => ({ ...x, code: x.phase.slice(0, 3) }))]
+      .filter((x) => addDays(x.start, 7 * x.weeks) > w0 && x.start < addDays(w0, span))
+      .map((x) => { const l = pct(x.start), r = pct(addDays(x.start, 7 * x.weeks)); return `<span class="yb${x.prop ? ' prop' : ''}" style="left:${l}%;width:calc(${r - l}% - 2px);background:color-mix(in srgb,${phaseCol(x.phase)} 28%,var(--panel));border-left:4px solid ${phaseCol(x.phase)}" title="${esc(x.code + ' · ' + x.phase + ' · ' + fmtDate(x.start, false))}">${esc(x.code)}</span>`; }).join('');
+    const months = []; { const d0 = toDate(w0); d0.setDate(1); d0.setMonth(d0.getMonth() + 1); for (let j = 0; j < 12; j++) { const ds = `${d0.getFullYear()}-${pad(d0.getMonth() + 1)}-01`; months.push(`<span class="mo" style="left:${pct(ds)}%">${d0.toLocaleDateString('nl-BE', { month: 'short' })}</span>`); d0.setMonth(d0.getMonth() + 1); } }
+    const evM = ev && ev.date > w0 && ev.date < addDays(w0, span) ? `<span class="ev" style="left:${pct(ev.date)}%">🏁</span>` : '';
+    return `<section class="card cycle"><div class="card-h"><div><h2>12-wekenplan</h2><p class="sub">Vier fases van 3 weken binnen het jaar. Bestaande periodes staan vast; de rest is een voorstel dat de coach opbouwt of aanpast.</p></div></div>
+      <div class="chips">${Object.entries(CYCLE_MODELS).map(([v, x]) => `<button class="chipbtn" data-act="cycle-model" data-v="${v}" aria-pressed="${v === mk}">${esc(x.l)}</button>`).join('')}</div>
+      <div class="cycle-grid">${cards}</div>
+      <div><div class="lab" style="margin-bottom:4px">Jaarlijn</div><div class="yearline">${bars}${months.join('')}<span class="now" style="left:${pct(t)}%" title="vandaag"></span>${evM}</div></div>
+      <p class="small muted" style="margin:0">Onderzoek: geperiodiseerd trainen geeft meer krachtwinst dan altijd hetzelfde doen. Golvend en lineair zijn ongeveer even effectief; de meeste studies duren 6 tot 16 weken, dus een jaarplan steunt vooral op ervaring van de coach.</p></section>`;
   }
 

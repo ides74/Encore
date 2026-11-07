@@ -12,11 +12,13 @@
       const row = t.closest('tr'), no = row && row.querySelector('.setno'), ok = setDone(en.sets[si]);
       if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = setNoHTML(en, ei, si); }
       // v1.3.0: een getypte afwijking (reps ingevuld en veld verlaten) start ook de rusttimer, één keer per set
-      if (e.type === 'change' && ['reps', 'value'].includes(t.dataset.f) && ok && !en.sets[si]._rest) { en.sets[si]._rest = true; audioUnlock(); restAfter(ei); }
+      if (!S.gym && e.type === 'change' && ['reps', 'value'].includes(t.dataset.f) && ok && !en.sets[si]._rest) { const wi = weightIssue(en, en.sets[si]); if (wi) toastMsg(wi.msg); else { en.sets[si]._rest = true; audioUnlock(); restAfter(ei); } }
       const pg = t.closest('.ex-card')?.querySelector('.setprog'); if (pg) { const n = en.sets.filter(setDone).length; pg.textContent = `${n} van ${en.sets.length} sets`; pg.className = `pill ${n === en.sets.length ? 'ok' : 'neutral'} setprog`; }
     } else if (b === 'entry') S.draft.entries[+t.dataset.ei][t.dataset.f] = v;
     else if (b === 'bwmode') { const en = S.draft.entries[+t.dataset.ei]; en.bwMode = v; en.sets.forEach((x) => { x.mode = v; }); if (e.type === 'change') renderMain(); }
     else if (b === 'fb') S.draft.feedback[t.dataset.f] = v;
+    else if (b === 'gw') { S.draft.genWarm = { ...(S.draft.genWarm || {}), txt: v }; setTimeout(scheduleTraining, 0); }
+    else if (b === 'fin') { S.draft.fins[+t.dataset.i][t.dataset.f] = v; setTimeout(scheduleTraining, 0); }
     else if (b === 'meta') { S.draft[t.dataset.f] = v; if (t.dataset.f === 'date' || t.dataset.f === 'blockId') { S.draft.week = weekFor(S.blocks[S.draft.blockId], S.draft.date); const w = $('#d-week'); if (w) w.value = S.draft.week; } }
     else if (b === 'cf') (S.newClient || S.profileDraft)[t.dataset.f] = v;
     else if (b === 'cf-flag') (S.newClient || S.profileDraft)[t.value] = t.checked;
@@ -27,7 +29,8 @@
       if (c1) c1.innerHTML = rm != null ? `<b>${nl(rm)} kg</b>` : ''; if (c2) c2.textContent = num(r.reps) ? nl((pctTable(num(r.reps) + (num(r.rir) || 0)) || 0) * 100, 0) + '%' : '';
     }
     else if (b === 'intake-meta') { S.intakeDraft[t.dataset.f] = v; S.intakeDraft.dirty = true; }
-    else if (b === 'set-kpb') { S.settingsDraft.kgPerBlock = v; markSettingsDirty(); }
+    else if (b === 'set-kpb') { S.settingsDraft.bigBlock = v; markSettingsDirty(); }
+    else if (b === 'set-kps') { S.settingsDraft.smallBlock = v; markSettingsDirty(); }
     else if (b === 'coach') { S.settingsDraft.coaches[+t.dataset.i] = v; markSettingsDirty(); }
     else if (b === 'set-anchor') { const d = S.settingsDraft; d.anchors = t.checked ? [...new Set([...d.anchors, t.value])] : d.anchors.filter((x) => x !== t.value); markSettingsDirty(); }
     else if (b === 'exf-sec') { const d = S.exNew || S.exEdit; d.secondary = [...(d.secondary || [])]; d.secondary[+t.dataset.i] = v; }
@@ -70,9 +73,9 @@
     setSaveState('Niet opgeslagen: probeer opnieuw'); return false;
   }
   function trainingBody(d) {
-    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps), done: !!w.done })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), rir: num(x.rpe) != null ? rpeToRir(x.rpe) : num(x.rir), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
+    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps), done: !!w.done })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ ...(x.ok === true ? { ok: true } : {}), kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), ...rirFor(x, e.target), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
     const fb = d.feedback || {};
-    return { date: d.date, blockId: d.blockId, week: num(d.week) ?? 1, day: d.day || '', done: true, historical: !!d.historical, note: d.note || '', entries, feedback: { bodyweight: num(fb.bodyweight), whoop: num(fb.whoop), pain: num(fb.pain), energy: num(fb.energy), note: fb.note || '' }, report: d.report || null, updatedAt: new Date().toISOString() };
+    return { genWarm: d.genWarm ? { done: !!d.genWarm.done, txt: String(d.genWarm.txt || '') } : null, fins: (d.fins || []).filter((f) => String(f.name || '').trim() || String(f.result || '').trim()).map((f) => ({ name: String(f.name || '').trim(), result: String(f.result || '').trim(), done: !!f.done })), date: d.date, blockId: d.blockId, week: num(d.week) ?? 1, day: d.day || '', done: true, historical: !!d.historical, note: d.note || '', entries, feedback: { bodyweight: num(fb.bodyweight), whoop: num(fb.whoop), pain: num(fb.pain), energy: num(fb.energy), note: fb.note || '' }, report: d.report || null, updatedAt: new Date().toISOString() };
   }
   function scheduleTraining() { if (!S.draft) return; S.draft._dirty = true; setSaveState('Wordt bewaard…'); clearTimeout(S.saveTimer); S.saveTimer = setTimeout(saveTraining, 1200); }
   async function saveTraining() {
@@ -113,7 +116,7 @@
   // gymmodus: horizontaal vegen = vorige of volgende oefening (niet vanuit een invulveld)
   let sw = null;
   document.addEventListener('touchstart', (e) => { sw = e.touches.length === 1 && e.target.closest('#gym') && !e.target.closest('input,select,textarea') ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true });
-  document.addEventListener('touchend', (e) => { if (!sw) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) gymGo(S.gymIdx + (dx < 0 ? 1 : -1)); }, { passive: true });
+  document.addEventListener('touchend', (e) => { if (!sw) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) gymGo(S.gymIdx + (dx < 0 ? 1 : -1), true); }, { passive: true });
   // "Meer"-menu sluit bij een tik ernaast of na een keuze
   document.addEventListener('click', (e) => { document.querySelectorAll('details.more[open]').forEach((x) => { if (!x.contains(e.target) || e.target.closest('.more-menu')) x.open = false; }); });
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { restTick(); wake(S.view === 'training' && !!S.draft && S.gym); } });

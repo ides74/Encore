@@ -4,7 +4,19 @@
   const REST_CONFIRM = 10, REST_WARN = 10, REST_MAX_OVER = 300, REST_MIN = 5;
   const restLeft = (sec) => Math.max(REST_MIN, (num(sec) || 0) - REST_CONFIRM);
   // rust voor een oefening: eigen rust uit het schema, anders de standaard van de fase. Finisher: geen timer.
-  const restOf = (target, phase) => { const tg = target || {}, rk = reeksOf(tg.code); if (rk === 'F') return null; return num(tg.rest) || restFor(phase, rk); };
+  // voorstel rusttijd (Stijn, blog Rust): kracht 3 à 5 min, hypertrofie 2 à 2,5 min, accessoire of isolatie 30 à 60 s.
+  // Bepaald door type oefening (basis of isolatie), reps en fase. Coach-rust uit het schema blijft een keuze in de timer.
+  const ISO_PAT = ['iso', 'core', 'carry'];
+  function restSuggest(exId, tg, phase) {
+    const rk = reeksOf(tg?.code), ph = phaseOf(phase); if (rk === 'F') return null;
+    if (!isStrength(exId)) return { sec: 60, why: 'conditie' };
+    const r = num(tg?.repsMax) ?? num(tg?.repsMin) ?? 10, iso = rk === 'C' || ISO_PAT.includes(patOf(exId));
+    let sec = iso ? (r <= 8 ? 90 : 60) : r <= 5 ? 180 : r <= 8 ? 150 : r <= 12 ? 120 : 90;
+    if (ph === 'Test') sec += 60; else if (ph === 'Herstel') sec -= 30;
+    sec = Math.max(45, sec);
+    return { sec, why: `${iso ? 'isolatie' : 'basisoefening'}, ${tg?.repsMin && tg?.repsMax && tg.repsMin !== tg.repsMax ? tg.repsMin + '-' + tg.repsMax : r} reps, ${ph.toLowerCase()}` };
+  }
+  const restOf = (target, phase, exId) => { const tg = target || {}, rk = reeksOf(tg.code); if (rk === 'F') return null; const sg = exId ? restSuggest(exId, tg, phase) : null; return sg?.sec || num(tg.rest) || restFor(phase, rk); };
   // toestand van de timer op een moment: 'rest', 'soon' (laatste 10 s) of 'over'; signal = welk signaal nu af moet gaan (0 = geen)
   function restState(r, now) {
     const ms = r.end - now, s = Math.ceil(ms / 1000);

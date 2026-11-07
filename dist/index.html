@@ -287,10 +287,98 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
 .setconfirm{min-width:var(--tap);padding-inline:8px;font-weight:700}
 .setok{display:inline-block;min-width:var(--tap);text-align:center;color:var(--ok);font-weight:700}
 .setprog{margin-left:4px}
+/* v1.4.0 leesbaarheid: grotere basistekst en knoppen, niets onder 13 px */
+:root{--text-min:13px}
+body{font-size:17px}
+.small,.target,.prev,.wu-row,.stats{font-size:15px}
+.sub{font-size:16px}
+.lab,.field>span,th,.kpi .l,.client-pick label{font-size:13.5px}
+.btn.small{font-size:15px;padding:6px 12px}
+.pill{font-size:14px}
+.ex-card .title{font-size:19px}
+.notice,.hint{font-size:15.5px}
+.gym-donemsg{font-size:30px}
+.gym-donesub{text-align:center;font-size:16px;color:var(--muted)}
+.gym-extra{font-size:17px;font-weight:600;padding:12px 18px;border:2px dashed var(--line-strong);background:var(--panel);justify-content:center}
+.gym-sets .gs-main{font-size:17px}
+.rest{position:fixed;left:8px;right:8px;margin:0 auto;max-width:46rem;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:45;flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px;border:2px solid var(--accent);box-shadow:0 10px 28px rgba(0,0,0,.2)}
+.rest[hidden]{display:none}
+.rest{min-height:196px;justify-content:center}
+.rest.idle{background:var(--panel);border-color:var(--line-strong);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.rest.idle .t{color:var(--line-strong)}
+body.training-on .app{padding-top:214px}
+@media (max-width:560px){.rest{min-height:190px;padding:8px 10px;gap:6px}body.training-on .app{padding-top:204px}.rest .why,.rest-opts .lab{display:none}.rest .rest-opts{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.rest .rest-opts .chipbtn{flex:none;min-height:44px}.rest .row{flex-wrap:nowrap;gap:6px!important}.rest .row .btn{padding:6px 8px;min-height:44px;flex:none}.rest .switch{padding-right:8px}.rest .switch .sw-l{font-size:14px}.rest .switch{min-height:44px}.rest .info{font-size:15px;line-height:1.25}.rest.idle .info .muted{display:none}}
+.rest-main{display:flex;align-items:center;gap:12px}
+.rest .t{font-size:56px}
+.rest .info{font-size:16px}
+.rest-opts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rest-opts .chipbtn{font-size:15px;padding:6px 10px}
+.switch{appearance:none;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);border-radius:999px;padding:4px 12px 4px 4px;font:inherit;cursor:pointer;min-height:var(--tap)}
+.switch .track{width:46px;height:26px;border-radius:13px;background:var(--line-strong);position:relative;transition:background .15s}
+.switch .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:10px;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.switch[aria-checked="true"] .track{background:var(--ok)}
+.switch[aria-checked="true"] .knob{left:23px}
+.praise{background:var(--ok-soft);color:var(--ink);border-left:4px solid var(--ok);border-radius:8px;padding:10px 14px;font-size:16px;display:flex;flex-direction:column;gap:4px;margin-top:10px}
+.praise b{color:var(--ok)}
+.cycle{display:flex;flex-direction:column;gap:12px}
+.yearline{position:relative;height:44px;border-radius:8px;background:var(--bg);overflow:hidden}
+.yearline .yb{position:absolute;top:6px;height:22px;border-radius:5px;color:var(--ink);font:700 12.5px var(--f-display);display:flex;align-items:center;padding-inline:4px;overflow:hidden;white-space:nowrap}
+.yearline .yb.prop{background:transparent!important;border:2px dashed var(--line-strong);color:var(--muted)}
+.yearline .now{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+.yearline .ev{position:absolute;bottom:2px;font-size:13px;transform:translateX(-50%);white-space:nowrap}
+.yearline .mo{position:absolute;bottom:2px;font-size:12px;color:var(--muted)}
+.cycle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:8px}
+.cyc{border:1px solid var(--line);border-top:5px solid var(--pc);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:4px;background:var(--panel)}
+.cyc.prop{border-style:dashed;border-top-style:solid}
+.cyc .pill{white-space:normal}
+/* v1.5.0 gymmodus: leesbaar zonder bril */
+.codebar{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+.cb{appearance:none;min-height:68px;border:2px solid var(--line-strong);border-radius:12px;background:var(--panel);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:inherit;cursor:pointer;padding:4px}
+.cb b{font:700 28px/1 var(--f-display);color:var(--rk-text,var(--ink))}
+.cb span{font-size:16px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cb.cur{border-width:5px;border-color:var(--ink)}
+.cb.done{background:var(--ok-soft);border-color:var(--ok)}
+.cb.done b,.cb.done span{color:var(--ok)}
+.cb.done.cur{border-color:var(--ink)}
+.setno-big{text-align:center;font:700 44px/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.setno-big small{font-size:28px;color:var(--muted);font-weight:600}
+.planline{text-align:center;font-size:20px;color:var(--muted)}
+.gym .bigstep input{height:88px;font-size:64px}
+.gym .bigstep .stepb{width:88px;height:88px;font-size:40px}
+.gym .bigstep .lab{font-size:16px}
+.gym .gym-ok{font-size:28px;padding:20px;white-space:normal;text-align:center;line-height:1.15}
+.gym .btn{max-width:100%}
+.gym .gym-sets .gs-main{font-size:20px}
+.gym .wu-row{font-size:18px;border:2px solid var(--line-strong);border-radius:12px;padding:8px 10px;background:var(--panel)}
+.gym .wu-row>.lab{font-size:16px;font-weight:700;color:var(--ink);width:100%}
+.gym .wu-row input.xs{font-size:22px;width:4.6rem;min-height:52px}
+.gym .wuok{min-width:52px;min-height:52px;font-size:22px}
+body.training-on .sticky-actions{position:fixed;left:8px;right:8px;margin:0 auto;max-width:46rem;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:44;align-items:center}
+body.training-on .app{padding-bottom:120px}
+body.training-on .toast{bottom:calc(112px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.rest,.sticky-actions{overflow:hidden}
+@media (max-width:560px){.rest-main{flex-wrap:wrap;gap:8px}.rest .t{font-size:46px;min-width:0}.rest .info{min-width:0;flex:1 1 9rem}.rest-opts .chipbtn{padding:6px 8px}body.training-on .sticky-actions #save-state{display:none}}
+.btn.undo{font-size:22px;font-weight:700;min-height:64px;padding:0 22px;margin-right:auto}
+.btn.undo[disabled]{opacity:.45}
+.bigeval{display:flex;flex-direction:column;gap:8px}
+.bigeval textarea{font-size:22px;min-height:120px;padding:12px;border-radius:12px}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sc{appearance:none;min-height:64px;border:2px solid var(--line-strong);border-radius:12px;background:var(--panel);color:var(--ink);font:700 28px var(--f-display);cursor:pointer}
+.sc[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+@media (max-width:560px){.gym .bigstep .stepb{width:72px;height:88px}.setno-big{font-size:40px}}
+.genwarm{display:flex;align-items:center;gap:10px;border:2px dashed var(--line-strong);border-radius:12px;padding:8px 10px;background:var(--panel);margin-top:10px}
+.genwarm.done{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.genwarm input{flex:1;min-width:8rem}
+.gw-ok{min-width:48px;min-height:48px;font-size:20px;font-weight:700;justify-content:center}
+.gw-ok[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--panel)}
+.finrow{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.finrow input{flex:1;min-width:6rem}
+.finrow.done input{border-color:var(--ok)}
+.cyc .nm{font:700 18px var(--f-display);text-transform:uppercase;letter-spacing:.03em}
 </style>
 
 <div class="app" id="app"><div class="top"><div class="top-row"><div class="brand"><b>EnCORE</b> Coach<small>Personal coaching logboek</small></div></div></div><main><div class="empty">De app laadt de klanten, schema's en trainingen…</div></main></div>
-<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.3.0</p>
+<p class="ver" style="text-align:center;font-size:12px;color:#8a857e;margin:8px 0 28px">EnCORE Coach v1.5.0</p>
 <div id="overlay"></div>
 
 <script>
@@ -380,12 +468,20 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     unsub: [], draft: null, schemaDraft: null, schemaDirty: false, blockSel: null,
     progEx: null, profileDraft: null, newClient: null, eventDraft: null, eventDirty: false,
     exEdit: null, exNew: null, confirm: null, toast: '', pending: false,
-    config: { anchors: DEFAULT_ANCHORS, coaches: [], kgPerBlock: 6.4, pullPushTarget: 2, pullPushConfirmed: false, coachEmails: {} }, statBlock: null, report: null, lastSelf: 0, saveTimer: null, planTimer: null, saveState: '', coachFilter: store.get('ec.coach') || '', intakeDraft: null, settingsDraft: null,
+    config: { anchors: DEFAULT_ANCHORS, coaches: [], bigBlock: 5.5, smallBlock: 2.75, pullPushTarget: 2, pullPushConfirmed: false, coachEmails: {} }, statBlock: null, report: null, lastSelf: 0, saveTimer: null, planTimer: null, saveState: '', coachFilter: store.get('ec.coach') || '', intakeDraft: null, settingsDraft: null,
     // v1.3.0 gymmodus (standaard op de gsm), rusttimer, samenvatting na Klaar
     gym: store.get('ec.gym') != null ? store.get('ec.gym') === '1' : !!window.matchMedia?.('(max-width: 700px)').matches, gymIdx: 0, gymSet: null, gymAnim: '', rest: null, summary: null, lastSess: null,
   };
   const client = () => (S.cid ? S.clients[S.cid] : null);
-  const kgPerBlock = () => num(S.config.kgPerBlock) ?? 6.4;
+  const kgPerBlock = () => num(S.config.bigBlock) ?? 5.5;
+  const smallKg = () => num(S.config.smallBlock) ?? 2.75; // kleine blok: til je altijd mee
+  const BLOK_EXTRAS = [0, 2.3, 4.6], BLOK_MAX = 18;
+  // toestel: aantal grote blokken + aantal kleine blokken (geen exacte kg: de katrol verandert de echte weerstand)
+  const splitBlocks = (kg) => { const k = num(kg); if (k == null) return { blocks: '', extra: '' }; const rest = Math.max(0, k - smallKg()), big = Math.min(BLOK_MAX, Math.floor((rest + 0.01) / kgPerBlock())), r = rest - big * kgPerBlock(); const ex = BLOK_EXTRAS.reduce((a, z) => (Math.abs(z - r) < Math.abs(a - r) ? z : a), 0); return { blocks: big, extra: ex || '' }; };
+  const blokTxt = (src) => `blok ${nl(src.blocks)}${num(src.extra) ? ' + ' + nl(src.extra) + ' kg' : ''}`;
+  // dumbbells: 'kg per hand' = 2 dumbbells, oefeningen met DB of KB in de naam en eenheid kg = 1 dumbbell
+  const dbCount = (exId) => { const u = unitOf(exId); if (u === 'kg per hand') return 2; if (u === 'kg' && /\b(DB|KB|dumbbell|kettlebell)\b/i.test(S.exercises[exId]?.name || '')) return 1; return 0; };
+  const kgLabel = (exId) => { const n = dbCount(exId); return n === 2 ? 'Kg per dumbbell (2 ×)' : n === 1 ? 'Kg (1 dumbbell)' : 'Kg'; };
   const bwNow = () => num(client()?.stats?.lastBodyweight) ?? num(client()?.bodyweight);
   const clientAnchors = (c = client()) => (S.config.anchors || []).filter((id) => S.exercises[id] && !(c?.anchorsNA || []).includes(id));
   const unitOf = (id) => S.exercises[id]?.unit || 'kg';
@@ -401,7 +497,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     if (!st) return null;
     if (exId && unitOf(exId) === 'bw') { const bw = num(st.bw) ?? bwNow(); if (bw == null) return null; if (num(st.kg) == null && num(st.reps) == null) return null; return bwTotal(num(st.kg), bw, st.mode); }
     const b = num(st.blocks);
-    if (b != null) return Math.round((b * kgPerBlock() + (num(st.extra) || 0)) * 10) / 10;
+    if (b != null) return Math.round((smallKg() + b * kgPerBlock() + (num(st.extra) || 0)) * 100) / 100;
     return num(st.kg);
   };
   // lichaamsgewicht-oefeningen: ingevuld gewicht = extra of totaal. Auto: onder de helft van het lichaamsgewicht = extra, anders totaal
@@ -410,7 +506,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const bwTotal = (kg, bw, mode = 'extra') => Math.round((bwIsTotal(kg, bw, mode) ? kg : bw + (kg || 0)) * 10) / 10;
   const bwFmt = (kg, mode = 'auto') => { const bw = bwNow(); if (kg == null) return '?'; if (kg === 0) return 'LG'; return bwIsTotal(kg, bw, mode) ? `${nl(kg)} totaal` : `LG+${nl(kg)}`; };
   // gewicht in een planregel: lichaamsgewicht zonder extra gewicht toont "LG" (LG × 8), niet "?"
-  const kgPlanTxt = (unit, kg) => (unit === 'bw' ? (kg ? bwFmt(kg) : 'LG') : kg != null ? nl(kg) : '?');
+  const kgPlanTxt = (unit, kg) => (unit === 'bw' ? (kg ? bwFmt(kg) : 'LG') : kg == null ? '?' : unit === 'blok' ? blokTxt(splitBlocks(kg)) : unit === 'kg per hand' ? `2 × ${nl(kg)}` : nl(kg));
   // geschat 1RM: A-reeks via %-tabel, anders Epley; RIR telt mee (8 reps + 2 RIR = 10RM)
   const e1 = (st, exId, code) => { const kg = setKg(st, exId), r = num(st?.reps); if (!kg || !r) return null; const p = pctFor(r + (num(st?.rir) || 0), code); return p ? Math.round((kg / p) * 10) / 10 : null; };
   const intakeRM = (exId) => num(client()?.intake?.tests?.[exId]?.rm);
@@ -432,6 +528,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   };
   // huidig niveau voor de krachtbalans: laatste zware meting, anders intake
   const curRM = (id) => anchorStats(id)?.lastStrength ?? intakeRM(id) ?? null;
+  // geen RPE per set meer: zonder ingevulde RPE rekent de app met de RIR uit het plan (gemarkeerd als rirSrc 'plan')
+  const rirFor = (x, tg) => { if (num(x.rpe) != null) return { rir: rpeToRir(x.rpe) }; const own = x.rirSrc === 'plan' ? null : num(x.rir); if (own != null) return { rir: own }; const pr = num(tg?.rir); return pr != null && num(x.reps) != null ? { rir: pr, rirSrc: 'plan' } : { rir: null }; };
   // logboek in RPE (1-10, ervaren inspanning). Berekeningen blijven op RIR: RIR = 10 - RPE (RPE 10 = 0 in reserve)
   const rpeToRir = (v) => { const r = num(v); return r == null ? null : Math.max(0, Math.round((10 - r) * 2) / 2); };
   const rirToRpe = (v) => { const r = num(v); return r == null ? null : Math.max(1, 10 - r); };
@@ -462,9 +560,10 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const weekFor = (b, date) => (b && date ? Math.max(1, Math.floor(daysBetween(b.start, date) / 7) + 1) : 1);
   const setLabel = (exId, st) => {
     const u = S.exercises[exId]?.unit || 'kg';
-    if (u === 'blok' && num(st.blocks) != null) return `blok ${nl(st.blocks)}${num(st.extra) ? ' + ' + nl(st.extra) : ''}`;
+    if (u === 'blok' && num(st.blocks) != null) return blokTxt(st);
+    if (u === 'kg per hand') return `2 × ${nl(st.kg)} kg`;
     if (u === 'bw') return num(st.kg) ? `LG + ${nl(st.kg)} kg` : 'LG';
-    if (!STRENGTH.includes(u)) return `${nl(st.value)} ${u === 'reps' ? 'reps' : u}${st.time ? ' in ' + st.time : ''}`;
+    if (!STRENGTH.includes(u)) return `${nl(st.value ?? (u === 'reps' ? st.reps : null)) || '?'} ${u === 'reps' ? 'reps' : u}${st.time ? ' in ' + st.time : ''}`;
     return `${nl(setKg(st, exId))} kg`;
   };
   // history per exercise: [{date, sid, blockId, phase, sets, best, topSet}]
@@ -474,7 +573,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       if (beforeDate && s.date >= beforeDate) return;
       (s.entries || []).forEach((en) => {
         if (en.exId !== exId) return;
-        const sets = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null);
+        const sets = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null || x.ok === true);
         if (!sets.length) return;
         let best = null, top = null, bestP = null, topP = null, rel = false;
         const phase = phaseOf(S.blocks[s.blockId]?.phase);
@@ -483,7 +582,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
           const vp = e1p(x, exId); if (vp == null) return; const ok = isReliable(x, phase);
           if ((ok && !rel) || (ok === rel && (bestP == null || vp > bestP))) { bestP = vp; topP = x; rel = ok; }
         });
-        out.push({ date: s.date, sid: s.id, blockId: s.blockId, phase, sets, best, top: top || sets[0], bestP, topP: topP || sets[0], reliable: rel, historical: !!s.historical, variant: en.variant || '', hard: en.hard || '', score: num(en.score) });
+        out.push({ rk: reeksOf(en.target?.code) || '', date: s.date, sid: s.id, blockId: s.blockId, phase, sets, best, top: top || sets[0], bestP, topP: topP || sets[0], reliable: rel, historical: !!s.historical, variant: en.variant || '', hard: en.hard || '', score: num(en.score) });
       });
     });
     return out;
@@ -494,15 +593,18 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const groups = []; p.sets.forEach((x) => { const lab = setLabel(exId, x); const g = groups[groups.length - 1]; if (g && g.lab === lab) g.reps.push(x.reps); else groups.push({ lab, reps: [x.reps] }); });
     return { date: p.date, text: groups.map((g) => `${g.lab} × ${g.reps.map((r) => nl(r, 0) || '?').join('·')}`).join('  |  '), best: p.best, sets: p.sets, historical: p.historical, hard: p.hard, score: p.score };
   };
+  // rol van een meting: B- en C-reeks zijn lichter of hebben meer reps; de trendlijn volgt enkel de A-reeks (en oude topsets)
+  const roleOf = (p) => (['B', 'C'].includes(p?.rk) ? p.rk : 'A');
   const anchorStats = (exId) => {
     const all = history(exId).filter((p) => p.bestP != null);
     if (!all.length) return null;
-    const rel = all.filter((p) => p.reliable), base = rel.length ? rel : all;
+    const mainA = all.filter((p) => roleOf(p) === 'A'), main = mainA.length ? mainA : all;
+    const rel = main.filter((p) => p.reliable), base = rel.length ? rel : main;
     const first = base[0].bestP, best = Math.max(...base.map((p) => p.bestP));
     const lastP = base[base.length - 1], lastStrength = lastP.bestP;
     const delta = (lastStrength - first) / first;
     const signal = base.length < 2 ? ['1 meting', 'neutral'] : lastStrength >= best * 0.99 ? ['Op record', 'ok'] : lastStrength < best * 0.93 ? ['Daling', 'bad'] : ['Plateau', 'warn'];
-    return { pts: all, rel: base, first, best, last: lastStrength, lastStrength, lastDate: lastP.date, delta, signal, onlyIndicative: !rel.length };
+    return { pts: all, rel: base, first, best, last: lastStrength, lastStrength, lastDate: lastP.date, delta, signal, onlyIndicative: !rel.length, side: all.filter((p) => roleOf(p) !== roleOf(base[0])) };
   };
 
   // ---------- volume & bewegingspatronen ----------
@@ -524,7 +626,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   // sets per spiergroep: hoofdspiergroep telt 1, secundaire spiergroep een halve set
   const addVol = (acc, exId, sets) => { const e = S.exercises[exId]; if (!e || !sets || !isStrength(exId) || NON_MUSCLE.includes(e.category)) return; acc[e.category] = (acc[e.category] || 0) + sets; (e.secondary || []).forEach((m) => { if (m && !NON_MUSCLE.includes(m) && m !== e.category) acc[m] = (acc[m] || 0) + sets / 2; }); };
   const addPat = (acc, exId, sets) => { if (!sets || !S.exercises[exId]) return; const k = patOf(exId); acc[k] = (acc[k] || 0) + sets; };
-  const doneSets = (en) => (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null).length;
+  const doneSets = (en) => (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null || x.ok === true).length;
   const planVol = (b) => {
     const per = {}, pat = {}, tot = {}, dir = {}, totPat = {}; slotsOf(b).forEach((sl) => { per[sl] = {}; pat[sl] = {}; });
     (b?.exercises || []).forEach((r) => { if (!r.exId) return; const sl = normDay(b, r.day), n = num(r.sets) || 0; if (per[sl]) { addVol(per[sl], r.exId, n); addPat(pat[sl], r.exId, n); } addVol(tot, r.exId, n); addPat(totPat, r.exId, n); const e = S.exercises[r.exId]; if (e && isStrength(r.exId) && !NON_MUSCLE.includes(e.category)) dir[e.category] = (dir[e.category] || 0) + n; });
@@ -566,7 +668,19 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const REST_CONFIRM = 10, REST_WARN = 10, REST_MAX_OVER = 300, REST_MIN = 5;
   const restLeft = (sec) => Math.max(REST_MIN, (num(sec) || 0) - REST_CONFIRM);
   // rust voor een oefening: eigen rust uit het schema, anders de standaard van de fase. Finisher: geen timer.
-  const restOf = (target, phase) => { const tg = target || {}, rk = reeksOf(tg.code); if (rk === 'F') return null; return num(tg.rest) || restFor(phase, rk); };
+  // voorstel rusttijd (Stijn, blog Rust): kracht 3 à 5 min, hypertrofie 2 à 2,5 min, accessoire of isolatie 30 à 60 s.
+  // Bepaald door type oefening (basis of isolatie), reps en fase. Coach-rust uit het schema blijft een keuze in de timer.
+  const ISO_PAT = ['iso', 'core', 'carry'];
+  function restSuggest(exId, tg, phase) {
+    const rk = reeksOf(tg?.code), ph = phaseOf(phase); if (rk === 'F') return null;
+    if (!isStrength(exId)) return { sec: 60, why: 'conditie' };
+    const r = num(tg?.repsMax) ?? num(tg?.repsMin) ?? 10, iso = rk === 'C' || ISO_PAT.includes(patOf(exId));
+    let sec = iso ? (r <= 8 ? 90 : 60) : r <= 5 ? 180 : r <= 8 ? 150 : r <= 12 ? 120 : 90;
+    if (ph === 'Test') sec += 60; else if (ph === 'Herstel') sec -= 30;
+    sec = Math.max(45, sec);
+    return { sec, why: `${iso ? 'isolatie' : 'basisoefening'}, ${tg?.repsMin && tg?.repsMax && tg.repsMin !== tg.repsMax ? tg.repsMin + '-' + tg.repsMax : r} reps, ${ph.toLowerCase()}` };
+  }
+  const restOf = (target, phase, exId) => { const tg = target || {}, rk = reeksOf(tg.code); if (rk === 'F') return null; const sg = exId ? restSuggest(exId, tg, phase) : null; return sg?.sec || num(tg.rest) || restFor(phase, rk); };
   // toestand van de timer op een moment: 'rest', 'soon' (laatste 10 s) of 'over'; signal = welk signaal nu af moet gaan (0 = geen)
   function restState(r, now) {
     const ms = r.end - now, s = Math.ceil(ms / 1000);
@@ -610,7 +724,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   function renderMain() { const m = $('#main'); if (m) { m.innerHTML = mainHTML(); afterRender(); } }
   function renderOverlay() {
     const o = $('#overlay'); let h = '';
-    if (S.confirm) h += `<div class="confirm" role="dialog" aria-modal="true"><div class="card"><h3>${esc(S.confirm.title)}</h3><p class="sub">${esc(S.confirm.text)}</p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" data-act="confirm-no">Annuleren</button><button class="btn danger" data-act="confirm-yes">${esc(S.confirm.yes || 'Verwijderen')}</button></div></div></div>`;
+    if (S.confirm) h += `<div class="confirm" role="dialog" aria-modal="true"><div class="card"><h3>${esc(S.confirm.title)}</h3><p class="sub">${esc(S.confirm.text)}</p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" data-act="confirm-no">Annuleren</button><button class="btn ${S.confirm.safe ? 'primary' : 'danger'}" data-act="confirm-yes">${esc(S.confirm.yes || 'Verwijderen')}</button></div></div></div>`;
     if (S.toast) h += `<div class="toast" role="status">${esc(S.toast)}</div>`;
     o.innerHTML = h;
   }
@@ -743,13 +857,15 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
 
   // ---------- view: training ----------
   // v1.2.0 "voorstel is geen waarde": grey = suggestion (plan, else last time), black = confirmed or typed. Only black is saved as done.
-  const setDone = (st) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => st?.[f] !== '' && st?.[f] != null);
+  const setDone = (st) => st?.ok === true || ['reps', 'value', 'time'].some((f) => st?.[f] !== '' && st?.[f] != null);
+  // onvolledig: gewicht ingevuld maar geen reps
+  const setPartial = (st) => !setDone(st) && ['kg', 'blocks'].some((f) => st?.[f] !== '' && st?.[f] != null);
   // suggestion for one set, without RPE (how heavy it felt is never assumed)
   function setSuggest(en, si) {
     const pl = (en.target?.setPlan || [])[si], kpb = kgPerBlock(), unit = unitOf(en.exId);
     if (pl && (num(pl.kg) != null || num(pl.reps) != null)) {
       const kg = num(pl.kg);
-      if (unit === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: pl.reps ?? '' }; }
+      if (unit === 'blok' && kg != null) return { ...splitBlocks(kg), reps: pl.reps ?? '' };
       return { kg: kg ?? '', reps: pl.reps ?? '', mode: en.bwMode || 'auto' };
     }
     const prev = prevSummary(en.exId, S.draft?.date), ph = prev?.sets?.[si] || prev?.sets?.[prev?.sets?.length - 1];
@@ -768,7 +884,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const b = S.blocks[blockId];
     const rows = day ? (b?.exercises || []).filter((r) => r.exId && normDay(b, r.day) === day).sort((x, y) => codeSort(x.code, y.code)) : [];
     return {
-      id: null, date, blockId, day, week: weekFor(b, date), feedback: {},
+      id: null, date, blockId, day, week: weekFor(b, date), feedback: {}, genWarm: { done: false, txt: client()?.warmupDefault || 'Roeien 2 min (±500 m)' }, fins: [],
       entries: rows.map((r) => { const plan = rowPlan(r); if (reeksOf(r.code) === 'A' && r.warmupAuto !== false) { const w = warmupPlan({ ...r, setPlan: plan }); if (w.length) r = { ...r, warmup: w }; } return { exId: r.exId, variant: r.variant || '', target: { sets: r.sets, repsMin: r.repsMin, repsMax: r.repsMax, tempo: r.tempo, rest: r.rest, rir: r.rir, method: r.method || b?.method || '', setPlan: plan, code: r.code, note: r.note, warmup: clone(r.warmup || []), filler: r.filler || '' }, warmup: (r.warmup || []).map((w) => ({ kg: w.kg ?? '', reps: w.reps ?? '' })), bwMode: 'auto', sets: plan.map(() => ({ mode: 'auto' })) }; }),
     };
   }
@@ -805,19 +921,19 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const entries = d.entries.map((en, ei) => {
       const I = entryInfo(en, d.date), { ex, unit, tg, strength, prev, plan, rk } = I;
       const heading = rk !== lastReeks ? `<div class="reeks-h" data-rk="${rk || 'X'}">${REEKS_LABEL[rk]}</div>` : ''; lastReeks = rk;
-      const head = unit === 'blok' ? '<th class="num">Blok</th><th class="num">+ kg</th>' : unit === 'bw' ? '<th class="num">Kg</th><th class="num">Totaal</th>' : strength ? `<th class="num">Kg${unit === 'kg per hand' ? '/hand' : ''}</th>` : `<th class="num">${esc((UNITS.find((u) => u[0] === unit) || [, unit])[1])}</th><th class="num">Tijd</th>`;
+      const head = unit === 'blok' ? '<th class="num">Blok</th><th class="num">+ extra kg</th>' : unit === 'bw' ? '<th class="num">Kg</th><th class="num">Totaal</th>' : strength ? `<th class="num">${esc(kgLabel(en.exId))}</th>` : `<th class="num">${esc((UNITS.find((u) => u[0] === unit) || [, unit])[1])}</th><th class="num">Tijd</th>`;
       const rows = en.sets.map((st, si) => {
         const ph = prev?.sets?.[si] || prev?.sets?.[prev.sets.length - 1] || {}, pl = plan[si] || {};
         const plKg = num(pl.kg);
         const inp = (f, cls, phv, stp) => { const el = `<input class="${cls}" inputmode="decimal" id="s-${ei}-${si}-${f}" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="${f}" value="${esc(st[f] ?? '')}" placeholder="${esc(phv ?? '')}" aria-label="${f} set ${si + 1}">`; return `<td class="num">${stp ? stepWrap(el, ei, si, f, stp) : el}</td>`; };
         let cells;
-        if (unit === 'blok') { const kpb = kgPerBlock(); cells = inp('blocks', 'xs', plKg != null ? nl(Math.floor(plKg / kpb), 0) : nl(ph.blocks), 1) + inp('extra', 'xs', plKg != null ? nl(plKg - Math.floor(plKg / kpb) * kpb) : nl(ph.extra)); }
+        if (unit === 'blok') { const sp = plKg != null ? splitBlocks(plKg) : ph; cells = inp('blocks', 'xs', nl(sp.blocks, 0), 1) + inp('extra', 'xs', nl(sp.extra) || '0'); }
         else if (unit === 'bw') { const tot = setKg(st, en.exId); cells = inp('kg', 'xs', plKg != null ? nl(plKg) : nl(ph.kg), 1) + `<td class="num muted" id="tot-${ei}-${si}">${tot != null && (num(st.kg) != null || num(st.reps) != null) ? nl(tot) + ' kg' : ''}</td>`; }
         else if (strength) cells = inp('kg', 'xs', plKg != null ? nl(plKg) : nl(setKg(ph, en.exId)), 1);
         else cells = inp('value', 'n', nl(ph.value)) + `<td class="num"><input class="xs" id="s-${ei}-${si}-time" data-bind="set" data-ei="${ei}" data-si="${si}" data-f="time" value="${esc(st.time ?? '')}" placeholder="${esc(ph.time || 'mm:ss')}" aria-label="tijd set ${si + 1}"></td>`;
-        return `<tr><td class="setno">${setNoHTML(en, ei, si)}</td>${cells}${inp('reps', 'xs', nl(num(pl.reps) ?? ph.reps, 0), 1)}${inp('rpe', 'xs', tg.rir != null && tg.rir !== '' ? nl(rirToRpe(tg.rir)) : '')}<td class="num" id="e1-${ei}-${si}">${strength ? nl(e1(st, en.exId, tg.code)) : ''}</td><td id="sg-${ei}-${si}">${sigHTML(st, tg)}</td><td><button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${si}" aria-label="Set verwijderen">×</button></td></tr>`;
+        return `<tr><td class="setno">${setNoHTML(en, ei, si)}</td>${cells}${inp('reps', 'xs', nl(num(pl.reps) ?? ph.reps, 0), 1)}<td class="num" id="e1-${ei}-${si}">${strength ? nl(e1(st, en.exId, tg.code)) : ''}</td><td id="sg-${ei}-${si}">${sigHTML(st, tg)}</td><td><button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${si}" aria-label="Set verwijderen">×</button></td></tr>`;
       }).join('');
-      return `${heading}<div class="ex-card" data-rk="${rk || 'X'}"><div class="head"><div class="row" style="gap:10px"><span class="code">${esc(tg.code || '+')}</span><span class="title">${esc(ex.name || 'Kies oefening')}</span>${en.sets.length ? `<span class="pill ${en.sets.filter(setDone).length === en.sets.length ? 'ok' : 'neutral'} setprog">${en.sets.filter(setDone).length} van ${en.sets.length} sets</span>` : ''}</div>
+      return `${heading}<div class="ex-card" data-rk="${rk || 'X'}"><div class="head"><div class="row" style="gap:10px"><span class="code">${esc(tg.code || '+')}</span><span class="title">${esc(ex.name || 'Kies oefening')}</span>${en.sets.length ? `<span class="pill ${en.sets.filter(setDone).length === en.sets.length ? 'ok' : 'neutral'} setprog">${en.sets.filter(setDone).length === en.sets.length ? '✓ Klaar: ' : ''}${en.sets.filter(setDone).length} van ${en.sets.length} sets</span>` : ''}</div>
         <div class="row" style="gap:6px"><input style="width:14rem" id="var-${ei}" data-bind="entry" data-ei="${ei}" data-f="variant" value="${esc(en.variant)}" placeholder="variant: grip, hoek…" aria-label="Variant"><button class="btn ghost small" data-act="del-entry" data-ei="${ei}">Verwijder</button></div></div>
         ${I.tgt ? `<div class="target">Schema: ${esc(I.tgt)}${tg.note ? ' · ' + esc(tg.note) : ''}</div>` : ''}
         ${planLineHTML(I, ei)}
@@ -825,14 +941,15 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
         ${strength ? wuRowHTML(en, ei) : ''}
         ${tg.filler ? `<div class="small">Filler tijdens de rust: <b>${esc(tg.filler)}</b></div>` : ''}
         ${unit === 'bw' ? bwModeHTML(en, ei) : ''}
-        <div class="tablewrap"><table><thead><tr><th>Set</th>${head}<th class="num">Reps</th><th class="num" title="Rate of perceived exertion: 10 = niets meer in reserve">RPE</th><th class="num">e1RM</th><th>Signaal</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
-        <div><button class="btn small" data-act="add-set" data-ei="${ei}">+ set</button></div>
+        <div class="tablewrap"><table><thead><tr><th>Set</th>${head}<th class="num">Reps</th><th class="num">e1RM</th><th>Signaal</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div><button class="btn gym-extra" data-act="add-set" data-ei="${ei}">+ Extra set</button></div>
         ${exfbHTML(en, ei)}</div>`;
     }).join('');
     return `<section class="card"><div class="card-h"><div><h2>${esc(slotLabel(d.day))}${d.id ? ' bewerken' : ''}</h2><p class="sub">${esc(client().name)} · ${esc(b?.code || '')} ${esc(phaseOf(b?.phase))} · week ${esc(d.week)}</p></div><button class="btn small" data-act="gym-toggle">Gymmodus</button></div>
-      ${metaFormHTML(d)}</section>
+      ${metaFormHTML(d)}${genWarmHTML(d)}</section>
       ${entries ? `<div class="ex-list">${entries}</div>` : '<div class="empty">Geen oefeningen voor deze training in het schema. Voeg er hieronder een toe.</div>'}
       ${addExHTML()}
+      ${finHTML(d)}
       ${fbHTML(d)}
       ${stickyHTML(d, false)}`;
   }
@@ -848,6 +965,20 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const tgt = [normMethod(tg.method), ad && ad.txt, tg.sets && `${tg.sets} sets`, (tg.repsMin || tg.repsMax) && `${tg.repsMin ?? ''}${tg.repsMax && tg.repsMax !== tg.repsMin ? '-' + tg.repsMax : ''} reps`, tg.rir != null && tg.rir !== '' && `RPE ${nl(rirToRpe(tg.rir))}`, tg.tempo && `tempo ${tg.tempo}`, tutInfo(tg) && `TUT ${tutInfo(tg).txt}`, tg.rest && `${restTxt(tg.rest)} rust`].filter(Boolean).join(' · ');
     return { ex, unit, tg, strength, prev, plan, rk, planTxt, tgt };
   }
+  // referentiegewicht van een oefening: hoogste uit plan, opwarming uit plan en de historiek
+  const refKg = (en) => { const v = [...(en.target?.setPlan || []).map((p) => num(p.kg)), ...history(en.exId, S.draft?.date).flatMap((h) => h.sets.map((x) => setKg(x, en.exId)))].filter((x) => x != null && x > 0); return v.length ? Math.max(...v) : null; };
+  // onmogelijk of verdacht gewicht: geeft null of { hard, msg, fix }
+  function weightIssue(en, st) {
+    const u = unitOf(en.exId);
+    if (u === 'blok' && num(st.blocks) != null && (num(st.blocks) > BLOK_MAX || num(st.blocks) < 0)) return { hard: true, msg: `Blok ${nl(st.blocks)} bestaat niet: het toestel heeft ${BLOK_MAX} grote blokken.` };
+    if (!['kg', 'kg per hand'].includes(u)) return null;
+    const kg = num(st.kg), r = num(st.reps); if (r != null && r > 60) return { hard: true, msg: `${nl(r, 0)} reps is onmogelijk veel. Typfout?` };
+    if (kg == null) return null;
+    const ref = refKg(en), cap = u === 'kg per hand' ? 80 : 400;
+    if (u === 'kg per hand' && ref && kg >= ref * 1.7 && Math.abs(kg / 2 - ref) <= ref * 0.3) return { hard: false, double: true, fix: kg / 2, msg: `${nl(kg)} kg per dumbbell? Dat lijkt het totaal van 2 dumbbells (2 × ${nl(kg / 2)} kg).` };
+    if (kg > cap || (ref && kg > Math.max(ref * 1.6, ref + 40))) return { hard: true, msg: `${nl(kg)} kg is onmogelijk hoog${ref ? ` (plan of beste tot nu ${nl(ref)} kg)` : ''}. Typfout?` };
+    return null;
+  }
   // ✓ in de lijst: knop zolang het voorstel niet bevestigd is, vinkje zodra de set een waarde heeft
   const setNoHTML = (en, ei, si) => (setDone(en.sets[si]) ? '<span class="setok" title="Bevestigd">✓</span>' : (setSuggest(en, si) ? `<button class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${si}" aria-label="Set ${si + 1} bevestigen zoals voorgesteld">✓</button>` : '')) + `<span class="muted">${si + 1}</span>`;
   // ± knoppen naast een veld: sneller dan het toetsenbord op de gsm
@@ -856,9 +987,19 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const planLineHTML = (I, ei) => (I.planTxt ? `<div class="prev"><span>Plan per set: <b>${esc(I.planTxt)}</b>${I.unit === 'bw' ? ' <span class="muted">(LG = lichaamsgewicht ' + esc(nl(bwNow())) + ' kg)</span>' : ''}</span><button class="btn small" data-act="copy-plan" data-ei="${ei}">Alles zoals gepland</button></div>` : '');
   const prevLineHTML = (I, ei) => { const p = I.prev; return `<div class="prev">${p ? `<span>Vorige keer <b>${esc(fmtDate(p.date, false))}</b>: ${esc(p.text)}${p.best ? ` · beste e1RM <b>${nl(p.best)} kg</b>` : ''}${p.score != null ? ` · score <b>${nl(p.score, 0)}/10</b>` : ''}${p.hard ? ` · te moeilijk: <b>${esc(p.hard)}</b>` : ''}</span><button class="btn small" data-act="copy-prev" data-ei="${ei}">Neem vorige over</button>` : '<span class="muted">Nog niet eerder gelogd.</span>'}</div>`; };
   // opwarmsets met ✓: een opwarmset staat al ingevuld uit het schema, dus "gedaan" is een aparte vlag (done)
-  const wuRowHTML = (en, ei) => `<div class="wu-row"><span class="lab">Opwarming</span>${(en.warmup || []).map((w, wi) => `<span class="wucell${w.done ? ' done' : ''}"><input class="xs" inputmode="decimal" id="w-${ei}-${wi}-kg" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="kg" value="${esc(w.kg ?? '')}" placeholder="kg" aria-label="kg opwarmset ${wi + 1}"><span class="muted">×</span><input class="xs" inputmode="numeric" id="w-${ei}-${wi}-reps" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="reps" value="${esc(w.reps ?? '')}" placeholder="reps" aria-label="reps opwarmset ${wi + 1}"><button type="button" class="btn small wuok" data-act="wset-ok" data-ei="${ei}" data-wi="${wi}" aria-pressed="${!!w.done}" aria-label="Opwarmset ${wi + 1} ${w.done ? 'gedaan' : 'bevestigen'}">✓</button><button class="btn ghost small" style="padding:0 4px" data-act="wset-del" data-ei="${ei}" data-wi="${wi}" aria-label="Opwarmset verwijderen">×</button></span>`).join('') || '<span class="small muted">geen gepland</span>'}<button class="btn ghost small" data-act="wset-add" data-ei="${ei}">+ opwarmset</button></div>`;
+  const wuRowHTML = (en, ei) => `<div class="wu-row"><span class="lab">Opwarming</span>${(en.warmup || []).map((w, wi) => `<span class="wucell${w.done ? ' done' : ''}"><input class="xs" inputmode="decimal" id="w-${ei}-${wi}-kg" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="kg" value="${esc(w.kg ?? '')}" placeholder="kg" aria-label="kg opwarmset ${wi + 1}">${unitOf(en.exId) === 'blok' && num(w.kg) != null ? `<span class="small muted">= ${esc(blokTxt(splitBlocks(w.kg)))}</span>` : ''}<span class="muted">×</span><input class="xs" inputmode="numeric" id="w-${ei}-${wi}-reps" data-bind="wset" data-ei="${ei}" data-wi="${wi}" data-f="reps" value="${esc(w.reps ?? '')}" placeholder="reps" aria-label="reps opwarmset ${wi + 1}"><button type="button" class="btn small wuok" data-act="wset-ok" data-ei="${ei}" data-wi="${wi}" aria-pressed="${!!w.done}" aria-label="Opwarmset ${wi + 1} ${w.done ? 'gedaan' : 'bevestigen'}">✓</button><button class="btn ghost small" style="padding:0 4px" data-act="wset-del" data-ei="${ei}" data-wi="${wi}" aria-label="Opwarmset verwijderen">×</button></span>`).join('') || '<span class="small muted">geen gepland</span>'}<button class="btn ghost small" data-act="wset-add" data-ei="${ei}">+ opwarmset</button></div>`;
   const bwModeHTML = (en, ei) => `<div class="row small" style="gap:8px"><label for="bwm-${ei}" class="muted">Ingevuld gewicht is</label><select id="bwm-${ei}" data-bind="bwmode" data-ei="${ei}">${BW_MODES.map(([v, l]) => `<option value="${v}"${v === (en.bwMode || 'auto') ? ' selected' : ''}>${l}</option>`).join('')}</select><span class="muted">${(en.bwMode || 'auto') === 'auto' ? `Auto: onder ${esc(nl(round05((bwNow() || 0) * 0.5)))} kg = extra bovenop het lichaamsgewicht (${esc(nl(bwNow()))} kg), vanaf dan = totaal.` : (en.bwMode === 'total' ? 'Totaal gewicht, lichaamsgewicht inbegrepen.' : 'Extra gewicht bovenop het lichaamsgewicht.')}</span></div>`;
+  // gymmodus: groot tekstvak (dicteren via het toetsenbord) en scores 1-10 als knoppen
+  const bigEvalHTML = (en, ei) => `<div class="bigeval"><label for="hard-${ei}" class="lab">Hoe ging het? Wat was te moeilijk?</label><textarea id="hard-${ei}" data-bind="entry" data-ei="${ei}" data-f="hard" rows="3" placeholder="Tik hier, druk op 🎤 op je toetsenbord en spreek in">${esc(en.hard ?? '')}</textarea>
+      <div class="lab">Score op 10</div><div class="scores">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => `<button type="button" class="sc" data-act="score-set" data-ei="${ei}" data-v="${v}" aria-pressed="${num(en.score) === v}">${v}</button>`).join('')}</div></div>`;
   const exfbHTML = (en, ei) => `<div class="exfb"><label class="field"><span>Wat was te moeilijk?</span><input id="hard-${ei}" data-bind="entry" data-ei="${ei}" data-f="hard" value="${esc(en.hard ?? '')}" placeholder="bv. laatste reps, lockout, grip, techniek"></label><label class="field"><span>Score op 10</span><input id="score-${ei}" type="number" min="1" max="10" inputmode="numeric" data-bind="entry" data-ei="${ei}" data-f="score" value="${esc(en.score ?? '')}" placeholder="optioneel"></label></div>`;
+  // algemene opwarming (bv. roeien) en finisher: los van de oefeningen in het schema
+  const FIN_LIST = ['Roeisprint', 'Sled push', 'SkiErg sprint', 'Echo bike', 'Burpees', "Farmer's carry", 'KB swings'];
+  const genWarmHTML = (d) => { const g = d.genWarm || { done: false, txt: client()?.warmupDefault || 'Roeien 2 min (±500 m)' }; return `<div class="genwarm${g.done ? ' done' : ''}"><button type="button" class="btn gw-ok" data-act="gw-toggle" aria-pressed="${!!g.done}">${g.done ? '✓' : ''}</button><span class="lab">Algemene opwarming</span><input id="gw-txt" data-bind="gw" value="${esc(g.txt || '')}" placeholder="bv. Roeien 2 min (±500 m)" aria-label="Algemene opwarming"></div>`; };
+  const finHTML = (d) => `<section class="card fincard"><div class="card-h"><div><h3>Finisher</h3><p class="sub">Na de training: roeisprint, sled push… Vul het resultaat in (afstand, tijd, gewicht).</p></div></div>
+      ${(d.fins || []).map((f, i) => `<div class="finrow${f.done ? ' done' : ''}"><input list="fin-list" id="fin-${i}-name" data-bind="fin" data-i="${i}" data-f="name" value="${esc(f.name || '')}" placeholder="Oefening" aria-label="Finisher oefening"><input id="fin-${i}-result" data-bind="fin" data-i="${i}" data-f="result" value="${esc(f.result || '')}" placeholder="bv. 250 m in 0:48" aria-label="Resultaat"><button type="button" class="btn gw-ok" data-act="fin-ok" data-i="${i}" aria-pressed="${!!f.done}">${f.done ? '✓' : '✓'}</button><button class="btn ghost small" data-act="fin-del" data-i="${i}" aria-label="Finisher verwijderen">×</button></div>`).join('')}
+      <div class="row" style="gap:8px">${FIN_LIST.slice(0, 3).map((x) => `<button class="btn" data-act="fin-add" data-v="${esc(x)}">+ ${esc(x)}</button>`).join('')}<button class="btn" data-act="fin-add" data-v="">+ Andere</button></div>
+      <datalist id="fin-list">${FIN_LIST.map((x) => `<option value="${esc(x)}">`).join('')}</datalist></section>`;
   const metaFormHTML = (d) => { const b = S.blocks[d.blockId]; return `<div class="form"><label class="field"><span>Datum</span><input type="date" id="d-date" data-bind="meta" data-f="date" value="${esc(d.date)}"></label>
       <label class="field"><span>Blok</span><select id="d-block" data-bind="meta" data-f="blockId">${sortedBlocks().map((x) => `<option value="${esc(x.id)}"${x.id === d.blockId ? ' selected' : ''}>${esc(x.code)}</option>`).join('')}</select></label>
       <label class="field"><span>Week</span><input id="d-week" type="number" min="1" data-bind="meta" data-f="week" value="${esc(d.week)}"></label>
@@ -874,7 +1015,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
         </div></details>`; };
   const delRepHTML = (d) => `<button class="btn danger" data-act="del-session"${d.id ? '' : ' hidden'}>Verwijderen</button>${d.report?.at ? `<span class="pill ok" style="align-self:center">Rapport ${esc(fmtDate(d.report.at.slice(0, 10), false))}</span>` : ''}<button class="btn" data-act="rep-open"${d.id ? '' : ' disabled'}>Rapport naar klant</button>`;
   // onderste balk: rusttimer, bewaarstatus, Klaar. In gymmodus is "Set klaar" de hoofdknop, dus Klaar is daar gewoon.
-  const stickyHTML = (d, gym) => `<div class="sticky-actions">${restHTML()}<span class="small muted" id="save-state" style="margin-right:auto;align-self:center">${esc(S.saveState || 'Wordt automatisch bewaard')}</span>${gym ? '' : delRepHTML(d)}<button class="btn${gym ? '' : ' primary'}" data-act="done-training">Klaar</button></div>`;
+  const stickyHTML = (d, gym) => `<div class="sticky-actions">${restHTML()}${gym ? `<button class="btn undo" data-act="undo"${(S.undo || []).length ? '' : ' disabled'} aria-label="Laatste stap ongedaan maken">↶ Terug</button>` : ''}<span class="small muted" id="save-state" style="margin-right:auto;align-self:center">${esc(S.saveState || 'Wordt automatisch bewaard')}</span>${gym ? '' : delRepHTML(d)}<button class="btn primary" data-act="done-training">Training afronden</button></div>`;
 
   function sigHTML(st, tg) {
     const r = num(st.reps), rm = num(tg?.repsMax), rir = num(st.rir);
@@ -917,7 +1058,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   function setShort(exId, x, sg) {
     const has = setDone(x), src = has ? x : sg || {}, u = unitOf(exId);
     let w;
-    if (u === 'blok') w = num(src.blocks) != null ? `blok ${nl(src.blocks)}${num(src.extra) ? ' + ' + nl(src.extra) : ''}` : '?';
+    if (u === 'blok') w = num(src.blocks) != null ? blokTxt(src) : '?';
+    else if (u === 'kg per hand') w = num(src.kg) != null ? `2 × ${nl(src.kg)} kg` : '?';
     else if (u === 'bw') w = num(src.kg) ? bwFmt(num(src.kg), src.mode || 'auto') : 'LG';
     else if (STRENGTH.includes(u)) w = num(src.kg) != null ? nl(src.kg) + ' kg' : '?';
     else w = num(src.value) != null ? `${nl(src.value)} ${u}` : '?';
@@ -926,56 +1068,70 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   function viewGym(d, b) {
     const c = client(), n = d.entries.length; S.gymIdx = Math.max(0, Math.min(S.gymIdx || 0, n)); const i = S.gymIdx;
     // voortgang: één bolletje per oefening (vol = alle sets bevestigd); navigeren gaat met ‹ › of vegen
-    const dots = d.entries.map((en, k) => `<span data-rk="${reeksOf(en.target?.code) || 'X'}" class="${entryDone(en) ? 'full' : ''}"${k === i ? ' aria-current="true"' : ''}></span>`).join('') + `<span class="fin"${i === n ? ' aria-current="true"' : ''}></span>`;
+    const bar = d.entries.map((en, k) => { const dn = en.sets.filter(setDone).length; return `<button type="button" class="cb${k === i ? ' cur' : ''}${entryDone(en) ? ' done' : ''}" data-act="gym-go" data-i="${k}" data-rk="${reeksOf(en.target?.code) || 'X'}"${k === i ? ' aria-current="true"' : ''} aria-label="${esc((en.target?.code || '') + ' ' + exName(en.exId))}: ${dn} van ${en.sets.length} sets"><b>${esc(en.target?.code || '+')}</b><span>${dn}/${en.sets.length}</span></button>`; }).join('') + `<button type="button" class="cb fin${i === n ? ' cur' : ''}" data-act="gym-go" data-i="${n}"${i === n ? ' aria-current="true"' : ''} aria-label="Afronden"><b>✓</b><span>klaar</span></button>`;
     return `<section class="gym" id="gym">
       <div class="gym-top"><div class="small"><b>${esc(slotLabel(d.day))}</b> <span class="muted">· ${esc(c.name)} · ${esc(b?.code || '')} week ${esc(d.week)}</span></div><button class="btn small" data-act="gym-toggle">Lijst</button></div>
-      <div class="gym-nav"><button class="btn navb" data-act="gym-go" data-i="${i - 1}"${i === 0 ? ' disabled' : ''} aria-label="Vorige oefening">‹</button><div class="gym-dots" role="img" aria-label="Oefening ${Math.min(i + 1, n)} van ${n}${i === n ? ', afronden' : ''}">${dots}</div><button class="btn navb" data-act="gym-go" data-i="${i + 1}"${i >= n ? ' disabled' : ''} aria-label="Volgende oefening">›</button></div>
-      ${i < n ? gymEntry(d, i) : gymFinish(d)}
+      <div class="codebar" role="navigation" aria-label="Oefeningen">${bar}</div>
+      ${i === 0 ? genWarmHTML(d) : ''}${i < n ? gymEntry(d, i) : gymFinish(d)}
     </section>${stickyHTML(d, true)}`;
   }
   function gymEntry(d, ei) {
     const en = d.entries[ei], I = entryInfo(en, d.date), { ex, unit, tg, strength, rk } = I, n = d.entries.length;
     const sel = S.gymSet != null && en.sets[S.gymSet] ? S.gymSet : en.sets.findIndex((x) => !setDone(x));
-    const sub = [REEKS_LABEL[rk], tg.sets && `${tg.sets} sets`, (tg.repsMin || tg.repsMax) && `${tg.repsMin ?? ''}${tg.repsMax && tg.repsMax !== tg.repsMin ? '-' + tg.repsMax : ''} reps`, tg.rest && `${restTxt(tg.rest)} rust`].filter(Boolean).join(' · ');
+    const rsg = restSuggest(en.exId, tg, S.blocks[d.blockId]?.phase), rSec = num(tg.restPick) || rsg?.sec || num(tg.rest);
+    const sub = [REEKS_LABEL[rk], tg.sets && `${tg.sets} sets`, (tg.repsMin || tg.repsMax) && `${tg.repsMin ?? ''}${tg.repsMax && tg.repsMax !== tg.repsMin ? '-' + tg.repsMax : ''} reps`, rSec && `${restTxt(rSec)} rust`].filter(Boolean).join(' · ');
     const title = `<div class="gym-title" data-rk="${rk || 'X'}"><span class="code">${esc(tg.code || '+')}</span><div style="min-width:0"><div class="nm">${esc(ex.name || 'Oefening')}${en.variant ? ` <span class="muted small">(${esc(en.variant)})</span>` : ''}</div><div class="small muted">${esc(sub)}</div></div></div>`;
     let cur;
-    if (sel < 0) cur = `<div class="gym-cur gym-done" data-rk="${rk || 'X'}"><div class="gym-donemsg">✓ Alle ${en.sets.length} sets gedaan</div>${exfbHTML(en, ei)}<button class="btn primary gym-ok" data-act="gym-go" data-i="${ei + 1}">${ei + 1 < n ? 'Volgende oefening ›' : 'Afronden ›'}</button></div>`;
+    if (sel < 0) cur = `<div class="gym-cur gym-done" data-rk="${rk || 'X'}"><div class="gym-donemsg">✓ ${esc(ex.name || 'Oefening')} klaar</div><div class="gym-donesub">${en.sets.length} van ${en.sets.length} sets bewaard. Nog een set gedaan? Tik op + Extra set.</div><button class="btn gym-extra" data-act="add-set" data-ei="${ei}">+ Extra set</button>${bigEvalHTML(en, ei)}${(() => { const k = nextOf(ei), to = k < 0 ? n : k; return `<button class="btn primary gym-ok" data-act="gym-go" data-i="${to}">${to < n ? `Volgende: ${esc(d.entries[to].target?.code || '')} ${esc(exName(d.entries[to].exId))} ›` : 'Naar afronden ›'}</button>`; })()}</div>`;
     else {
       const st = en.sets[sel], sg = setSuggest(en, sel) || {}, pv = I.prev?.sets?.[sel], pl = I.plan[sel];
-      const kgLab = unit === 'kg per hand' ? 'Kg per hand' : unit === 'bw' ? 'Extra kg' : 'Kg';
-      const fields = unit === 'blok' ? [['blocks', 'Blok', 1, 0], ['extra', '+ kg', 1, 1]] : strength ? [['kg', kgLab, 1, 1]] : [['value', (UNITS.find((u) => u[0] === unit) || [, unit])[1], 0, 1]];
+      const kgLab = unit === 'bw' ? 'Extra kg' : kgLabel(en.exId);
+      const fields = unit === 'blok' ? [['blocks', 'Blok (grote blokken)', 1, 0]] : strength ? [['kg', kgLab, 1, 1]] : [['value', (UNITS.find((u) => u[0] === unit) || [, unit])[1], 0, 1]];
       fields.push(['reps', 'Reps', 1, 0]);
       const tot = unit === 'bw' ? setKg(st, en.exId) : null, rpe = num(st.rpe), tRpe = tg.rir != null && tg.rir !== '' ? rirToRpe(tg.rir) : null;
       const planLine = [pl && (num(pl.kg) != null || num(pl.reps) != null) && `Plan ${kgPlanTxt(unit, num(pl.kg))} × ${nl(pl.reps, 0) || '?'}`, pv && `vorige ${setLabel(en.exId, pv)} × ${nl(pv.reps, 0) || '?'}`].filter(Boolean).join(' · ');
-      cur = `<div class="gym-cur" data-rk="${rk || 'X'}"><div class="row" style="justify-content:space-between"><span class="lab">Set ${sel + 1} van ${en.sets.length}</span><span class="small muted">${esc(planLine)}</span></div>
+      cur = `<div class="gym-cur" data-rk="${rk || 'X'}"><div class="setno-big">Set ${sel + 1} <small>van ${en.sets.length}</small></div>${planLine ? `<div class="planline">${esc(planLine)}</div>` : ''}
         <div class="gym-big">${fields.map(([f, l, stp, dg]) => bigStep(ei, sel, f, l, st[f], sg[f], stp, dg)).join('')}${!strength ? `<div class="bigstep"><span class="lab">Tijd</span><div class="ctl"><input id="s-${ei}-${sel}-time" data-bind="set" data-ei="${ei}" data-si="${sel}" data-f="time" value="${esc(st.time ?? '')}" placeholder="${esc(sg.time || 'mm:ss')}" aria-label="Tijd"></div></div>` : ''}</div>
+        ${unit === 'blok' ? (() => { const cur = num(st.extra) ?? (setDone(st) ? 0 : num(sg.extra) ?? 0); return `<div class="rpe-row"><span class="lab">Extra gewichtje</span><div class="chips">${BLOK_EXTRAS.map((v) => `<button type="button" class="chipbtn" data-act="blok-extra" data-ei="${ei}" data-si="${sel}" data-v="${v}" aria-pressed="${cur === v}">${v ? '+ ' + nl(v) + ' kg' : 'geen'}</button>`).join('')}</div><span class="small muted">De kleine blok (${esc(nl(smallKg(), 2))} kg) til je altijd mee.</span></div>`; })() : ''}
         ${unit === 'bw' ? `<div class="small muted" style="text-align:center">Totaal <span id="tot-${ei}-${sel}">${tot != null && setDone(st) ? nl(tot) + ' kg' : 'LG'}</span> · lichaamsgewicht ${esc(nl(bwNow()))} kg</div>` : ''}
-        <div class="rpe-row"><span class="lab">RPE${tRpe != null ? ' · plan ' + esc(nl(tRpe)) : ''}</span><div class="chips">${RPE_CHIPS.map((v) => `<button type="button" class="chipbtn" data-act="rpe-set" data-ei="${ei}" data-si="${sel}" data-v="${v}" aria-pressed="${rpe === v}">${nl(v)}</button>`).join('')}</div></div>
         <button class="btn primary gym-ok" data-act="confirm-set" data-ei="${ei}" data-si="${sel}">${S.gymSet === sel && setDone(st) ? '✓ Bewaren' : `✓ Set ${sel + 1} klaar`}</button>
-        ${setDone(st) ? `<button class="btn ghost small" data-act="set-clear" data-ei="${ei}" data-si="${sel}">Set leegmaken</button>` : ''}</div>`;
+        </div>`;
     }
     const list = `<div class="gym-sets">${en.sets.map((x, k) => `<div class="gs${k === sel ? ' cur' : ''}${setDone(x) ? ' done' : ''}"><button type="button" class="gs-main" data-act="gym-set" data-si="${k}"><span class="muted">Set ${k + 1}</span> <b>${esc(setShort(en.exId, x, setSuggest(en, k)))}</b></button>${setDone(x) ? '<span class="setok" title="Bevestigd">✓</span>' : `<button type="button" class="btn small setconfirm" data-act="confirm-set" data-ei="${ei}" data-si="${k}" aria-label="Set ${k + 1} bevestigen zoals voorgesteld">✓</button>`}</div>`).join('')}
-      <div class="row" style="gap:6px"><button class="btn ghost small" data-act="add-set" data-ei="${ei}">+ set</button>${en.sets.length > 1 ? `<button class="btn ghost small" data-act="del-set" data-ei="${ei}" data-si="${sel < 0 ? en.sets.length - 1 : sel}">− set</button>` : ''}</div></div>`;
+      <div class="row" style="gap:8px"><button class="btn gym-extra" data-act="add-set" data-ei="${ei}">+ Extra set</button>${en.sets.length > 1 ? `<button class="btn" data-act="del-set" data-ei="${ei}" data-si="${sel < 0 ? en.sets.length - 1 : sel}">− Set weg</button>` : ''}</div></div>`;
     const tut = tutPill(tg);
     const det = `<details class="gym-det"><summary>Details</summary><div class="gym-det-b">
       ${I.tgt ? `<div class="target">Schema: ${esc(I.tgt)}${tg.note ? ' · ' + esc(tg.note) : ''}</div>` : ''}${tut ? `<div>${tut}</div>` : ''}
       ${planLineHTML(I, ei)}${prevLineHTML(I, ei)}
       ${unit === 'bw' ? bwModeHTML(en, ei) : ''}
       <div class="row" style="gap:6px"><input style="flex:1;min-width:10rem" id="var-${ei}" data-bind="entry" data-ei="${ei}" data-f="variant" value="${esc(en.variant)}" placeholder="variant: grip, hoek…" aria-label="Variant"><button class="btn ghost small" data-act="del-entry" data-ei="${ei}">Oefening verwijderen</button></div></div></details>`;
-    return `<div class="gym-page${S.gymAnim ? ' ' + S.gymAnim : ''}">${title}${strength ? wuRowHTML(en, ei) : ''}${tg.filler ? `<div class="small">Filler tijdens de rust: <b>${esc(tg.filler)}</b></div>` : ''}${cur}${list}${sel >= 0 ? exfbHTML(en, ei) : ''}${det}</div>`;
+    return `<div class="gym-page${S.gymAnim ? ' ' + S.gymAnim : ''}">${title}${strength ? wuRowHTML(en, ei) : ''}${tg.filler ? `<div class="small">Filler tijdens de rust: <b>${esc(tg.filler)}</b></div>` : ''}${cur}${list}${det}</div>`;
   }
   function gymFinish(d) {
     const all = d.entries.reduce((a, en) => a + en.sets.length, 0), done = d.entries.reduce((a, en) => a + en.sets.filter(setDone).length, 0);
     const open = d.entries.map((en, k) => (en.exId && !entryDone(en) ? `<button class="btn small" data-act="gym-go" data-i="${k}">${esc(en.target?.code || '+')} ${esc(exName(en.exId))}: ${en.sets.filter(setDone).length}/${en.sets.length}</button>` : '')).join('');
     return `<div class="gym-page${S.gymAnim ? ' ' + S.gymAnim : ''}"><div class="gym-title" data-rk="X"><span class="code">✓</span><div><div class="nm">Afronden</div><div class="small muted">${done} van ${all} sets bevestigd</div></div></div>
       ${open ? `<div class="notice">Nog open: <div class="row" style="gap:6px;margin-top:6px">${open}</div></div>` : ''}
-      ${fbHTML(d)}${addExHTML()}
+      ${finHTML(d)}${fbHTML(d)}${addExHTML()}
       <details class="gym-det"><summary>Datum, blok en week</summary><div class="gym-det-b">${metaFormHTML(d)}</div></details>
       <div class="row">${delRepHTML(d)}</div>
-      <p class="small muted">Tik op Klaar: je krijgt de samenvatting en kan ze meteen naar ${esc(client().coach || 'de coach')} en de klant sturen.</p></div>`;
+      <p class="small muted">Tik op Training afronden: de training wordt bewaard in de historiek en je kan het verslag meteen versturen naar ${esc(client().coach || 'de coach')} en de klant.</p></div>`;
   }
-  function gymGo(i) {
+  // Terug: kopie van training en scherm vóór elke tik (max 30). stopRest: die tik bevestigde een set.
+  const UNDO_MAX = 30;
+  const snapNow = () => ({ d: clone(S.draft), i: S.gymIdx, s: S.gymSet });
+  function pushUndo(stopRest, snap) { if (!S.draft) return; S.undo = S.undo || []; S.undo.push({ ...(snap || snapNow()), rest: !!stopRest }); if (S.undo.length > UNDO_MAX) S.undo.shift(); }
+  function undo() {
+    const u = (S.undo || []).pop(); if (!u || !S.draft) { toastMsg('Niets meer om terug te zetten'); return; }
+    const id = S.draft.id; S.draft = u.d; if (id) S.draft.id = id; S.gymIdx = u.i; S.gymSet = u.s;
+    if (u.rest) restStop();
+    renderMain(); scheduleTraining(); toastMsg('↶ Laatste stap ongedaan gemaakt');
+  }
+  // na een bevestigde set in de gymmodus: meteen naar de volgende oefening volgens de sporen
+  function gymAuto(ei) { if (!S.gym || !S.draft) return false; const k = nextOf(ei), n = S.draft.entries.length, to = k < 0 ? n : k; if (to === S.gymIdx) return false; S.gymAnim = to > S.gymIdx ? 'in-r' : 'in-l'; S.gymIdx = to; S.gymSet = null; renderMain(); S.gymAnim = ''; window.scrollTo({ top: 0 }); const el = $('#rest'); if (el && S.rest) { el.innerHTML = restInner(); restTick(); } return true; }
+  function gymGo(i, rec) {
     const n = S.draft?.entries.length ?? 0; if (i < 0 || i > n || i === S.gymIdx) return;
+    if (rec) pushUndo(false);
     S.gymAnim = i > S.gymIdx ? 'in-r' : 'in-l'; S.gymIdx = i; S.gymSet = null; renderMain(); S.gymAnim = ''; window.scrollTo({ top: 0 });
   }
   // ---------- view: planning ----------
@@ -1158,7 +1314,35 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     return `<section class="card"><div class="card-h"><div><h2>Planning</h2><p class="sub">Lopende en komende periodes. Oudere periodes staan in Historiek.</p></div>
         <button class="btn primary" data-act="gen-open"${S.canWrite && !S.gen ? '' : ' disabled'}>+ Nieuwe periode opbouwen</button></div>
         <div class="blocks">${chips || '<span class="muted">Nog geen periodes.</span>'}</div></section>
-      ${S.gen ? genCard() : ''}${body}<datalist id="filler-list">${FILLERS.map((x) => `<option value="${esc(x)}">`).join('')}</datalist>`;
+      ${cycleCard()}${S.gen ? genCard() : ''}${body}<datalist id="filler-list">${FILLERS.map((x) => `<option value="${esc(x)}">`).join('')}</datalist>`;
+  }
+
+  // ---------- 12-wekenplan binnen een jaarlijn ----------
+  // 12 weken = 4 fases van 3 weken. Bestaande periodes eerst, daarna een voorstel volgens het gekozen model.
+  const CYCLE_MODELS = { golf: { l: 'Golvend (Acc, Int, Acc, Int)', seq: ['Accumulatie', 'Intensificatie'] }, lineair: { l: 'Lineair (Acc, Acc, Int, Herstel)', seq: ['Accumulatie', 'Accumulatie', 'Intensificatie', 'Herstel'] } };
+  function cycleCard() {
+    const c = client(), t = todayStr(), bl = sortedBlocks().filter((b) => !b._unsaved), cur = blockFor(t), mk = store.get('ec.cycle') || 'golf', M = CYCLE_MODELS[mk] || CYCLE_MODELS.golf;
+    const slots = []; let wk = 0, d = cur ? cur.start : t;
+    const i0 = cur ? bl.findIndex((b) => b.id === cur.id) : bl.length;
+    for (let i = Math.max(0, i0); i < bl.length && wk < 12; i++) { const b = bl[i]; slots.push({ b, start: b.start, weeks: blockWeeks(b), phase: phaseOf(b.phase) }); wk += blockWeeks(b); d = addDays(b.start, 7 * blockWeeks(b)); }
+    const last = slots.length ? slots[slots.length - 1].phase : 'Intensificatie';
+    let k = mk === 'golf' ? (last === 'Accumulatie' ? 1 : 0) : (last === 'Herstel' || last === 'Test' ? 0 : last === 'Intensificatie' ? 3 : 1);
+    while (wk < 12) { slots.push({ prop: true, start: d, weeks: 3, phase: M.seq[k % M.seq.length] }); wk += 3; d = addDays(d, 21); k++; }
+    const ev = c?.event?.date ? c.event : null;
+    const evIn = (sl) => ev && ev.date >= sl.start && ev.date < addDays(sl.start, 7 * sl.weeks);
+    const cards = slots.map((sl, i) => `<div class="cyc${sl.prop ? ' prop' : ''}" style="--pc:${phaseCol(sl.phase)}"><span class="small muted">Week ${slots.slice(0, i).reduce((a, x) => a + x.weeks, 0) + 1} tot ${slots.slice(0, i + 1).reduce((a, x) => a + x.weeks, 0)}</span><span class="nm">${esc(sl.b ? sl.b.code : sl.phase)}</span><span class="small">${esc(sl.phase)} · vanaf ${esc(fmtDate(sl.start, false))}</span>${evIn(sl) ? `<span class="pill acc">🏁 ${esc(ev.name || 'Event')} ${esc(fmtDate(ev.date, false))}</span>` : ''}${sl.prop ? `<span class="small muted">Voorstel</span><button class="btn small" data-act="cycle-build" data-start="${esc(sl.start)}" data-phase="${esc(sl.phase)}"${S.canWrite ? '' : ' disabled'}>Opbouwen</button>` : sl.b.id === cur?.id ? '<span class="pill ok">nu bezig</span>' : '<span class="pill neutral">gepland</span>'}</div>`).join('');
+    // jaarlijn: half jaar terug, half jaar vooruit
+    const w0 = addDays(t, -182), span = 364, pct = (dt) => Math.max(0, Math.min(100, (daysBetween(w0, dt) / span) * 100));
+    const bars = [...bl.map((b) => ({ start: b.start, weeks: blockWeeks(b), phase: phaseOf(b.phase), code: b.code })), ...slots.filter((x) => x.prop).map((x) => ({ ...x, code: x.phase.slice(0, 3) }))]
+      .filter((x) => addDays(x.start, 7 * x.weeks) > w0 && x.start < addDays(w0, span))
+      .map((x) => { const l = pct(x.start), r = pct(addDays(x.start, 7 * x.weeks)); return `<span class="yb${x.prop ? ' prop' : ''}" style="left:${l}%;width:calc(${r - l}% - 2px);background:color-mix(in srgb,${phaseCol(x.phase)} 28%,var(--panel));border-left:4px solid ${phaseCol(x.phase)}" title="${esc(x.code + ' · ' + x.phase + ' · ' + fmtDate(x.start, false))}">${esc(x.code)}</span>`; }).join('');
+    const months = []; { const d0 = toDate(w0); d0.setDate(1); d0.setMonth(d0.getMonth() + 1); for (let j = 0; j < 12; j++) { const ds = `${d0.getFullYear()}-${pad(d0.getMonth() + 1)}-01`; months.push(`<span class="mo" style="left:${pct(ds)}%">${d0.toLocaleDateString('nl-BE', { month: 'short' })}</span>`); d0.setMonth(d0.getMonth() + 1); } }
+    const evM = ev && ev.date > w0 && ev.date < addDays(w0, span) ? `<span class="ev" style="left:${pct(ev.date)}%">🏁</span>` : '';
+    return `<section class="card cycle"><div class="card-h"><div><h2>12-wekenplan</h2><p class="sub">Vier fases van 3 weken binnen het jaar. Bestaande periodes staan vast; de rest is een voorstel dat de coach opbouwt of aanpast.</p></div></div>
+      <div class="chips">${Object.entries(CYCLE_MODELS).map(([v, x]) => `<button class="chipbtn" data-act="cycle-model" data-v="${v}" aria-pressed="${v === mk}">${esc(x.l)}</button>`).join('')}</div>
+      <div class="cycle-grid">${cards}</div>
+      <div><div class="lab" style="margin-bottom:4px">Jaarlijn</div><div class="yearline">${bars}${months.join('')}<span class="now" style="left:${pct(t)}%" title="vandaag"></span>${evM}</div></div>
+      <p class="small muted" style="margin:0">Onderzoek: geperiodiseerd trainen geeft meer krachtwinst dan altijd hetzelfde doen. Golvend en lineair zijn ongeveer even effectief; de meeste studies duren 6 tot 16 weken, dus een jaarplan steunt vooral op ervaring van de coach.</p></section>`;
   }
 
   // ---------- krachtbalans bovenlichaam ----------
@@ -1194,7 +1378,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       ${anchors.length ? `<div class="tablewrap"><table><thead><tr><th>Oefening</th><th class="num">Intake</th><th class="num">Eerste</th><th class="num">Laatste</th><th>Gemeten</th><th class="num">Beste</th><th class="num">Verschil</th><th>Signaal</th></tr></thead><tbody>${table}</tbody></table></div>` : '<div class="empty">Geen ankeroefeningen van toepassing voor deze klant.</div>'}</section>
       ${balanceCard(c)}
       <section class="card"><div class="card-h"><div style="display:flex;flex-direction:column;gap:8px"><div class="chips">${anchors.map((id) => `<button class="chipbtn" data-act="sel-prog" data-id="${esc(id)}" aria-pressed="${id === S.progEx}">${esc(exName(id))}${anchorStats(id) ? '' : ' · geen data'}</button>`).join('')}</div>${others.length ? `<div class="chips"><span class="small muted" style="align-self:center">Andere gelogde oefeningen:</span>${others.map((e) => `<button class="chipbtn" data-act="sel-prog" data-id="${esc(e.id)}" aria-pressed="${e.id === S.progEx}" style="font-weight:500">${esc(e.name)}</button>`).join('')}</div>` : ''}</div></div>
-        ${st ? `<div class="row" style="justify-content:space-between;margin-bottom:6px"><h3>${esc(exName(S.progEx))} · e1RM</h3><div class="legend"><span><i class="dot" style="background:var(--int)"></i>Intensificatie</span><span><i class="dot" style="background:var(--acc)"></i>Accumulatie</span><span><i class="dot" style="background:var(--ok)"></i>Herstel</span><span><i class="dot" style="background:var(--warn)"></i>Test</span><span><i class="dot" style="background:transparent;border:1.5px solid var(--muted)"></i>Volumeset (indicatief)</span><span><i style="display:inline-block;width:14px;border-top:1px dashed var(--muted)"></i>Eerste zware meting</span></div></div>
+        ${st ? `<div class="row" style="justify-content:space-between;margin-bottom:6px"><h3>${esc(exName(S.progEx))} · e1RM</h3><div class="legend"><span><i class="dot" style="background:var(--int)"></i>Intensificatie</span><span><i class="dot" style="background:var(--acc)"></i>Accumulatie</span><span>◇ B- of C-reeks (lichter, niet in de lijn)</span><span><i class="dot" style="background:var(--ok)"></i>Herstel</span><span><i class="dot" style="background:var(--warn)"></i>Test</span><span><i class="dot" style="background:transparent;border:1.5px solid var(--muted)"></i>Volumeset (indicatief)</span><span><i style="display:inline-block;width:14px;border-top:1px dashed var(--muted)"></i>Eerste zware meting</span></div></div>
           ${st.onlyIndicative ? '<p class="notice">Nog geen zware set gelogd: de lijn toont voorlopig volumesets en onderschat het 1RM.</p>' : ''}<div class="chart" id="prog-chart"></div>` : '<div class="empty">Nog geen gegevens voor deze ankeroefening.</div>'}</section>
       ${hist.length ? `<details class="card"><summary>Alle metingen ${esc(exName(S.progEx))}</summary><div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>Datum</th><th>Periode</th><th>Variant</th><th>Sets</th><th class="num">e1RM</th><th>Soort</th></tr></thead><tbody>${hist.map((p) => `<tr><td>${esc(fmtDate(p.date))}</td><td>${esc(S.blocks[p.blockId]?.code || '')}</td><td class="small">${esc(p.variant)}</td><td class="small">${esc(p.sets.map((x) => setLabel(S.progEx, x) + ' × ' + (nl(x.reps, 0) || '?') + effTxt(x)).join('  ·  '))}</td><td class="num">${nl(p.bestP)}</td><td class="small">${p.reliable ? 'zwaar' : '<span class="muted">volume</span>'}</td></tr>`).join('')}</tbody></table></div></details>` : ''}`;
   }
@@ -1213,14 +1397,15 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const TX = (p) => X(toDate(p.date).getTime());
     const path = line.map((p, i) => `${i ? 'L' : 'M'}${TX(p).toFixed(1)},${Y(p.bestP).toFixed(1)}`).join('');
     const last = line[line.length - 1];
-    const tip = (p) => { const x = p.topP || {}; return `${fmtDate(p.date)}|${(S.blocks[p.blockId]?.code || '') + ' · ' + setLabel(S.progEx, x) + ' × ' + (nl(x.reps, 0) || '?') + effTxt(x)}|e1RM ${nl(p.bestP)} kg · ${p.reliable ? 'zware set' : 'volumeset, indicatief'}`; };
+    const tip = (p) => { const x = p.topP || {}; return `${fmtDate(p.date)}|${(S.blocks[p.blockId]?.code || '') + ' · ' + roleOf(p) + '-reeks · ' + setLabel(S.progEx, x) + ' × ' + (nl(x.reps, 0) || '?') + effTxt(x)}|e1RM ${nl(p.bestP)} kg · ${roleOf(p) !== 'A' ? 'andere rol, niet in de lijn' : p.reliable ? 'zware set' : 'volumeset, indicatief'}`; };
+    const sideIds = new Set((st.side || []).map((p) => p.sid));
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Geschat 1RM over tijd">
       <text x="${m.l - 6}" y="10" text-anchor="end">kg</text>
       ${ticks.map((t) => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--line)"/><text x="${m.l - 6}" y="${Y(t)}" dy="0.32em" text-anchor="end">${nl(t, 0)}</text>`).join('')}
       ${months.map((d) => `<text x="${X(d.getTime())}" y="${H - 6}" text-anchor="middle">${esc(d.toLocaleDateString('nl-BE', { month: 'short', year: '2-digit' }))}</text>`).join('')}
       <line x1="${m.l}" x2="${W - m.r}" y1="${Y(st.first)}" y2="${Y(st.first)}" stroke="var(--muted)" stroke-dasharray="3 4"/>
       <path d="${path}" fill="none" stroke="var(--ink)" stroke-opacity=".55" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-      ${pts.map((p) => { const col = phaseCol(p.phase); return p.reliable || st.onlyIndicative ? `<circle cx="${TX(p)}" cy="${Y(p.bestP)}" r="5.5" fill="${col}" stroke="var(--panel)" stroke-width="1.5" data-tip="${esc(tip(p))}" style="cursor:pointer"/>` : `<circle cx="${TX(p)}" cy="${Y(p.bestP)}" r="4.5" fill="var(--panel)" stroke="${col}" stroke-width="1.8" opacity=".8" data-tip="${esc(tip(p))}" style="cursor:pointer"/>`; }).join('')}
+      ${pts.map((p) => { const col = phaseCol(p.phase); if (sideIds.has(p.sid)) { const cx = TX(p), cy = Y(p.bestP); return `<rect x="${cx - 4.5}" y="${cy - 4.5}" width="9" height="9" transform="rotate(45 ${cx} ${cy})" fill="var(--panel)" stroke="var(--muted)" stroke-width="1.8" data-tip="${esc(tip(p))}" style="cursor:pointer"/>`; } return p.reliable || st.onlyIndicative ? `<circle cx="${TX(p)}" cy="${Y(p.bestP)}" r="5.5" fill="${col}" stroke="var(--panel)" stroke-width="1.5" data-tip="${esc(tip(p))}" style="cursor:pointer"/>` : `<circle cx="${TX(p)}" cy="${Y(p.bestP)}" r="4.5" fill="var(--panel)" stroke="${col}" stroke-width="1.8" opacity=".8" data-tip="${esc(tip(p))}" style="cursor:pointer"/>`; }).join('')}
       <text x="${TX(last) + 9}" y="${Y(last.bestP)}" dy="0.32em" style="fill:var(--ink);font-weight:600">${nl(last.bestP, 0)} kg</text></svg><div class="tip" hidden></div>`;
   }
   // ---------- view: history ----------
@@ -1232,7 +1417,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       <section class="card"><div class="card-h"><div><h2>Logboek</h2><p class="sub">Alle trainingen. Oude schema's zijn enkel als topsets ingeladen (week "top").</p></div></div>
       ${ss.length ? `<div class="tablewrap"><table><thead><tr><th>Datum</th><th>Periode</th><th>Week</th><th>Training</th><th>Oefeningen</th><th class="num">Gewicht</th>${tracks(c, 'attention') ? `<th class="num">${ATT}</th>` : ''}${tracks(c, 'whoop') ? '<th class="num">Whoop</th>' : ''}<th>Rapport</th></tr></thead><tbody>${ss.map((s) => `<tr class="click" data-act="open-session" data-id="${esc(s.id)}"><td>${esc(fmtDate(s.date))}</td><td>${esc(S.blocks[s.blockId]?.code || '')}</td><td>${s.historical ? 'top' : esc(s.week)}</td><td>${s.historical ? '' : esc(slotShort(sessSlot(s)))}</td><td class="small">${(s.entries || []).map((e) => esc(exName(e.exId))).join(', ')}</td><td class="num">${nl(s.feedback?.bodyweight)}</td>${tracks(c, 'attention') ? `<td class="num">${nl(s.feedback?.pain, 0)}</td>` : ''}${tracks(c, 'whoop') ? `<td class="num">${s.feedback?.whoop != null && s.feedback?.whoop !== '' ? nl(s.feedback.whoop, 0) + '%' : ''}</td>` : ''}<td class="small">${s.report?.at ? '<span class="sig-up">✓</span> ' + esc(fmtDate(s.report.at.slice(0, 10), false)) : ''}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">Nog geen trainingen.</div>'}</section>`;
   }
-  function afterRender() { drawProgress(); restTick(); wake(S.view === 'training' && !!S.draft && S.gym); }
+  function afterRender() { drawProgress(); restShow(); restTick(); wake(S.view === 'training' && !!S.draft && S.gym); }
 
   // ---------- view: statistiek ----------
   function heat(v, max) { if (!v) return ''; const a = Math.round(10 + 55 * Math.min(1, v / (max || 1))); return ` style="background:color-mix(in srgb,var(--heat,var(--accent)) ${a}%,transparent)"`; }
@@ -1286,46 +1471,93 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const soundOn = () => store.get('ec.sound') !== 'off';
   let AC = null, WL = null;
   // geluid mag pas na een tik van de gebruiker: elke ✓ ontgrendelt het
-  const audioUnlock = () => { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch {} };
+  // iPad/iPhone: Web Audio zwijgt in de stille modus. audioSession 'playback' (iOS 17+) en een html-audio-element als reserve lossen dat op.
+  const wavBeep = (tones) => { const sr = 22050, seg = tones.map(([f, d, g]) => [f, Math.round(d * sr), Math.round((g || 0) * sr)]), n = seg.reduce((a, [, l, g]) => a + l + g, 0), buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    const w = (o, t) => [...t].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0))); w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n * 2, true);
+    let o = 44; seg.forEach(([f, l, g]) => { for (let i = 0; i < l; i++) { const env = Math.min(1, i / 200, (l - i) / 400); v.setInt16(o, Math.sin((2 * Math.PI * f * i) / sr) * 0.6 * env * 32767, true); o += 2; } for (let i = 0; i < g; i++) { v.setInt16(o, 0, true); o += 2; } });
+    let b = ''; new Uint8Array(buf).forEach((x) => { b += String.fromCharCode(x); }); return 'data:audio/wav;base64,' + btoa(b); };
+  let BEEPS = null;
+  const audioUnlock = () => {
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch {}
+    try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch {}
+    try { if (!BEEPS) { BEEPS = [new Audio(wavBeep([[880, 0.18]])), new Audio(wavBeep([[990, 0.2, 0.08], [990, 0.2, 0.08], [1320, 0.3]]))]; BEEPS.forEach((a) => { a.preload = 'auto'; a.muted = true; a.play().then(() => { a.pause(); a.currentTime = 0; a.muted = false; }).catch(() => { a.muted = false; }); }); } } catch {}
+  };
   const beep = (t0, f, dur) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.5, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + dur + 0.03); };
   // signaal 1: één korte toon en trilling; signaal 2: drie tonen en een lange trilling. iPhone kent geen trilling.
-  function signal(n) {
-    try { navigator.vibrate?.(n === 1 ? 200 : [400, 150, 400, 150, 400]); } catch {}
-    if (!soundOn() || !AC) return;
-    try { const t = AC.currentTime; if (n === 1) beep(t, 880, 0.18); else [0, 0.28, 0.56].forEach((dl, k) => beep(t + dl, k === 2 ? 1320 : 990, 0.2)); } catch {}
+  function signal(n, test) {
+    if (!test) try { navigator.vibrate?.(n === 1 ? 200 : [400, 150, 400, 150, 400]); } catch {}
+    if (!soundOn()) return;
+    const el = BEEPS?.[n === 1 ? 0 : 1];
+    if (el) { try { el.currentTime = 0; const pr = el.play(); if (pr) pr.catch(() => webBeep(n)); return; } catch {} }
+    webBeep(n);
   }
+  function webBeep(n) { if (!AC) return; try { if (AC.state === 'suspended') AC.resume(); const t = AC.currentTime + 0.02; if (n === 1) beep(t, 880, 0.18); else [0, 0.28, 0.56].forEach((dl, k) => beep(t + dl, k === 2 ? 1320 : 990, 0.2)); } catch {} }
   function restStart(sec, label) {
     const left = restLeft(sec);
-    S.rest = { end: Date.now() + left * 1000, total: sec, label, warned: left <= REST_WARN, rang: false };
+    S.rest = { end: Date.now() + left * 1000, t0: Date.now(), total: sec, label, warned: left <= REST_WARN, rang: false };
+    const el0 = $('#rest'); if (el0) el0.innerHTML = '';
     clearInterval(restStart.iv); restStart.iv = setInterval(restTick, 250); restTick();
   }
-  function restStop() { S.rest = null; clearInterval(restStart.iv); const el = $('#rest'); if (el) { el.hidden = true; el.innerHTML = ''; } }
+  function restStop() { S.rest = null; clearInterval(restStart.iv); const el = $('#rest'); if (el) el.innerHTML = ''; restShow(); }
+  // zonder rust: de timerbalk blijft staan (rustig, grijs) met de geluidschakelaar
+  function restShow() {
+    const on = S.view === 'training' && !!S.draft; document.body.classList.toggle('training-on', on);
+    const el = restEl(); if (!on) { if (!S.rest) { el.hidden = true; el.innerHTML = ''; } return; }
+    el.hidden = false; if (S.rest) return;
+    el.className = 'rest idle'; el.innerHTML = `<div class="rest-main"><span class="t" aria-hidden="true">0:00</span><div class="info"><b>Rusttimer</b><br><span class="muted">Start vanzelf na ✓ Set klaar. Rusttijd volgens oefening, reps en fase.</span></div></div><div class="row" style="gap:8px">${soundSwitch()}</div>`;
+  }
+  // de timer staat los van het scherm (vast bovenaan), zodat hij zichtbaar blijft bij het wisselen van oefening
+  const restEl = () => { let el = $('#rest'); if (!el) { el = document.createElement('div'); el.id = 'rest'; el.className = 'rest'; el.setAttribute('role', 'timer'); el.hidden = true; document.body.appendChild(el); } return el; };
+  const REST_OPTS = [45, 60, 90, 120, 150, 180, 240];
   function restTick() {
     const r = S.rest; if (!r) return;
-    if (!(S.view === 'training' && S.draft)) { restStop(); return; }
+    if (!(S.view === 'training' && S.draft)) { S.rest = null; clearInterval(restStart.iv); restShow(); return; }
     const st = restState(r, Date.now());
     if (st.signal === 1) { r.warned = true; signal(1); }
     if (st.signal === 2) { r.warned = r.rang = true; signal(2); }
     if (st.expired) { restStop(); return; }
-    const el = $('#rest'); if (!el) return;
+    const el = restEl();
     if (!el.firstChild) el.innerHTML = restInner();
     el.hidden = false; el.className = 'rest ' + st.phase;
+    const ro = el.querySelector('.rest-opts'), pr = ro && ro.querySelector('[aria-pressed="true"]'); if (pr && !ro._c) { ro._c = 1; ro.scrollLeft = Math.max(0, pr.offsetLeft - ro.offsetLeft - ro.clientWidth / 2 + pr.offsetWidth / 2); }
     el.querySelector('.t').textContent = st.ms > 0 ? mmss(st.s) : '+' + mmss(Math.floor(-st.ms / 1000));
     el.querySelector('.st').textContent = st.phase === 'over' ? 'Start!' : st.phase === 'soon' ? 'Klaarmaken' : 'Rust';
   }
-  const restInner = () => { const r = S.rest; return `<span class="t" aria-hidden="true"></span><div class="info"><b class="st">Rust</b> <span class="muted">${esc(restTxt(r.total))}, ${REST_CONFIRM} s al verrekend</span><br><span>Volgende: <b>${esc(r.label)}</b></span></div><div class="row" style="gap:6px"><button class="btn small" data-act="rest-add" data-d="-15">−15 s</button><button class="btn small" data-act="rest-add" data-d="15">+15 s</button><button class="btn small" data-act="rest-sound" aria-pressed="${soundOn()}" aria-label="Geluid ${soundOn() ? 'uit' : 'aan'} zetten">${soundOn() ? 'Geluid aan' : 'Geluid uit'}</button><button class="btn small" data-act="rest-stop">Ik start nu</button></div>`; };
-  const restHTML = () => `<div id="rest" class="rest" role="timer"${S.rest ? '' : ' hidden'}>${S.rest ? restInner() : ''}</div>`;
+  const soundSwitch = () => `<button type="button" class="switch" role="switch" aria-checked="${soundOn()}" data-act="rest-sound"><span class="track"><span class="knob"></span></span><span class="sw-l">Geluid <b>${soundOn() ? 'AAN' : 'UIT'}</b></span></button>`;
+  const restInner = () => { const r = S.rest, opts = [...new Set([...REST_OPTS, r.sugg || r.total, ...(r.schema ? [r.schema] : [])])].sort((a, z) => a - z), go = r.next != null && r.next >= 0 && r.next !== S.gymIdx && S.gym;
+    return `<div class="rest-main"><span class="t" aria-hidden="true"></span><div class="info"><b class="st">Rust</b><br><span>Volgende: <b>${esc(r.label)}</b></span></div>${go ? `<button class="btn primary" data-act="rest-go">Naar ${esc(S.draft.entries[r.next]?.target?.code || 'volgende')} ›</button>` : ''}</div>
+      <div class="rest-opts"><span class="lab">Rusttijd</span>${opts.map((v) => `<button type="button" class="chipbtn" data-act="rest-set" data-v="${v}" aria-pressed="${v === r.total}">${restTxt(v)}${v === r.sugg ? ' ★' : ''}${v === r.schema && v !== r.sugg ? ' (schema)' : ''}</button>`).join('')}</div>${r.why ? `<div class="small muted why">★ voorstel: ${esc(r.why)}</div>` : ''}
+      <div class="row" style="gap:8px"><button class="btn" data-act="rest-add" data-d="-15">−15 s</button><button class="btn" data-act="rest-add" data-d="15">+15 s</button>${soundSwitch()}<button class="btn" data-act="rest-stop">Ik start nu</button></div>`; };
+  const restHTML = () => '';
   // volgende set: eerst de open sets van dezelfde oefening, dan de volgende oefening met open sets
+  // twee sporen: spoor 1 = A1, B1, C1; spoor 2 = A2, B2, C2. Actief in een spoor = eerste oefening met open sets.
+  // Na een set: naar het actieve van het andere spoor als dat nog open sets heeft, anders in het eigen spoor verder.
+  // F-oefeningen en oefeningen zonder nummer komen op het einde.
+  const trackOf = (en) => { const c = String(en?.target?.code || ''), m = c.match(/^([A-EG-Z])(\d+)$/i); return m ? +m[2] : null; };
+  const entryOpen = (x) => !!x.exId && x.sets.some((y) => !setDone(y));
+  function trackActive(t) { const es = S.draft.entries; const ids = es.map((x, k) => k).filter((k) => trackOf(es[k]) === t).sort((a, z) => codeSort(es[a].target?.code, es[z].target?.code)); return ids.find((k) => entryOpen(es[k])) ?? -1; }
+  function nextOf(ei) {
+    const es = S.draft.entries, en = es[ei], t = trackOf(en);
+    const tracks = [...new Set(es.map(trackOf).filter((x) => x != null))].sort((a, z) => a - z);
+    if (t != null) {
+      const others = [...tracks.filter((x) => x > t), ...tracks.filter((x) => x < t)];
+      for (const o of others) { const k = trackActive(o); if (k >= 0) return k; }
+      const own = trackActive(t); if (own >= 0) return own;
+    } else if (entryOpen(en)) return ei;
+    for (const o of tracks) { const k = trackActive(o); if (k >= 0) return k; }
+    const tail = es.map((x, k) => k).filter((k) => trackOf(es[k]) == null && entryOpen(es[k]));
+    return tail.length ? tail[0] : -1;
+  }
   function nextLabel(ei) {
-    const es = S.draft.entries, en = es[ei], k = en.sets.findIndex((x) => !setDone(x));
-    if (k >= 0) return `${en.target?.code ? en.target.code + ' ' : ''}set ${k + 1}`;
-    for (let j = 1; j < es.length; j++) { const x = es[(ei + j) % es.length]; if (x.exId && !entryDone(x)) return `${x.target?.code ? x.target.code + ' ' : ''}${exName(x.exId)}`; }
-    return null;
+    const k = nextOf(ei); if (k < 0) return null; const x = S.draft.entries[k], si = x.sets.findIndex((y) => !setDone(y));
+    return `${x.target?.code ? x.target.code + ' ' : ''}${exName(x.exId)}${si >= 0 ? ' · set ' + (si + 1) : ''}`;
   }
   // start de rust na een bevestigde set; na de laatste set van de training geen timer
   function restAfter(ei) {
-    const en = S.draft.entries[ei], nxt = nextLabel(ei), sec = restOf(en.target, S.blocks[S.draft.blockId]?.phase);
-    if (nxt && sec) restStart(sec, nxt); else if (!nxt) { restStop(); toastMsg('Alle sets gedaan: tik op Klaar'); }
+    const en = S.draft.entries[ei], nxt = nextLabel(ei), phase = S.blocks[S.draft.blockId]?.phase, sg = restSuggest(en.exId, en.target, phase);
+    // gekozen rust voor deze oefening (tik in de timer) gaat voor; anders het voorstel
+    const sec = num(en.target?.restPick) || sg?.sec || restOf(en.target, phase);
+    if (nxt && sec) { restStart(sec, nxt); Object.assign(S.rest, { ei, next: nextOf(ei), sugg: sg?.sec || sec, why: sg?.why || '', schema: num(en.target?.rest) || null }); const el = $('#rest'); if (el) el.innerHTML = restInner(); restTick(); } else if (!nxt) { restStop(); toastMsg('Alle sets gedaan: tik op Training afronden'); }
   }
   // scherm aan houden in gymmodus (Wake Lock); stil falen waar de browser het niet kent
   async function wake(on) {
@@ -1339,12 +1571,13 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   function nextFor(s) {
     const b = S.blocks[s.blockId]; if (!b) return null;
     const slots = slotsOf(b), i = slots.indexOf(sessSlot(s));
-    if (i >= 0 && i < slots.length - 1) return { b, slot: slots[i + 1] };
+    const wk = num(s.week) || 1;
+    if (i >= 0 && i < slots.length - 1) return { b, slot: slots[i + 1], week: wk };
     const nb = sortedBlocks().find((x) => x.start > b.start && (x.exercises || []).length);
-    if (num(s.week) >= blockWeeks(b) && nb) return { b: nb, slot: slotsOf(nb)[0] };
-    return { b, slot: slots[0] };
+    if (wk >= blockWeeks(b) && nb) return { b: nb, slot: slotsOf(nb)[0], week: 1 };
+    return { b, slot: slots[0], week: Math.min(wk + 1, blockWeeks(b)) };
   }
-  const kgTxt = (exId, kg) => (kg == null || kg === '' ? '' : unitOf(exId) === 'bw' ? bwFmt(num(kg)) : unitOf(exId) === 'kg per hand' ? `${nl(kg)} kg/hand` : `${nl(kg)} kg`);
+  const kgTxt = (exId, kg) => (kg == null || kg === '' ? '' : unitOf(exId) === 'bw' ? bwFmt(num(kg)) : unitOf(exId) === 'kg per hand' ? `2 × ${nl(kg)} kg` : unitOf(exId) === 'blok' ? blokTxt(splitBlocks(kg)) : `${nl(kg)} kg`);
   const doneTxt = (exId, sets) => {
     if (!isStrength(exId)) return sets.map((x) => setLabel(exId, x)).join(', ');
     const g = []; sets.forEach((x) => { const lab = setLabel(exId, x), l = g[g.length - 1]; if (l && l.lab === lab) l.xs.push(x); else g.push({ lab, xs: [x] }); });
@@ -1355,7 +1588,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const s = sessOf(sid), c = client(), b = S.blocks[s.blockId], phase = phaseOf(b?.phase), first = String(c.name || '').trim().split(' ')[0];
     let sets = 0, ton = 0, rec = 0, up = 0; const vol = {};
     const rows = (s.entries || []).map((en) => {
-      const tg = en.target || {}, st = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null), str = isStrength(en.exId);
+      const tg = en.target || {}, st = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null || x.ok === true), str = isStrength(en.exId);
       sets += st.length; addVol(vol, en.exId, st.length);
       let sig = ['Gedaan', 'muted'];
       if (str) {
@@ -1375,36 +1608,42 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const charts = [];
     ids.forEach((id) => {
       if (charts.length >= 4) return;
-      const h = history(id).filter((p) => p.bestP != null && p.date <= s.date), rel = h.filter((p) => p.reliable), base = rel.length >= 2 ? rel : h; if (base.length < 2) return;
+      const rkNow = roleOf({ rk: reeksOf((s.entries || []).find((e) => e.exId === id)?.target?.code) });
+      const h = history(id).filter((p) => p.bestP != null && p.date <= s.date && roleOf(p) === rkNow), rel = h.filter((p) => p.reliable), base = rel.length >= 2 ? rel : h; if (base.length < 2) return;
       const pts = base.map((p) => ({ d: toDate(p.date).getTime(), v: p.bestP })), f = pts[0].v, l = pts[pts.length - 1].v, dl = (l - f) / f;
-      charts.push({ name: exName(id), pts, unit: 'kg', delta: dl, deltaTxt: `${dl >= 0 ? '+' : '-'}${nl(Math.abs(dl * 100), 0)}%`, sub: `e1RM · ${base.length} metingen · beste ${nl(Math.max(...pts.map((p) => p.v)), 0)} kg`, d0: fmtDate(base[0].date, false), d1: fmtDate(base[base.length - 1].date, false) });
+      charts.push({ name: exName(id), pts, unit: 'kg', delta: dl, deltaTxt: `${dl >= 0 ? '+' : '-'}${nl(Math.abs(dl * 100), 0)}%`, sub: `e1RM ${rkNow}-reeks · ${base.length} metingen · beste ${nl(Math.max(...pts.map((p) => p.v)), 0)} kg`, d0: fmtDate(base[0].date, false), d1: fmtDate(base[base.length - 1].date, false) });
     });
     let block = null;
     if (b) {
       const wks = blockWeeks(b), slots = slotsOf(b), bl = sortedBlocks(), bi = bl.findIndex((x) => x.id === b.id);
-      const doneN = new Set([...Object.values(S.sessions).filter((x) => x.blockId === b.id && !x.historical).map((x) => x.id), s.id]).size;
+      const si0 = Math.max(0, slots.indexOf(sessSlot(s))), doneN = Math.min(slots.length * wks, (Math.min(num(s.week) || 1, wks) - 1) * slots.length + si0 + 1);
       block = { code: b.code, phase, week: Math.min(num(s.week) || 1, wks), weeks: wks, done: doneN, total: slots.length * wks, phaseTxt: PHASE_TXT[phase] || '', goal: b.goal || '', timeline: bl.slice(Math.max(0, bi - 4), bi + 2).map((x, i, arr) => ({ code: x.code, cur: x.id === b.id, future: i > arr.findIndex((y) => y.id === b.id) })) };
     }
     const nx = nextFor(s); let next = null;
     if (nx) {
       const nb = nx.b, rr = (nb.exercises || []).filter((r) => r.exId && normDay(nb, r.day) === nx.slot).sort((x, y) => codeSort(x.code, y.code));
-      next = { title: `${slotLabel(nx.slot)} · ${nb.code} ${phaseOf(nb.phase)}`, sub: nb.id === b?.id ? 'Volgende training in dit blok. Gewichten zijn het plan van je coach.' : 'Eerste training van het nieuwe blok. Gewichten zijn het plan van je coach.', rows: rr.map((r) => {
+      next = { title: `${slotLabel(nx.slot)} · week ${nx.week} · ${nb.code} ${phaseOf(nb.phase)}`, sub: nb.id === b?.id ? 'Volgende training in dit blok. Gewichten zijn het plan van je coach.' : 'Eerste training van het nieuwe blok. Gewichten zijn het plan van je coach.', rows: rr.map((r) => {
         const kgs = [...new Set(rowPlan(r).map((p) => num(p.kg)).filter((v) => v != null))];
         const upNow = (s.entries || []).some((en) => en.exId === r.exId && num(en.target?.repsMax) && (en.sets || []).some((x) => num(x.reps) > num(en.target.repsMax)));
         const sub = [wuTxt(r.warmup) && 'Opwarming ' + wuTxt(r.warmup), r.filler && 'Filler ' + r.filler, r.method && normMethod(r.method) !== DEF_METHOD && normMethod(r.method), r.variant && 'Variant ' + r.variant, r.note, upNow && 'Vandaag boven je bereik: zwaarder mag'].filter(Boolean).join(' · ');
-        return { code: r.code || '', rk: reeksOf(r.code), name: exName(r.exId), scheme: schemeTxt(r), kg: kgs.map((k) => kgTxt(r.exId, k)).join(' / '), rest: restTxt(r.rest), tempo: r.tempo || '', sub };
+        return { code: r.code || '', rk: reeksOf(r.code), name: exName(r.exId), scheme: schemeTxt(r), kg: kgs.map((k) => kgTxt(r.exId, k)).join(' / '), rest: restTxt(restSuggest(r.exId, r, nb.phase)?.sec || r.rest), tempo: r.tempo || '', sub };
       }) };
     }
+    if (s.genWarm?.done && s.genWarm.txt) rows.unshift({ code: '', rk: 'X', name: 'Opwarming', did: s.genWarm.txt, target: '', sig: ['Gedaan', 'muted'], sub: '' });
+    (s.fins || []).forEach((f) => rows.push({ code: 'F', rk: 'F', name: f.name || 'Finisher', did: f.result || 'gedaan', target: '', sig: ['Finisher', 'muted'], sub: '' }));
     const fb = s.feedback || {}, fbTxt = [num(fb.energy) != null && 'energie ' + nl(fb.energy, 0) + ' op 5', num(fb.bodyweight) != null && 'lichaamsgewicht ' + nl(fb.bodyweight) + ' kg', fb.note].filter(Boolean).join(' · ');
     return {
       client: c.name, first, coach: c.coach || '', note: (note || '').trim(),
       dateLong: toDate(s.date).toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), dateShort: fmtDate(s.date, false), fileDate: s.date,
-      title: `Goed gewerkt, ${first}!`, subtitle: [slotLabel(sessSlot(s)), fmtDate(s.date), block && `${block.code} ${phase} · week ${block.week} van ${block.weeks}`, c.coach && 'coach ' + c.coach].filter(Boolean).join(' · '),
-      kpis: [['Werksets', String(sets), 'zonder opwarming'], ['Volume', `${Math.round(ton).toLocaleString('nl-BE')} kg`, 'totaal getild'], ['Records', String(rec), rec ? 'beste e1RM ooit' : 'e1RM t.o.v. eerder'], ['Klaar voor meer', String(up), up ? 'oefeningen boven bereik' : 'boven je repsbereik']],
+      praise: praiseFor(s), title: praiseFor(s).title, subtitle: [`${slotLabel(sessSlot(s))} van week ${block ? block.week : num(s.week) || 1}`, fmtDate(s.date), block && `${block.code} ${phase} · week ${block.week} van ${block.weeks}`, c.coach && 'coach ' + c.coach].filter(Boolean).join(' · '),
+      kpis: [['Werksets', String(sets), 'zonder opwarming'], ['Volume', `${Math.round(ton).toLocaleString('nl-BE')} kg`, 'totaal getild'], (() => { const pr = praiseFor(s).recs || [], ever = pr.filter((q) => q.kind === 4).length; return ['Records', String(pr.length), pr.length ? (ever ? `${ever} ooit, ${pr.length - ever} periode` : 'beste in 3 tot 12 maanden') : 'zwaarste gewicht per aantal reps']; })(), ['Klaar voor meer', String(up), up ? 'oefeningen boven bereik' : 'boven je repsbereik']],
       rows, fbTxt, vol: MUSCLES.filter((m) => vol[m]).map((m) => [m, vol[m]]).sort((a, z) => z[1] - a[1]), block, charts, next,
     };
   }
 
+  // disclaimers onderaan het rapport en de mail
+  const DISC_COM = 'Dit rapport werd opgemaakt door Business Markers in samenwerking met I-Ticket BV, met de EnCORE Coach app, voor EnCORE Coaching. Business Markers is een boutique strategie- en leiderschapsbureau uit België en Nederland: wij helpen organisaties hun ambitie om te zetten in concrete uitvoering, met strategie, leiderschap en commerciële groei. Interesse in de app of in onze begeleiding? Neem contact op via ides@businessmarkers.com.';
+  const DISC_LEGAL = 'Dit rapport is enkel informatief en vervangt geen medisch, kinesitherapeutisch of ander professioneel advies. Geschatte waarden (zoals het e1RM), voorstellen voor gewichten en rusttijden zijn berekeningen op basis van de ingevoerde gegevens en kunnen afwijken; volg altijd de aanwijzingen van je coach en luister naar je lichaam. Trainen gebeurt op eigen verantwoordelijkheid: raadpleeg een arts bij pijn, blessures of gezondheidsklachten. Business Markers, I-Ticket BV en EnCORE Coaching zijn niet aansprakelijk voor schade of letsel door het gebruik van dit rapport of de app, behalve bij opzet of zware fout. Dit rapport is vertrouwelijk en bestemd voor de geadresseerde. Persoonsgegevens worden enkel gebruikt voor de begeleiding, verwerkt volgens de AVG (GDPR) en niet aan derden doorgegeven; je kan inzage, correctie of verwijdering vragen bij je coach.';
   // tekent het rapport met jsPDF (vector, standaardfont Helvetica)
   function drawReport(J, m) {
     const doc = new J({ unit: 'mm', format: 'a4' }), W = 210, H = 297, M = 14, CW = W - 2 * M;
@@ -1447,7 +1686,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     const progress = (b) => {
       need(30); let x = M; font('bold', 8);
       b.timeline.forEach((t) => { const w = doc.getTextWidth(T(t.code)) + 8; if (x + w > W - M) return; fill(t.cur ? C.acc : t.future ? C.white : C.bg); stroke(t.cur ? C.acc : C.line); doc.setLineWidth(0.3); doc.roundedRect(x, y, w, 6.5, 1.5, 1.5, 'FD'); col(t.cur ? C.white : t.future ? C.muted : C.ink); text(t.code, x + 4, y + 4.4); x += w + 2; });
-      y += 13.5; font('bold', 9); col(C.ink); text(`Week ${b.week} van ${b.weeks}`, M, y); font('normal', 8.5); col(C.muted); text(`${b.done} van ${b.total} trainingen gedaan in ${b.code}`, W - M, y, { align: 'right' }); y += 2.5;
+      y += 13.5; font('bold', 9); col(C.ink); text(`Week ${b.week} van ${b.weeks}`, M, y); font('normal', 8.5); col(C.muted); text(`training ${b.done} van ${b.total} in ${b.code}`, W - M, y, { align: 'right' }); y += 2.5;
       fill(C.line); doc.roundedRect(M, y, CW, 3.2, 1.6, 1.6, 'F'); fill(C.acc); doc.roundedRect(M, y, Math.max(3.2, CW * Math.min(1, b.done / Math.max(1, b.total))), 3.2, 1.6, 1.6, 'F'); y += 9;
       if (b.goal) para('Doel van dit blok: ' + b.goal, 8.6, C.ink);
     };
@@ -1470,6 +1709,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     header(true);
     font('bold', 19); col(C.ink); text(m.title, M, y); y += 7;
     para(m.subtitle, 9.5, C.muted); y += 2;
+    if (m.praise && m.praise.lines.length) { font('normal', 9.5); const lines = doc.splitTextToSize(T([...m.praise.lines, m.praise.close].join('\n')), CW - 10), hh = lines.length * 4.2 + 7; need(hh + 4); fill([226, 241, 231]); doc.roundedRect(M, y, CW, hh, 2, 2, 'F'); fill(C.ok); doc.rect(M, y, 1.4, hh, 'F'); col(C.ink); doc.text(lines, M + 6, y + 6); y += hh + 6; }
     if (m.note) { font('normal', 9.5); const lines = doc.splitTextToSize(T(m.note), CW - 10), hh = lines.length * 4.2 + 7; need(hh + 4); fill(C.soft); doc.roundedRect(M, y, CW, hh, 2, 2, 'F'); fill(C.acc); doc.rect(M, y, 1.4, hh, 'F'); col(C.ink); doc.text(lines, M + 6, y + 6); y += hh + 6; }
     kpis(m.kpis);
     h2('Jouw sessie');
@@ -1480,7 +1720,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     if (m.vol.length) { h2('Volume per spiergroep'); para('Werksets in deze training. De hoofdspier telt 1 set, een meewerkende spier telt een halve set.', 8.4); hbars(m.vol); }
     if (m.block) { need(48); h2('Waar sta je in het programma'); para(m.block.phaseTxt, 9, C.ink); progress(m.block); }
     if (m.charts.length) {
-      need(70); h2('Jouw progressie'); para('Geschat 1RM (e1RM): het gewicht dat je theoretisch één keer zou kunnen tillen, berekend uit je sets en reps. Zo zijn zware en lichtere sets vergelijkbaar.', 8.4);
+      need(70); h2('Jouw progressie'); para('Geschat 1RM (e1RM): het gewicht dat je theoretisch één keer zou kunnen tillen, berekend uit je sets en reps. Zo zijn een set van 3 en een set van 8 vergelijkbaar. Een oefening in de B-reeks doe je lichter of met meer reps: die vergelijken we enkel met andere B-metingen.', 8.4);
       const cw = (CW - 4) / 2, chh = 50; for (let i = 0; i < m.charts.length; i += 2) { need(chh + 4); lineChart(M, y, cw, chh, m.charts[i]); if (m.charts[i + 1]) lineChart(M + cw + 4, y, cw, chh, m.charts[i + 1]); y += chh + 4; } y += 3;
     }
     if (m.next && m.next.rows.length) {
@@ -1488,6 +1728,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       table([{ h: '', w: 11 }, { h: 'Oefening', w: 52 }, { h: 'Schema', w: 30 }, { h: 'Gewicht', w: 43 }, { h: 'Rust', w: 22 }, { h: 'Tempo', w: 24 }],
         m.next.rows.map((r) => ({ band: RK[r.rk], sub: r.sub, cells: [{ t: r.code, bold: true, color: RK[r.rk] || C.muted }, { t: r.name, bold: true }, r.scheme, r.kg, r.rest, r.tempo] })));
     }
+    { font('normal', 7.2); const dl = doc.splitTextToSize(T(DISC_COM), CW).length + doc.splitTextToSize(T(DISC_LEGAL), CW).length; need(dl * 3.1 + 24); y += 4; stroke(C.line); doc.setLineWidth(0.2); doc.line(M, y, W - M, y); y += 5;
+      font('bold', 7.6); col(C.ink); text('Over dit rapport', M, y); y += 3.8; para(DISC_COM, 7.2);
+      font('bold', 7.6); col(C.ink); need(8); text('Disclaimer', M, y); y += 3.8; para(DISC_LEGAL, 7.2); }
     const n = doc.getNumberOfPages();
     for (let i = 1; i <= n; i++) { doc.setPage(i); stroke(C.line); doc.setLineWidth(0.2); doc.line(M, H - 11, W - M, H - 11); font('normal', 7.5); col(C.muted); text(`EnCORE Coaching · ${m.client}${m.coach ? ' · coach ' + m.coach : ''}`, M, H - 7); text(`${i} / ${n}`, W - M, H - 7, { align: 'right' }); }
     return doc;
@@ -1505,8 +1748,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   const reportFile = (m) => `EnCORE ${m.first} ${m.fileDate}.pdf`;
   function reportMail(m) {
     const coach = m.coach || 'je coach';
-    const html = `<p>Hoi ${esc(m.first)},</p><p>Hierbij het verslag van je training van ${esc(m.dateShort)}. In de bijlage vind je wat je deed, waar je staat in je programma, je progressie en wat er volgende keer op het programma staat.</p>${m.note ? `<p>${esc(m.note).replace(/\n/g, '<br>')}</p>` : ''}<p>Sportieve groet,<br>${esc(coach)}<br>EnCORE Coaching</p>`;
-    const text = `Hoi ${m.first},\n\nHierbij het verslag van je training van ${m.dateShort}. In de bijlage vind je wat je deed, waar je staat in je programma, je progressie en wat er volgende keer op het programma staat.\n\n${m.note ? m.note + '\n\n' : ''}Sportieve groet,\n${coach}\nEnCORE Coaching`;
+    const pr = m.praise && m.praise.lines.length ? m.praise : null;
+    const html = `<p>Hoi ${esc(m.first)},</p>${pr ? `<p><b>${esc(pr.title)}</b></p><ul>${pr.lines.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}<p>Hierbij het verslag van je training van ${esc(m.dateShort)}. In de bijlage vind je wat je deed, waar je staat in je programma, je progressie en wat er volgende keer op het programma staat.</p>${m.note ? `<p>${esc(m.note).replace(/\n/g, '<br>')}</p>` : ''}<p>Sportieve groet,<br>${esc(coach)}<br>EnCORE Coaching</p><p style="font-size:11px;color:#777">${esc(DISC_COM)}<br><br>${esc(DISC_LEGAL)}</p>`;
+    const text = `Hoi ${m.first},\n\n${pr ? praiseText(pr) + '\n\n' : ''}Hierbij het verslag van je training van ${m.dateShort}. In de bijlage vind je wat je deed, waar je staat in je programma, je progressie en wat er volgende keer op het programma staat.\n\n${m.note ? m.note + '\n\n' : ''}Sportieve groet,\n${coach}\nEnCORE Coaching\n\n--\n${DISC_COM}\n\n${DISC_LEGAL}`;
     return { subject: `Je training van ${m.dateShort} · EnCORE Coaching`, html, text };
   }
   function openReport(sid) { const c = client(); S.report = { sid, to: c.email || '', note: '', busy: false }; renderReport(); $('#rep-note')?.focus(); }
@@ -1518,8 +1762,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       <h3 id="rep-h">Rapport naar ${esc(c.name)}</h3><p class="sub">PDF van de training van ${esc(fmtDate(s?.date))}: wat ${esc(String(c.name).split(' ')[0])} deed, waar die staat in het programma, de progressie en de volgende training.</p>
       <div class="form" style="margin-top:12px"><label class="field wide"><span>E-mail klant</span><input type="email" id="rep-to" data-bind="rep" data-f="to" value="${esc(r.to)}" placeholder="naam@voorbeeld.be"></label>
       <label class="field wide"><span>Persoonlijke boodschap (bovenaan de PDF en in de mail)</span><textarea id="rep-note" data-bind="rep" data-f="note" placeholder="bv. Sterke sessie! Volgende keer gaan we op de trap bar 2,5 kg zwaarder.">${esc(r.note)}</textarea></label></div>
-      <p class="small muted" id="rep-status" role="status" style="margin:10px 0 0">${s?.report?.at ? 'Eerder rapport: ' + esc(fmtDate(s.report.at.slice(0, 10))) + (s.report.to ? ' naar ' + esc(s.report.to) : '') : 'De mail wordt een concept in Gmail: je kijkt hem na en verstuurt zelf.'}</p>
-      <div class="row" style="justify-content:flex-end;margin-top:12px;gap:8px"><button class="btn" data-act="rep-close">Sluiten</button><button class="btn" data-act="rep-dl">PDF downloaden</button><button class="btn primary" data-act="rep-gmail">Concept in Gmail</button></div></div></div>`;
+      <p class="small muted" id="rep-status" role="status" style="margin:10px 0 0">${s?.report?.at ? 'Eerder rapport: ' + esc(fmtDate(s.report.at.slice(0, 10))) + (s.report.to ? ' naar ' + esc(s.report.to) : '') : 'Verstuur nu: de mail met PDF vertrekt meteen via Gmail.'}</p>
+      <div class="row" style="justify-content:flex-end;margin-top:12px;gap:8px"><button class="btn" data-act="rep-close">Sluiten</button><button class="btn" data-act="rep-dl">PDF downloaden</button><button class="btn" data-act="rep-gmail">Concept in Gmail</button><button class="btn primary" data-act="rep-send">Verstuur nu</button></div></div></div>`;
   }
   const repStatus = (h) => { const el = $('#rep-status'); if (el) el.innerHTML = h; };
   const repBusy = (on) => { if (S.report) S.report.busy = on; document.querySelectorAll('#report-modal [data-act^="rep-"]').forEach((x) => { if (x.dataset.act !== 'rep-close') x.disabled = on; }); };
@@ -1533,7 +1777,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     } catch (e) { repStatus(esc(e?.message || 'PDF maken lukte niet.')); }
     repBusy(false);
   }
-  async function reportGmail() {
+  async function reportGmail(send) {
     const r = S.report; if (!r || r.busy) return;
     const to = String(r.to || '').trim(); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) { repStatus('<span class="sig-bad">Vul een geldig e-mailadres in.</span>'); $('#rep-to')?.focus(); return; }
     repBusy(true); repStatus('PDF wordt gemaakt…');
@@ -1542,11 +1786,12 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       const { m, doc } = await reportPdf(), mail = reportMail(m), b64 = doc.output('datauristring').split(',')[1];
       const mcp = await useCap('mcp');
       if (!mcp) { repStatus('Gmail is niet bereikbaar in deze weergave. Download de PDF en voeg hem toe aan een mail.'); repBusy(false); return; }
-      repStatus('Concept wordt aangemaakt in Gmail…');
-      const res = await mcp.callTool('Gmail', 'create_draft', { to: [to], subject: mail.subject, body: mail.text, htmlBody: mail.html, attachments: [{ content: b64, filename: reportFile(m), mimeType: 'application/pdf' }] });
+      repStatus(send ? 'Mail wordt verstuurd…' : 'Concept wordt aangemaakt in Gmail…');
+      const res = await mcp.callTool('Gmail', send ? 'send_message' : 'create_draft', { to: [to], subject: mail.subject, body: mail.text, htmlBody: mail.html, attachments: [{ content: b64, filename: reportFile(m), mimeType: 'application/pdf' }] });
       const url = res?.payload?.viewUrl || res?.structuredContent?.viewUrl || '';
-      const at = new Date().toISOString(), rep = { at, to, type: 'gmail-concept' };
+      const at = new Date().toISOString(), rep = { at, to, type: send ? 'gmail-sent' : 'gmail-concept' };
       if (S.draft && S.draft.id === r.sid) { S.draft.report = rep; S.draft._dirty = true; await saveTraining(); } else if (S.canWrite) await write(`clients/${S.cid}/sessions/${r.sid}`, { report: rep }, true);
+      if (send) { repStatus(`<span class="sig-up">✓ Verstuurd naar ${esc(to)}.</span>`); repBusy(false); return; }
       repStatus(`<span class="sig-up">Concept staat klaar in Gmail.</span> ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open het concept</a>, kijk het na en verstuur.` : 'Open Gmail, kijk het concept na en verstuur.'}`);
     } catch (e) {
       const msg = gmailErr(e);
@@ -1564,9 +1809,48 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
         not_in_manifest: 'Gmail is niet toegestaan voor deze pagina. Sta het toe via het menu Rechten van de app.',
         approval_required: 'Gmail vraagt je goedkeuring. Klik opnieuw en sta het toe.',
         blocked_by_policy: 'Je organisatie blokkeert Gmail voor deze pagina.',
-        tool_error: 'Gmail weigerde het concept: ' + (e?.message || ''),
-        server_unavailable: 'Gmail reageert niet. Kijk eerst in Gmail of het concept toch werd aangemaakt voor je opnieuw probeert.',
-      }[e?.code] || 'Het concept maken lukte niet' + (e?.message ? ': ' + e.message : '') + '. Download de PDF en mail hem zelf.');
+        tool_error: 'Gmail weigerde de mail: ' + (e?.message || ''),
+        server_unavailable: 'Gmail reageert niet. Kijk eerst in Gmail (Verzonden of Concepten) of de mail toch vertrok voor je opnieuw probeert.',
+      }[e?.code] || 'Mailen lukte niet' + (e?.message ? ': ' + e.message : '') + '. Download de PDF en mail hem zelf.');
+  // ---------- motivatie: records per aantal reps, alles afgewerkt, meer volume, event in zicht ----------
+  // Record = zwaarste gewicht ooit voor minstens dat aantal reps; anders "beste in 12 maanden".
+  function praiseFor(s) {
+    const c = client(), first = String(c?.name || '').trim().split(' ')[0], out = [], recs = [];
+    let planN = 0, doneN = 0, ton = 0, over = [], allDone = true;
+    const PERIODS = [[365, '12 maanden'], [182, '6 maanden'], [91, '3 maanden']];
+    (s.entries || []).forEach((en) => {
+      if (!en.exId) return; const tg = en.target || {}, st = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null || x.ok === true);
+      planN += num(tg.sets) || st.length; doneN += st.length; if (st.length < (num(tg.sets) || 0)) allDone = false;
+      if (!isStrength(en.exId)) return;
+      const per = unitOf(en.exId) === 'kg per hand' ? 2 : 1;
+      st.forEach((x) => { const kg = setKg(x, en.exId), r = num(x.reps); if (kg && r) ton += kg * r * per; });
+      if (num(tg.repsMax) && st.some((x) => num(x.reps) > num(tg.repsMax))) over.push(exName(en.exId));
+      const prior = history(en.exId, s.date).flatMap((h) => h.sets.map((x) => ({ d: h.date, kg: setKg(x, en.exId), r: num(x.reps) }))).filter((x) => x.kg && x.r);
+      if (!prior.length) return;
+      let best = null;
+      st.forEach((x) => {
+        const kg = setKg(x, en.exId), r = num(x.reps); if (!kg || !r) return;
+        const atLeast = prior.filter((q) => q.r >= r), mx = (arr) => (arr.length ? Math.max(...arr.map((q) => q.kg)) : 0);
+        // kind: 4 = ooit, 3 = 12 maanden, 2 = 6 maanden, 1 = 3 maanden (telt enkel als er in die periode eerdere metingen zijn)
+        let kind = 0, per = '';
+        if (kg > mx(atLeast)) kind = 4;
+        else for (let pi = 0; pi < PERIODS.length; pi++) { const inP = atLeast.filter((q) => q.d >= addDays(s.date, -PERIODS[pi][0])); if (inP.length && kg > mx(inP)) { kind = 3 - pi; per = PERIODS[pi][1]; break; } }
+        if (kind && (!best || kind > best.kind || (kind === best.kind && kg > best.kg))) best = { kind, kg, r, x, per };
+      });
+      if (best) recs.push({ name: exName(en.exId), txt: `${setLabel(en.exId, best.x)} × ${best.r}`, kind: best.kind, r: best.r, per: best.per });
+    });
+    recs.sort((a, z) => z.kind - a.kind);
+    recs.forEach((q) => out.push(q.kind === 4 ? `Record op ${q.name}: ${q.txt}, je zwaarste ooit voor ${q.r} reps. Daar mag je trots op zijn!` : `Sterk op ${q.name}: ${q.txt}, je beste van de voorbije ${q.per} voor ${q.r} reps.`));
+    if (doneN && allDone) out.push(`Alle oefeningen volledig afgewerkt (${doneN} sets): proficiat, goed gedaan!`); else if (doneN) out.push(`${doneN} werksets afgewerkt: goed gedaan, elke set telt!`);
+    const prev = sortedSessions().filter((x) => x.id !== s.id && x.date < s.date && !x.historical && x.blockId === s.blockId && sessSlot(x) === sessSlot(s)).pop();
+    if (prev && ton) { let pt = 0; (prev.entries || []).forEach((en) => { if (!isStrength(en.exId)) return; const per = unitOf(en.exId) === 'kg per hand' ? 2 : 1; (en.sets || []).forEach((x) => { const kg = setKg(x, en.exId), r = num(x.reps); if (kg && r) pt += kg * r * per; }); }); if (pt && ton > pt * 1.02) out.push(`${nl(Math.round((ton / pt - 1) * 100), 0)}% meer volume dan vorige keer: je wordt sterker.`); }
+    const fn = (s.fins || []).filter((f) => f.result || f.done); if (fn.length) out.push(`Finisher afgewerkt: ${fn.map((f) => `${f.name}${f.result ? ' ' + f.result : ''}`).join(', ')}. Sterk afgesloten!`);
+    if (over.length) out.push(`Op ${over.join(' en ')} zat je boven je repsbereik: volgende keer mag het zwaarder.`);
+    const ev = c?.event; if (ev?.date) { const dd = daysBetween(s.date, ev.date); if (dd > 0 && dd <= 60) out.push(`Nog ${dd} ${dd === 1 ? 'dag' : 'dagen'} tot ${ev.name || 'je event'}: je bent goed op weg.`); }
+    return { recs, title: recs.some((q) => q.kind === 4) ? `Proficiat ${first}, nieuw record!` : `Goed bezig, ${first}!`, lines: out, close: 'Blijf zo doorgaan, je coach is trots op je.' };
+  }
+  const praiseHTML = (pr) => (pr && pr.lines.length ? `<div class="praise"><b>${esc(pr.title)}</b>${pr.lines.map((l) => `<span>${esc(l)}</span>`).join('')}<span class="muted">${esc(pr.close)}</span></div>` : '');
+  const praiseText = (pr) => (pr && pr.lines.length ? [pr.title, ...pr.lines, pr.close].join('\n') : '');
   // ---------- samenvatting bij "Klaar" ----------
   // Plan tegenover gedaan, nieuwe records en wat te moeilijk was. Eén Gmail-concept naar klant, coach of beide.
   // "Te moeilijk" = wat de klant noteerde, een score van 5 of lager, minder reps dan gepland of een RPE duidelijk boven het plan.
@@ -1579,7 +1863,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       const st = (en.sets || []).filter(setDone), planN = num(tg.sets) || 0;
       const rMin = num(tg.repsMin), rMax = num(tg.repsMax) ?? rMin, tRpe = tg.rir != null && tg.rir !== '' ? rirToRpe(tg.rir) : null;
       const planKgs = (tg.setPlan || []).map((p) => num(p.kg)).filter((v) => v != null), topPlan = planKgs.length ? Math.max(...planKgs) : null;
-      const blok = unitOf(en.exId) === 'blok' && topPlan != null ? { blocks: Math.floor(topPlan / kgPerBlock()), extra: Math.round((topPlan - Math.floor(topPlan / kgPerBlock()) * kgPerBlock()) * 10) / 10 } : null;
+      const blok = unitOf(en.exId) === 'blok' && topPlan != null ? splitBlocks(topPlan) : null;
       const kgPart = topPlan != null || bw ? ' · ' + (bw ? kgPlanTxt('bw', topPlan) : blok ? setLabel(en.exId, blok) : kgTxt(en.exId, topPlan)) : '';
       const plan = !planN ? '' : rk === 'F' || !str ? `${planN} ${rk === 'F' ? (planN === 1 ? 'ronde' : 'rondes') : 'sets'}` : `${planN} × ${rMin != null && rMax != null && rMin !== rMax ? rMin + '-' + rMax : rMax ?? '?'}${tRpe != null ? ' @ RPE ' + nl(tRpe) : ''}${kgPart}`;
       setsPlan += planN || st.length; setsDone += st.length;
@@ -1602,12 +1886,16 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       rows.push({ code, rk, name, plan, did: doneTxt(en.exId, st), status, score: num(en.score) });
     });
     const fb = d.feedback || {}, fbTxt = [num(fb.energy) != null && 'energie ' + nl(fb.energy, 0) + ' op 5', num(fb.bodyweight) != null && 'lichaamsgewicht ' + nl(fb.bodyweight) + ' kg', num(fb.pain) != null && ATT.toLowerCase() + ' ' + nl(fb.pain, 0) + ' op 10', fb.note].filter(Boolean).join(' · ');
-    return { sid: d.id, client: c.name, first, coach: c.coach || '', title: slotLabel(d.day), dateTxt: fmtDate(d.date), dateShort: fmtDate(d.date, false), block: b ? `${b.code} ${phaseOf(b.phase)} · week ${d.week}` : '', setsPlan, setsDone, rows, recs, hard, fbTxt };
+    const extras = { warm: d.genWarm?.done ? d.genWarm.txt : '', fins: (d.fins || []).filter((f) => f.name || f.result).map((f) => `${f.name}${f.result ? ': ' + f.result : ''}`) };
+    return { extras, praise: praiseFor(d), sid: d.id, client: c.name, first, coach: c.coach || '', title: slotLabel(d.day), dateTxt: fmtDate(d.date), dateShort: fmtDate(d.date, false), block: b ? `${b.code} ${phaseOf(b.phase)} · week ${d.week}` : '', setsPlan, setsDone, rows, recs, hard, fbTxt };
   }
   const summaryText = (m) => [
+    ...(praiseText(m.praise) ? [praiseText(m.praise), ''] : []),
     `${m.title} · ${m.client} · ${m.dateTxt}${m.block ? ' · ' + m.block : ''}`,
     `Sets gedaan: ${m.setsDone} van ${m.setsPlan} gepland`, '',
+    ...(m.extras?.warm ? ['OPWARMING', m.extras.warm, ''] : []),
     'PLAN TEGENOVER GEDAAN', ...m.rows.map((r) => `- ${r.code ? r.code + ' ' : ''}${r.name}: ${r.did}${r.plan ? ' (plan ' + r.plan + ')' : ''} · ${r.status[0]}${r.score != null ? ' · score ' + r.score + '/10' : ''}`), '',
+    ...(m.extras?.fins?.length ? ['FINISHER', ...m.extras.fins.map((x) => '- ' + x), ''] : []),
     'NIEUWE RECORDS', ...(m.recs.length ? m.recs.map((r) => `- ${r.name}: e1RM ${nl(r.best)} kg (was ${nl(r.pb)} kg)`) : ['- geen']), '',
     'TE MOEILIJK', ...(m.hard.length ? m.hard.map((h) => `- ${h.name}: ${h.why}`) : ['- niets gemeld']),
     ...(m.fbTxt ? ['', 'FEEDBACK', m.fbTxt] : []),
@@ -1615,37 +1903,40 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   function summaryMail(m, toClient, toCoach) {
     const coach = m.coach || 'coach', hi = toClient && toCoach ? `Hoi ${m.first} en ${coach}` : toClient ? `Hoi ${m.first}` : `Hoi ${coach}`;
     const intro = toClient ? `Hierbij de samenvatting van je training van ${m.dateShort}. Het volledige rapport zit als PDF in bijlage.` : `Hierbij de samenvatting van de training van ${m.client} op ${m.dateShort}.`;
-    const txt = summaryText(m);
-    return { subject: `Samenvatting training ${m.dateShort} · ${m.client} · EnCORE Coaching`, text: `${hi},\n\n${intro}\n\n${txt}\n\nSportieve groet,\nEnCORE Coaching`, html: `<p>${esc(hi)},</p><p>${esc(intro)}</p><pre style="font-family:inherit;white-space:pre-wrap">${esc(txt)}</pre><p>Sportieve groet,<br>EnCORE Coaching</p>` };
+    const txt = summaryText({ ...m, praise: null });
+    const pr = m.praise && m.praise.lines.length ? m.praise : null;
+    return { subject: `${pr && toClient ? pr.title + ' · ' : ''}Training ${m.dateShort} · ${m.client} · EnCORE Coaching`, text: `${hi},\n\n${intro}\n\n${txt}\n\nSportieve groet,\nEnCORE Coaching\n\n--\n${DISC_COM}\n\n${DISC_LEGAL}`, html: `<p>${esc(hi)},</p>${pr ? `<p><b>${esc(pr.title)}</b></p><ul>${pr.lines.map((l) => `<li>${esc(l)}</li>`).join('')}</ul><p>${esc(pr.close)}</p>` : ''}<p>${esc(intro)}</p><pre style="font-family:inherit;white-space:pre-wrap">${esc(txt)}</pre><p>Sportieve groet,<br>EnCORE Coaching</p><p style="font-size:11px;color:#777">${esc(DISC_COM)}<br><br>${esc(DISC_LEGAL)}</p>` };
   }
   const MAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  function openSummary(m) { const c = client(); S.summary = { m, toClient: !!c?.email, toCoach: true, clientMail: c?.email || '', coachMail: (S.config.coachEmails || {})[c?.coach || ''] || '', busy: false }; renderSummary(); }
+  function openSummary(m) { const c = client(); S.summary = { m, toClient: !!c?.email, toCoach: !!(S.config.coachEmails || {})[c?.coach || ''], clientMail: c?.email || '', coachMail: (S.config.coachEmails || {})[c?.coach || ''] || '', busy: false }; renderSummary(); }
   function renderSummary() {
     let el = $('#sum-modal'); if (!el) { el = document.createElement('div'); el.id = 'sum-modal'; document.body.appendChild(el); }
     const s = S.summary; if (!s) { el.innerHTML = ''; return; }
     const m = s.m, kpi = (l, v, dd) => `<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="d">${dd}</span></div>`;
     el.innerHTML = `<div class="confirm" role="dialog" aria-modal="true" aria-labelledby="sum-h"><div class="card sum">
-      <h3 id="sum-h">Samenvatting · ${esc(m.title)}</h3><p class="sub">${esc(m.client)} · ${esc(m.dateTxt)}${m.block ? ' · ' + esc(m.block) : ''}</p>
-      <div class="sum-kpis">${kpi('Sets', `${m.setsDone}<small>/ ${m.setsPlan}</small>`, 'gedaan tegenover plan')}${kpi('Records', m.recs.length, 'beste e1RM ooit')}${kpi('Te moeilijk', m.hard.length, 'oefeningen met signaal')}</div>
+      <h3 id="sum-h">Samenvatting · ${esc(m.title)}</h3><p class="sub">${esc(m.client)} · ${esc(m.dateTxt)}${m.block ? ' · ' + esc(m.block) : ''}</p><p class="hint" style="margin:8px 0 0">✓ Opgeslagen in de historiek van ${esc(m.client)}</p>${praiseHTML(m.praise)}
+      <div class="sum-kpis">${kpi('Sets', `${m.setsDone}<small>/ ${m.setsPlan}</small>`, 'gedaan tegenover plan')}${kpi('Records', (m.praise?.recs || []).length, 'zwaarste gewicht per aantal reps')}${kpi('Te moeilijk', m.hard.length, 'oefeningen met signaal')}</div>
+      ${m.extras?.warm ? `<p class="small" style="margin:10px 0 0">Opwarming: <b>${esc(m.extras.warm)}</b></p>` : ''}
       <h4>Plan tegenover gedaan</h4><div class="sum-rows">${m.rows.map((r) => `<div class="sr" data-rk="${r.rk || 'X'}"><div class="sr-h"><b class="rkc">${esc(r.code)}</b> <b>${esc(r.name)}</b>${r.score != null ? ` <span class="small muted">${r.score}/10</span>` : ''}<span class="pill ${r.status[1]}">${esc(r.status[0])}</span></div><div class="small">Gedaan: <b>${esc(r.did)}</b></div><div class="small muted">Plan: ${esc(r.plan || 'vrij')}</div></div>`).join('')}</div>
+      ${m.extras?.fins?.length ? `<h4>Finisher</h4><ul class="sum-l">${m.extras.fins.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
       ${m.recs.length ? `<h4>Nieuwe records</h4><ul class="sum-l">${m.recs.map((r) => `<li><b>${esc(r.name)}</b>: e1RM ${nl(r.best)} kg <span class="muted">(was ${nl(r.pb)} kg)</span></li>`).join('')}</ul>` : ''}
       <h4>Te moeilijk</h4>${m.hard.length ? `<ul class="sum-l">${m.hard.map((h) => `<li><b>${esc(h.name)}</b>: ${esc(h.why)}</li>`).join('')}</ul>` : '<p class="small muted" style="margin:0">Niets gemeld.</p>'}
       ${m.fbTxt ? `<p class="small" style="margin:8px 0 0">Feedback: ${esc(m.fbTxt)}</p>` : ''}
       <h4>Versturen</h4>
       <div class="sendto"><label><input type="checkbox" data-bind="sum" data-f="toClient"${s.toClient ? ' checked' : ''}> Klant</label><input type="email" data-bind="sum" data-f="clientMail" value="${esc(s.clientMail)}" placeholder="klant@voorbeeld.be" aria-label="E-mail klant"></div>
       <div class="sendto"><label><input type="checkbox" data-bind="sum" data-f="toCoach"${s.toCoach ? ' checked' : ''}> Coach${m.coach ? ' ' + esc(m.coach) : ''}</label><input type="email" data-bind="sum" data-f="coachMail" value="${esc(s.coachMail)}" placeholder="coach@encore.be" aria-label="E-mail coach"></div>
-      <p class="small muted" id="sum-status" role="status" style="margin:8px 0 0">Eén concept in Gmail met de samenvatting; met klant erbij ook het PDF-rapport. Je kijkt na en verstuurt zelf.</p>
-      <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn" data-act="sum-close">Sluiten</button><button class="btn" data-act="sum-copy">Kopieer tekst</button><button class="btn" data-act="sum-report">Alleen PDF-rapport</button><button class="btn primary" data-act="sum-gmail">Concept in Gmail</button></div></div></div>`;
+      <p class="small muted" id="sum-status" role="status" style="margin:8px 0 0">Verstuur nu: de mail met samenvatting (en voor de klant het PDF-rapport) vertrekt meteen via Gmail.</p>
+      <div class="row" style="justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn" data-act="sum-close">Sluiten</button><button class="btn" data-act="sum-copy">Kopieer tekst</button><button class="btn" data-act="sum-report">Alleen PDF-rapport</button><button class="btn" data-act="sum-gmail">Concept in Gmail</button><button class="btn primary" data-act="sum-send">Verstuur nu</button></div></div></div>`;
   }
   const sumStatus = (h) => { const el = $('#sum-status'); if (el) el.innerHTML = h; };
   const sumBusy = (on) => { if (S.summary) S.summary.busy = on; document.querySelectorAll('#sum-modal [data-act^="sum-"]').forEach((x) => { if (x.dataset.act !== 'sum-close') x.disabled = on; }); };
-  async function summaryGmail() {
+  async function summaryGmail(send) {
     const s = S.summary; if (!s || s.busy) return; const m = s.m, c = client(), to = [];
     const cm = String(s.clientMail || '').trim(), co = String(s.coachMail || '').trim();
     if (s.toClient) { if (!MAIL_RE.test(cm)) { sumStatus('<span class="sig-bad">Vul een geldig e-mailadres voor de klant in.</span>'); return; } to.push(cm); }
     if (s.toCoach) { if (!MAIL_RE.test(co)) { sumStatus('<span class="sig-bad">Vul een geldig e-mailadres voor de coach in.</span>'); return; } to.push(co); }
     if (!to.length) { sumStatus('<span class="sig-bad">Kies klant, coach of beide.</span>'); return; }
-    sumBusy(true); sumStatus('Concept wordt gemaakt…');
+    sumBusy(true); sumStatus(send ? 'Mail wordt klaargemaakt…' : 'Concept wordt gemaakt…');
     try {
       if (S.canWrite && s.toClient && cm !== (c.email || '')) await write(`clients/${S.cid}`, { email: cm }, true);
       if (S.canWrite && s.toCoach && c.coach && co !== (S.config.coachEmails || {})[c.coach]) { const ce = { ...(S.config.coachEmails || {}), [c.coach]: co }; if (await write('config/app', { coachEmails: ce }, true)) S.config.coachEmails = ce; }
@@ -1653,10 +1944,10 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       if (s.toClient) { sumStatus('PDF-rapport wordt gemaakt…'); const J = await loadPdf(), rm = reportModel(m.sid, ''), doc = drawReport(J, rm); args.attachments = [{ content: doc.output('datauristring').split(',')[1], filename: reportFile(rm), mimeType: 'application/pdf' }]; }
       const mcp = await useCap('mcp');
       if (!mcp) { sumStatus('Gmail is niet bereikbaar in deze weergave. Gebruik "Kopieer tekst".'); sumBusy(false); return; }
-      sumStatus('Concept wordt aangemaakt in Gmail…');
-      const res = await mcp.callTool('Gmail', 'create_draft', args), url = res?.payload?.viewUrl || res?.structuredContent?.viewUrl || '';
-      if (s.toClient && S.canWrite) await write(`clients/${S.cid}/sessions/${m.sid}`, { report: { at: new Date().toISOString(), to: to.join(', '), type: 'gmail-concept' } }, true);
-      sumStatus(`<span class="sig-up">Concept staat klaar in Gmail.</span> ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open het concept</a>, kijk het na en verstuur.` : 'Open Gmail, kijk het concept na en verstuur.'}`);
+      sumStatus(send ? 'Mail wordt verstuurd…' : 'Concept wordt aangemaakt in Gmail…');
+      const res = await mcp.callTool('Gmail', send ? 'send_message' : 'create_draft', args), url = res?.payload?.viewUrl || res?.structuredContent?.viewUrl || '';
+      if (S.canWrite) await write(`clients/${S.cid}/sessions/${m.sid}`, { report: { at: new Date().toISOString(), to: to.join(', '), type: send ? 'gmail-sent' : 'gmail-concept' } }, true);
+      sumStatus(send ? `<span class="sig-up">✓ Verstuurd naar ${esc(to.join(', '))}.</span>` : `<span class="sig-up">Concept staat klaar in Gmail.</span> ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open het concept</a>, kijk het na en verstuur.` : 'Open Gmail, kijk het concept na en verstuur.'}`);
     } catch (e) { sumStatus(`<span class="sig-bad">${esc(gmailErr(e))}</span>`); }
     sumBusy(false);
   }
@@ -1733,15 +2024,16 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
 
   // ---------- view: settings ----------
   function viewSettings() {
-    if (!S.settingsDraft) S.settingsDraft = { coaches: [...(S.config.coaches || [])], anchors: [...(S.config.anchors || [])], kgPerBlock: S.config.kgPerBlock ?? 6.4, pullPushTarget: S.config.pullPushTarget ?? 2, pullPushConfirmed: !!S.config.pullPushConfirmed, dirty: false };
+    if (!S.settingsDraft) S.settingsDraft = { coaches: [...(S.config.coaches || [])], anchors: [...(S.config.anchors || [])], bigBlock: S.config.bigBlock ?? 5.5, smallBlock: S.config.smallBlock ?? 2.75, pullPushTarget: S.config.pullPushTarget ?? 2, pullPushConfirmed: !!S.config.pullPushConfirmed, dirty: false };
     const d = S.settingsDraft;
     const strength = Object.values(S.exercises).filter((e) => STRENGTH.includes(e.unit)).sort((a, b) => a.name.localeCompare(b.name));
     return `<section class="card"><div class="card-h"><div><h2>Coaches</h2><p class="sub">Wijs klanten toe via "Profiel bewerken". Op de klantenpagina filter je per coach.</p></div></div>
         <div style="display:flex;flex-direction:column;gap:8px;max-width:28rem">${d.coaches.map((c, i) => `<div class="row" style="flex-wrap:nowrap"><input style="flex:1" id="co-${i}" data-bind="coach" data-i="${i}" value="${esc(c)}" placeholder="Naam coach"><button class="btn ghost small" data-act="co-del" data-i="${i}" aria-label="Coach verwijderen">×</button></div>`).join('') || '<span class="muted">Nog geen coaches.</span>'}</div>
         <div class="row" style="margin-top:10px"><button class="btn" data-act="co-add">+ Coach</button></div></section>
       <section class="card"><div class="card-h"><div><h2>Toestellen</h2><p class="sub">Geldt voor alle klanten. Trainingen op een toestel worden bewaard als aantal blokken + extra kg; het totaal in kg wordt telkens met dit gewicht berekend.</p></div></div>
-        <label class="field" style="max-width:16rem"><span>Kg per toestelblok</span><input id="set-kpb" inputmode="decimal" data-bind="set-kpb" value="${esc(d.kgPerBlock)}"></label>
-        <p class="small muted" style="margin:6px 0 0">10 blokken = ${esc(nl((num(d.kgPerBlock) || 0) * 10))} kg</p></section>
+        <div class="row"><label class="field" style="max-width:16rem"><span>Kg per groot blok</span><input id="set-kpb" inputmode="decimal" data-bind="set-kpb" value="${esc(d.bigBlock)}"></label>
+        <label class="field" style="max-width:16rem"><span>Kg kleine blok (altijd mee)</span><input id="set-kps" inputmode="decimal" data-bind="set-kps" value="${esc(d.smallBlock)}"></label></div>
+        <p class="small muted" style="margin:6px 0 0">Gelogd wordt blok + extra gewichtje (2,3 of 4,6 kg), niet de kg: door de katrol is de echte weerstand anders dan het getal. Blok 10 + 2,3 = ${esc(nl((num(d.smallBlock) || 0) + (num(d.bigBlock) || 0) * 10 + 2.3))} kg (enkel voor de berekening).</p></section>
       <section class="card"><div class="card-h"><div><h2>Patroonbalans</h2><p class="sub">Verhouding trekken tegenover duwen in sets per week. De blog van Stijn noemt 2 : 1; bevestig of pas aan.</p></div></div>
         <div class="row" style="align-items:flex-end;gap:16px"><label class="field" style="max-width:12rem"><span>Doel pull : push</span><input id="set-ppt" inputmode="decimal" data-bind="set-ppt" value="${esc(d.pullPushTarget)}"></label>
         <label class="row small" style="gap:8px;padding-bottom:8px"><input type="checkbox" data-bind="set-ppc"${d.pullPushConfirmed ? ' checked' : ''}> Bevestigd door Stijn</label></div></section>
@@ -1797,8 +2089,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     'set-reset': () => { S.settingsDraft = null; render(); },
     'set-save': async () => {
       const d = S.settingsDraft; const coaches = [...new Set(d.coaches.map((c) => c.trim()).filter(Boolean))];
-      const kpb = num(d.kgPerBlock) ?? 6.4, ppt = num(d.pullPushTarget) ?? 2, ppc = !!d.pullPushConfirmed;
-      if (await write('config/app', { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} }; toastMsg('Instellingen opgeslagen'); render(); }
+      const kpb = num(d.bigBlock) ?? 5.5, kps = num(d.smallBlock) ?? 2.75, ppt = num(d.pullPushTarget) ?? 2, ppc = !!d.pullPushConfirmed;
+      if (await write('config/app', { coaches, anchors: d.anchors, bigBlock: kpb, smallBlock: kps, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, bigBlock: kpb, smallBlock: kps, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} }; toastMsg('Instellingen opgeslagen'); render(); }
     },
     'cf-cancel': () => { S.newClient = null; S.profileDraft = null; render(); },
     'cf-save': async () => {
@@ -1810,11 +2102,13 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       } else if (await write(`clients/${S.cid}`, body, true)) { S.profileDraft = null; toastMsg('Profiel opgeslagen'); render(); }
     },
     'goto-progress': (b) => { S.progEx = b.dataset.id; setView('progress'); },
-    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null) x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.gymIdx = 0; S.gymSet = null; S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
-    'start-slot': (b) => { const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); S.gymIdx = 0; S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
+    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; S.undo = []; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null && x.rirSrc !== 'plan') x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.gymIdx = 0; S.gymSet = null; S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
+    'start-slot': (b) => { S.undo = []; const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); S.gymIdx = 0; S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
     'open-block': (b) => { S.blockSel = b.dataset.id; S.schemaDraft = null; S.schemaDirty = false; S.slotFilter = ''; setView('planning'); },
     'slot-filter': (b) => { S.slotFilter = b.dataset.v; renderMain(); },
     'gen-open': async () => { await savePlan(); S.gen = genDefaults(); renderMain(); },
+    'cycle-model': (b) => { store.set('ec.cycle', b.dataset.v); renderMain(); },
+    'cycle-build': async (b) => { await savePlan(); const g = genDefaults(); g.start = b.dataset.start; g.phase = b.dataset.phase; applyPhase(g, g.phase); S.gen = g; renderMain(); toastMsg(`Voorstel ${g.phase} vanaf ${fmtDate(g.start, false)}: kies de oefeningen en tik Maak`); },
     'gen-cancel': () => { S.gen = null; renderMain(); },
     'gen-mode': (b) => { S.gen.mode = b.dataset.v; renderMain(); },
     'gen-make': () => {
@@ -1826,14 +2120,16 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       markSchemaDirty(); savePlan(); renderMain(); toastMsg('Voorstel klaar en bewaard: pas het aan waar nodig');
     },
     // v1.3.0: na Klaar de samenvatting (plan tegenover gedaan, records, te moeilijk), klaar om te mailen
-    'done-training': async () => {
+    'done-training': async (b) => {
+      const part = S.draft.entries.flatMap((en) => en.sets.map((x, k) => (setPartial(x) ? `${en.target?.code ? en.target.code + ' ' : ''}${exName(en.exId)} set ${k + 1}` : null)).filter(Boolean));
+      if (part.length && !b?.dataset?.force) { ask('Onvolledige sets', `Gewicht ingevuld maar geen reps: ${part.join(', ')}. Deze sets tellen niet mee. Toch afronden?`, () => ACT['done-training']({ dataset: { force: '1' } }), 'Toch afronden', true); return; }
       if (!(await saveTraining())) return; const d = S.draft, had = !!d?.id, m = had ? summaryModel(d) : null;
       if (had) S.lastSess = { id: d.id, ...trainingBody(d) };
-      restStop(); S.draft = null; S.saveState = ''; render(); if (m) openSummary(m);
+      restStop(); S.draft = null; S.saveState = ''; render(); toastMsg('✓ Training opgeslagen in je historiek'); if (m) openSummary(m);
     },
-    'add-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.push({ mode: en.bwMode || 'auto' }); renderMain(); scheduleTraining(); },
-    'del-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); S.gymSet = null; renderMain(); scheduleTraining(); },
-    'del-entry': (b) => { S.draft.entries.splice(+b.dataset.ei, 1); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'add-set': (b) => { pushUndo(false); const en = S.draft.entries[+b.dataset.ei]; en.sets.push({ mode: en.bwMode || 'auto' }); renderMain(); scheduleTraining(); },
+    'del-set': (b) => { pushUndo(false); const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'del-entry': (b) => { pushUndo(false); S.draft.entries.splice(+b.dataset.ei, 1); S.gymSet = null; renderMain(); scheduleTraining(); },
     'add-entry': () => { const id = $('#add-ex').value; if (!id) return; S.draft.entries.push({ exId: id, variant: '', target: {}, bwMode: 'auto', sets: [{ mode: 'auto' }, { mode: 'auto' }, { mode: 'auto' }] }); if (S.gym) { S.gymIdx = S.draft.entries.length - 1; S.gymSet = null; } renderMain(); scheduleTraining(); },
     'copy-prev': (b) => {
       const ei = +b.dataset.ei, en = S.draft.entries[ei], prev = prevSummary(en.exId, S.draft.date); if (!prev) return;
@@ -1844,15 +2140,35 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     // ✓ bevestigt een set: lege velden krijgen het voorstel (plan, anders vorige keer), RPE nooit; daarna start de rust
     'confirm-set': (b) => {
       const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], st = en.sets[si]; if (!st) return;
-      audioUnlock();
+      audioUnlock(); const snap = snapNow();
       const sg = setSuggest(en, si) || {};
       Object.entries(sg).forEach(([f, v]) => { if (f !== 'rpe' && (st[f] == null || st[f] === '') && v !== '' && v != null) st[f] = v; });
+      if (!setDone(st) && num((en.target?.setPlan || [])[si]?.reps) == null && num(en.target?.repsMax) == null && (num(st.kg) != null || num(st.blocks) != null)) st.ok = true;
       if (!setDone(st)) { toastMsg('Vul eerst de herhalingen in.'); return; }
-      st._rest = true; S.gymSet = null; restAfter(ei);
+      const wi = weightIssue(en, st);
+      if (wi && wi.hard) { toastMsg(wi.msg); S.gymSet = si; renderMain(); return; }
+      if (wi && wi.double) { ask('Gewicht per dumbbell?', wi.msg, async () => { pushUndo(true, snap); st.kg = wi.fix; st._rest = true; S.gymSet = null; restAfter(ei); gymAuto(ei); renderMain(); scheduleTraining(); }, `Ja: 2 × ${nl(wi.fix)} kg`, true); return; }
+      pushUndo(true, snap); st._rest = true; S.gymSet = null; restAfter(ei); if (gymAuto(ei)) { scheduleTraining(); return; }
       renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next && !S.gym) next.focus();
     },
+    'gw-toggle': () => { pushUndo(false); const g = S.draft.genWarm || { txt: client()?.warmupDefault || 'Roeien 2 min (±500 m)' }; g.done = !g.done; S.draft.genWarm = g; audioUnlock(); renderMain(); scheduleTraining(); },
+    'fin-add': (b) => { S.draft.fins = S.draft.fins || []; S.draft.fins.push({ name: b.dataset.v || '', result: '', done: false }); renderMain(); const k = S.draft.fins.length - 1; $(`#fin-${k}-${b.dataset.v ? 'result' : 'name'}`)?.focus(); },
+    'fin-del': (b) => { S.draft.fins.splice(+b.dataset.i, 1); renderMain(); scheduleTraining(); },
+    'fin-ok': (b) => { const f = S.draft.fins[+b.dataset.i]; if (!String(f.result || '').trim() && !f.done) { toastMsg('Vul eerst het resultaat in.'); $(`#fin-${b.dataset.i}-result`)?.focus(); return; } pushUndo(false); f.done = !f.done; renderMain(); scheduleTraining(); },
+    'blok-extra': (b) => { pushUndo(false); const st = S.draft.entries[+b.dataset.ei].sets[+b.dataset.si]; st.extra = Number(b.dataset.v) || 0; S.gymSet = +b.dataset.si; renderMain(); scheduleTraining(); },
     'set-clear': (b) => { const en = S.draft.entries[+b.dataset.ei], si = +b.dataset.si; en.sets[si] = { mode: en.bwMode || 'auto' }; S.gymSet = si; renderMain(); scheduleTraining(); },
-    'wset-ok': (b) => { const w = S.draft.entries[+b.dataset.ei].warmup[+b.dataset.wi]; w.done = !w.done; audioUnlock(); renderMain(); scheduleTraining(); },
+    'wset-ok': (b) => {
+      const ei = +b.dataset.ei, wi = +b.dataset.wi, en = S.draft.entries[ei], w = en.warmup[wi]; audioUnlock(); const snap = snapNow();
+      if (!w.done) {
+        const kg = num(w.kg), ref = refKg(en), first = num((en.target?.setPlan || [])[0]?.kg);
+        if (kg != null && ref && kg > Math.max(ref * 1.6, ref + 40)) { toastMsg(`${nl(kg)} kg is onmogelijk hoog voor een opwarmset. Typfout?`); return; }
+        if (kg != null && first && kg >= first * 0.97 && num(w.reps) >= (num(en.target?.repsMin) || 99)) {
+          ask('Is dit een werkset?', `${nl(kg)} kg × ${nl(w.reps, 0)} is even zwaar als je werksets. Werksets tellen mee voor je progressie en records, opwarmsets niet.`, async () => { pushUndo(false, snap); en.warmup.splice(wi, 1); const ns = { kg: w.kg, reps: w.reps, mode: en.bwMode || 'auto' }, fe = en.sets.findIndex((x) => !setDone(x) && !setPartial(x)); if (fe >= 0) en.sets[fe] = ns; else en.sets.push(ns); renderMain(); scheduleTraining(); toastMsg('Verplaatst naar de werksets'); }, 'Ja, verplaats naar werksets', true);
+          return;
+        }
+      }
+      pushUndo(false, snap); w.done = !w.done; renderMain(); scheduleTraining();
+    },
     // ± knoppen: vertrekt van de ingevulde waarde, anders van het grijze voorstel
     step: (b) => {
       const { ei, si, f } = b.dataset, inp = $(`#s-${ei}-${si}-${f}`); if (!inp) return;
@@ -1861,18 +2177,24 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     },
     'rpe-set': (b) => { const st = S.draft.entries[+b.dataset.ei].sets[+b.dataset.si], v = Number(b.dataset.v); if (num(st.rpe) === v) { st.rpe = ''; st.rir = ''; } else { st.rpe = v; st.rir = rpeToRir(v); } S.gymSet = +b.dataset.si; renderMain(); scheduleTraining(); },
     'gym-toggle': () => { S.gym = !S.gym; store.set('ec.gym', S.gym ? '1' : '0'); S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
-    'gym-go': (b) => gymGo(+b.dataset.i),
+    'gym-go': (b) => gymGo(+b.dataset.i, true),
+    undo: () => undo(),
+    'score-set': (b) => { const en = S.draft.entries[+b.dataset.ei], v = Number(b.dataset.v); pushUndo(false); en.score = num(en.score) === v ? null : v; renderMain(); scheduleTraining(); },
     'gym-set': (b) => { S.gymSet = +b.dataset.si; renderMain(); },
     'rest-stop': () => restStop(),
+    'rest-go': () => { const r = S.rest; if (r && r.next >= 0) { gymGo(r.next); const el = restEl(); el.innerHTML = restInner(); restTick(); } },
+    // rusttijd kiezen: herstart vanaf het einde van de set; de keuze geldt ook voor de volgende sets van die oefening
+    'rest-set': (b) => { const r = S.rest; if (!r) return; const v = Number(b.dataset.v); r.total = v; r.end = r.t0 + restLeft(v) * 1000; r.warned = r.end - Date.now() <= REST_WARN * 1000; r.rang = r.end <= Date.now(); const en = S.draft?.entries[r.ei]; if (en) { en.target = { ...(en.target || {}), restPick: v }; scheduleTraining(); } const el = restEl(); el.innerHTML = restInner(); restTick(); },
     'rest-add': (b) => { const r = S.rest; if (!r) return; r.end = Math.max(Date.now() + 1000, r.end + Number(b.dataset.d) * 1000); const left = r.end - Date.now(); if (left > REST_WARN * 1000) r.warned = false; if (left > 0) r.rang = false; restTick(); },
-    'rest-sound': () => { store.set('ec.sound', soundOn() ? 'off' : null); audioUnlock(); const el = $('#rest'); if (el) { el.innerHTML = restInner(); restTick(); } },
+    'rest-sound': () => { store.set('ec.sound', soundOn() ? 'off' : null); audioUnlock(); if (soundOn()) signal(1, true); const el = $('#rest'); if (el && S.rest) { el.innerHTML = restInner(); restTick(); } else restShow(); document.querySelectorAll('.switch[data-act="rest-sound"]').forEach((x) => { x.outerHTML = soundSwitch(); }); toastMsg(soundOn() ? 'Geluid staat aan: je hoorde een testtoon' : 'Geluid staat uit'); },
     'sum-close': () => { S.summary = null; renderSummary(); },
     'sum-copy': () => summaryCopy(),
-    'sum-gmail': () => summaryGmail(),
+    'sum-gmail': () => summaryGmail(false),
+    'sum-send': () => summaryGmail(true),
     'sum-report': () => { const sid = S.summary?.m.sid; S.summary = null; renderSummary(); if (sid) openReport(sid); },
     'copy-plan': (b) => {
       const en = S.draft.entries[+b.dataset.ei], plan = en.target?.setPlan || [], kpb = kgPerBlock();
-      en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: p.reps ?? '' }; } return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
+      en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) return { ...splitBlocks(kg), reps: p.reps ?? '' }; return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
       if (!en.sets.length) en.sets = [{ mode: en.bwMode || 'auto' }];
       renderMain(); scheduleTraining();
     },
@@ -1915,7 +2237,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     'rep-open': async () => { if (!(await saveTraining()) || !S.draft?.id) { toastMsg('Log eerst minstens één set.'); return; } openReport(S.draft.id); },
     'rep-close': () => { S.report = null; renderReport(); },
     'rep-dl': () => reportDownload(),
-    'rep-gmail': () => reportGmail(),
+    'rep-gmail': () => reportGmail(false),
+    'rep-send': () => reportGmail(true),
     'new-event': () => { S.eventDraft = { name: '', date: '', division: '', place: '', stations: [] }; S.eventDirty = true; renderMain(); },
     'add-station': () => { S.eventDraft.stations = S.eventDraft.stations || []; S.eventDraft.stations.push({ name: '', req: '', status: 'Nieuw' }); S.eventDirty = true; renderMain(); },
     'del-station': (b) => { S.eventDraft.stations.splice(+b.dataset.i, 1); S.eventDirty = true; renderMain(); },
@@ -1935,7 +2258,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     'confirm-no': () => { S.confirm = null; renderOverlay(); },
     'confirm-yes': async () => { const fn = S.confirm?.fn; S.confirm = null; renderOverlay(); if (fn) await fn(); },
   };
-  function ask(title, text, fn, yes) { S.confirm = { title, text, fn, yes }; renderOverlay(); }
+  function ask(title, text, fn, yes, safe) { S.confirm = { title, text, fn, yes, safe }; renderOverlay(); }
   function blocking() { return S.profileDraft || S.newClient || (S.view === 'event' && S.eventDirty) || S.exEdit || S.exNew || (S.view === 'intake' && S.intakeDraft?.dirty) || (S.view === 'settings' && S.settingsDraft?.dirty); }
   function confirmLeave() { toastMsg('Sla eerst op of annuleer je wijzigingen.'); return false; }
   async function selectClient(id, view) {
@@ -1960,11 +2283,13 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       const row = t.closest('tr'), no = row && row.querySelector('.setno'), ok = setDone(en.sets[si]);
       if (no) { const has = !!no.querySelector('.setok'); if (ok !== has) no.innerHTML = setNoHTML(en, ei, si); }
       // v1.3.0: een getypte afwijking (reps ingevuld en veld verlaten) start ook de rusttimer, één keer per set
-      if (e.type === 'change' && ['reps', 'value'].includes(t.dataset.f) && ok && !en.sets[si]._rest) { en.sets[si]._rest = true; audioUnlock(); restAfter(ei); }
+      if (!S.gym && e.type === 'change' && ['reps', 'value'].includes(t.dataset.f) && ok && !en.sets[si]._rest) { const wi = weightIssue(en, en.sets[si]); if (wi) toastMsg(wi.msg); else { en.sets[si]._rest = true; audioUnlock(); restAfter(ei); } }
       const pg = t.closest('.ex-card')?.querySelector('.setprog'); if (pg) { const n = en.sets.filter(setDone).length; pg.textContent = `${n} van ${en.sets.length} sets`; pg.className = `pill ${n === en.sets.length ? 'ok' : 'neutral'} setprog`; }
     } else if (b === 'entry') S.draft.entries[+t.dataset.ei][t.dataset.f] = v;
     else if (b === 'bwmode') { const en = S.draft.entries[+t.dataset.ei]; en.bwMode = v; en.sets.forEach((x) => { x.mode = v; }); if (e.type === 'change') renderMain(); }
     else if (b === 'fb') S.draft.feedback[t.dataset.f] = v;
+    else if (b === 'gw') { S.draft.genWarm = { ...(S.draft.genWarm || {}), txt: v }; setTimeout(scheduleTraining, 0); }
+    else if (b === 'fin') { S.draft.fins[+t.dataset.i][t.dataset.f] = v; setTimeout(scheduleTraining, 0); }
     else if (b === 'meta') { S.draft[t.dataset.f] = v; if (t.dataset.f === 'date' || t.dataset.f === 'blockId') { S.draft.week = weekFor(S.blocks[S.draft.blockId], S.draft.date); const w = $('#d-week'); if (w) w.value = S.draft.week; } }
     else if (b === 'cf') (S.newClient || S.profileDraft)[t.dataset.f] = v;
     else if (b === 'cf-flag') (S.newClient || S.profileDraft)[t.value] = t.checked;
@@ -1975,7 +2300,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
       if (c1) c1.innerHTML = rm != null ? `<b>${nl(rm)} kg</b>` : ''; if (c2) c2.textContent = num(r.reps) ? nl((pctTable(num(r.reps) + (num(r.rir) || 0)) || 0) * 100, 0) + '%' : '';
     }
     else if (b === 'intake-meta') { S.intakeDraft[t.dataset.f] = v; S.intakeDraft.dirty = true; }
-    else if (b === 'set-kpb') { S.settingsDraft.kgPerBlock = v; markSettingsDirty(); }
+    else if (b === 'set-kpb') { S.settingsDraft.bigBlock = v; markSettingsDirty(); }
+    else if (b === 'set-kps') { S.settingsDraft.smallBlock = v; markSettingsDirty(); }
     else if (b === 'coach') { S.settingsDraft.coaches[+t.dataset.i] = v; markSettingsDirty(); }
     else if (b === 'set-anchor') { const d = S.settingsDraft; d.anchors = t.checked ? [...new Set([...d.anchors, t.value])] : d.anchors.filter((x) => x !== t.value); markSettingsDirty(); }
     else if (b === 'exf-sec') { const d = S.exNew || S.exEdit; d.secondary = [...(d.secondary || [])]; d.secondary[+t.dataset.i] = v; }
@@ -2018,9 +2344,9 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     setSaveState('Niet opgeslagen: probeer opnieuw'); return false;
   }
   function trainingBody(d) {
-    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps), done: !!w.done })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), rir: num(x.rpe) != null ? rpeToRir(x.rpe) : num(x.rir), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
+    const entries = d.entries.filter((e) => e.exId).map((e) => ({ exId: e.exId, variant: e.variant || '', hard: String(e.hard || '').trim(), score: num(e.score) != null ? Math.min(10, Math.max(1, Math.round(num(e.score)))) : null, target: e.target || {}, warmup: (e.warmup || []).map((w) => ({ kg: num(w.kg), reps: num(w.reps), done: !!w.done })).filter((w) => w.kg != null || w.reps != null), sets: e.sets.filter((x) => ['kg', 'blocks', 'reps', 'value', 'time'].some((f) => x[f] !== '' && x[f] != null)).map((x) => ({ ...(x.ok === true ? { ok: true } : {}), kg: num(x.kg), blocks: num(x.blocks), extra: num(x.extra), reps: num(x.reps), rpe: num(x.rpe), ...rirFor(x, e.target), value: num(x.value), time: x.time || '', ...(unitOf(e.exId) === 'bw' ? bwSave(x) : {}) })) })).filter((e) => e.sets.length);
     const fb = d.feedback || {};
-    return { date: d.date, blockId: d.blockId, week: num(d.week) ?? 1, day: d.day || '', done: true, historical: !!d.historical, note: d.note || '', entries, feedback: { bodyweight: num(fb.bodyweight), whoop: num(fb.whoop), pain: num(fb.pain), energy: num(fb.energy), note: fb.note || '' }, report: d.report || null, updatedAt: new Date().toISOString() };
+    return { genWarm: d.genWarm ? { done: !!d.genWarm.done, txt: String(d.genWarm.txt || '') } : null, fins: (d.fins || []).filter((f) => String(f.name || '').trim() || String(f.result || '').trim()).map((f) => ({ name: String(f.name || '').trim(), result: String(f.result || '').trim(), done: !!f.done })), date: d.date, blockId: d.blockId, week: num(d.week) ?? 1, day: d.day || '', done: true, historical: !!d.historical, note: d.note || '', entries, feedback: { bodyweight: num(fb.bodyweight), whoop: num(fb.whoop), pain: num(fb.pain), energy: num(fb.energy), note: fb.note || '' }, report: d.report || null, updatedAt: new Date().toISOString() };
   }
   function scheduleTraining() { if (!S.draft) return; S.draft._dirty = true; setSaveState('Wordt bewaard…'); clearTimeout(S.saveTimer); S.saveTimer = setTimeout(saveTraining, 1200); }
   async function saveTraining() {
@@ -2061,7 +2387,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
   // gymmodus: horizontaal vegen = vorige of volgende oefening (niet vanuit een invulveld)
   let sw = null;
   document.addEventListener('touchstart', (e) => { sw = e.touches.length === 1 && e.target.closest('#gym') && !e.target.closest('input,select,textarea') ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true });
-  document.addEventListener('touchend', (e) => { if (!sw) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) gymGo(S.gymIdx + (dx < 0 ? 1 : -1)); }, { passive: true });
+  document.addEventListener('touchend', (e) => { if (!sw) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) gymGo(S.gymIdx + (dx < 0 ? 1 : -1), true); }, { passive: true });
   // "Meer"-menu sluit bij een tik ernaast of na een keuze
   document.addEventListener('click', (e) => { document.querySelectorAll('details.more[open]').forEach((x) => { if (!x.contains(e.target) || e.target.closest('.more-menu')) x.open = false; }); });
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { restTick(); wake(S.view === 'training' && !!S.draft && S.gym); } });
@@ -2077,7 +2403,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1;font-style
     db.collection('exercises').onSnapshot((snap) => { S.exercises = {}; snap.docs.forEach((d) => { S.exercises[d.id] = { id: d.id, ...d.data() }; }); S.loaded.ex = true; soft(); }, dbErr);
     db.collection('config').onSnapshot((snap) => {
       const d = snap.docs.find((x) => x.id === 'app')?.data() || {};
-      S.config = { anchors: Array.isArray(d.anchors) ? d.anchors : DEFAULT_ANCHORS, coaches: Array.isArray(d.coaches) ? d.coaches : [], kgPerBlock: num(d.kgPerBlock) ?? 6.4, pullPushTarget: num(d.pullPushTarget) ?? 2, pullPushConfirmed: !!d.pullPushConfirmed, coachEmails: d.coachEmails && typeof d.coachEmails === 'object' ? d.coachEmails : {} }; soft();
+      S.config = { anchors: Array.isArray(d.anchors) ? d.anchors : DEFAULT_ANCHORS, coaches: Array.isArray(d.coaches) ? d.coaches : [], bigBlock: num(d.bigBlock) ?? 5.5, smallBlock: num(d.smallBlock) ?? 2.75, pullPushTarget: num(d.pullPushTarget) ?? 2, pullPushConfirmed: !!d.pullPushConfirmed, coachEmails: d.coachEmails && typeof d.coachEmails === 'object' ? d.coachEmails : {} }; soft();
     }, dbErr);
     db.collection('clients').onSnapshot((snap) => {
       S.clients = {}; snap.docs.forEach((d) => { S.clients[d.id] = { id: d.id, ...d.data() }; }); S.loaded.cl = true;

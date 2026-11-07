@@ -1,5 +1,13 @@
 # Backlog
 
+## After v1.5.0 (07/11/2026)
+- Excel export for Stijn (Ides 07/11): (1) at the start of a period an Excel with the planning, (2) after the 3-week cycle an Excel with the results, both as close as possible to Stijn's own Excel layout, so he trusts no data is lost. A tick box in the app ("Excel bij opmaak" / "Excel na de cyclus"). Needs one of Stijn's Excel files as template.
+- Apple Watch and Whoop data per training (heart rate, strain, recovery). Whoop first (official API), Apple via an iPhone export app or Shortcut.
+- Rest table (v1.4.1 suggestion by type, reps and phase) to confirm by Stijn.
+- Split squat: one or two dumbbells (app shows "Kg (1 dumbbell)").
+- Legal and commercial disclaimers in the report: check the text with a lawyer.
+- Sound of the rest timer on a real iPad (silent mode, screen locked) to verify.
+
 ## After v1.3.0 (06/11/2026)
 - Real rest per set: store the time of each ✓ so Stijn sees the rest that was really taken.
 - Coach e-mail addresses in Instellingen (today they are filled in once from the summary).
