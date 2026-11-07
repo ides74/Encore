@@ -8,7 +8,7 @@
     db.collection('exercises').onSnapshot((snap) => { S.exercises = {}; snap.docs.forEach((d) => { S.exercises[d.id] = { id: d.id, ...d.data() }; }); S.loaded.ex = true; soft(); }, dbErr);
     db.collection('config').onSnapshot((snap) => {
       const d = snap.docs.find((x) => x.id === 'app')?.data() || {};
-      S.config = { anchors: Array.isArray(d.anchors) ? d.anchors : DEFAULT_ANCHORS, coaches: Array.isArray(d.coaches) ? d.coaches : [], kgPerBlock: num(d.kgPerBlock) ?? 6.4, pullPushTarget: num(d.pullPushTarget) ?? 2, pullPushConfirmed: !!d.pullPushConfirmed, coachEmails: d.coachEmails && typeof d.coachEmails === 'object' ? d.coachEmails : {} }; soft();
+      S.config = { anchors: Array.isArray(d.anchors) ? d.anchors : DEFAULT_ANCHORS, coaches: Array.isArray(d.coaches) ? d.coaches : [], bigBlock: num(d.bigBlock) ?? 5.5, smallBlock: num(d.smallBlock) ?? 2.75, pullPushTarget: num(d.pullPushTarget) ?? 2, pullPushConfirmed: !!d.pullPushConfirmed, coachEmails: d.coachEmails && typeof d.coachEmails === 'object' ? d.coachEmails : {} }; soft();
     }, dbErr);
     db.collection('clients').onSnapshot((snap) => {
       S.clients = {}; snap.docs.forEach((d) => { S.clients[d.id] = { id: d.id, ...d.data() }; }); S.loaded.cl = true;

@@ -6,7 +6,7 @@
     if (!st) return null;
     if (exId && unitOf(exId) === 'bw') { const bw = num(st.bw) ?? bwNow(); if (bw == null) return null; if (num(st.kg) == null && num(st.reps) == null) return null; return bwTotal(num(st.kg), bw, st.mode); }
     const b = num(st.blocks);
-    if (b != null) return Math.round((b * kgPerBlock() + (num(st.extra) || 0)) * 10) / 10;
+    if (b != null) return Math.round((smallKg() + b * kgPerBlock() + (num(st.extra) || 0)) * 100) / 100;
     return num(st.kg);
   };
   // lichaamsgewicht-oefeningen: ingevuld gewicht = extra of totaal. Auto: onder de helft van het lichaamsgewicht = extra, anders totaal
@@ -15,7 +15,7 @@
   const bwTotal = (kg, bw, mode = 'extra') => Math.round((bwIsTotal(kg, bw, mode) ? kg : bw + (kg || 0)) * 10) / 10;
   const bwFmt = (kg, mode = 'auto') => { const bw = bwNow(); if (kg == null) return '?'; if (kg === 0) return 'LG'; return bwIsTotal(kg, bw, mode) ? `${nl(kg)} totaal` : `LG+${nl(kg)}`; };
   // gewicht in een planregel: lichaamsgewicht zonder extra gewicht toont "LG" (LG × 8), niet "?"
-  const kgPlanTxt = (unit, kg) => (unit === 'bw' ? (kg ? bwFmt(kg) : 'LG') : kg != null ? nl(kg) : '?');
+  const kgPlanTxt = (unit, kg) => (unit === 'bw' ? (kg ? bwFmt(kg) : 'LG') : kg == null ? '?' : unit === 'blok' ? blokTxt(splitBlocks(kg)) : unit === 'kg per hand' ? `2 × ${nl(kg)}` : nl(kg));
   // geschat 1RM: A-reeks via %-tabel, anders Epley; RIR telt mee (8 reps + 2 RIR = 10RM)
   const e1 = (st, exId, code) => { const kg = setKg(st, exId), r = num(st?.reps); if (!kg || !r) return null; const p = pctFor(r + (num(st?.rir) || 0), code); return p ? Math.round((kg / p) * 10) / 10 : null; };
   const intakeRM = (exId) => num(client()?.intake?.tests?.[exId]?.rm);
@@ -37,6 +37,8 @@
   };
   // huidig niveau voor de krachtbalans: laatste zware meting, anders intake
   const curRM = (id) => anchorStats(id)?.lastStrength ?? intakeRM(id) ?? null;
+  // geen RPE per set meer: zonder ingevulde RPE rekent de app met de RIR uit het plan (gemarkeerd als rirSrc 'plan')
+  const rirFor = (x, tg) => { if (num(x.rpe) != null) return { rir: rpeToRir(x.rpe) }; const own = x.rirSrc === 'plan' ? null : num(x.rir); if (own != null) return { rir: own }; const pr = num(tg?.rir); return pr != null && num(x.reps) != null ? { rir: pr, rirSrc: 'plan' } : { rir: null }; };
   // logboek in RPE (1-10, ervaren inspanning). Berekeningen blijven op RIR: RIR = 10 - RPE (RPE 10 = 0 in reserve)
   const rpeToRir = (v) => { const r = num(v); return r == null ? null : Math.max(0, Math.round((10 - r) * 2) / 2); };
   const rirToRpe = (v) => { const r = num(v); return r == null ? null : Math.max(1, 10 - r); };
@@ -67,9 +69,10 @@
   const weekFor = (b, date) => (b && date ? Math.max(1, Math.floor(daysBetween(b.start, date) / 7) + 1) : 1);
   const setLabel = (exId, st) => {
     const u = S.exercises[exId]?.unit || 'kg';
-    if (u === 'blok' && num(st.blocks) != null) return `blok ${nl(st.blocks)}${num(st.extra) ? ' + ' + nl(st.extra) : ''}`;
+    if (u === 'blok' && num(st.blocks) != null) return blokTxt(st);
+    if (u === 'kg per hand') return `2 × ${nl(st.kg)} kg`;
     if (u === 'bw') return num(st.kg) ? `LG + ${nl(st.kg)} kg` : 'LG';
-    if (!STRENGTH.includes(u)) return `${nl(st.value)} ${u === 'reps' ? 'reps' : u}${st.time ? ' in ' + st.time : ''}`;
+    if (!STRENGTH.includes(u)) return `${nl(st.value ?? (u === 'reps' ? st.reps : null)) || '?'} ${u === 'reps' ? 'reps' : u}${st.time ? ' in ' + st.time : ''}`;
     return `${nl(setKg(st, exId))} kg`;
   };
   // history per exercise: [{date, sid, blockId, phase, sets, best, topSet}]
@@ -79,7 +82,7 @@
       if (beforeDate && s.date >= beforeDate) return;
       (s.entries || []).forEach((en) => {
         if (en.exId !== exId) return;
-        const sets = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null);
+        const sets = (en.sets || []).filter((x) => num(x.reps) != null || num(x.value) != null || x.ok === true);
         if (!sets.length) return;
         let best = null, top = null, bestP = null, topP = null, rel = false;
         const phase = phaseOf(S.blocks[s.blockId]?.phase);
@@ -88,7 +91,7 @@
           const vp = e1p(x, exId); if (vp == null) return; const ok = isReliable(x, phase);
           if ((ok && !rel) || (ok === rel && (bestP == null || vp > bestP))) { bestP = vp; topP = x; rel = ok; }
         });
-        out.push({ date: s.date, sid: s.id, blockId: s.blockId, phase, sets, best, top: top || sets[0], bestP, topP: topP || sets[0], reliable: rel, historical: !!s.historical, variant: en.variant || '', hard: en.hard || '', score: num(en.score) });
+        out.push({ rk: reeksOf(en.target?.code) || '', date: s.date, sid: s.id, blockId: s.blockId, phase, sets, best, top: top || sets[0], bestP, topP: topP || sets[0], reliable: rel, historical: !!s.historical, variant: en.variant || '', hard: en.hard || '', score: num(en.score) });
       });
     });
     return out;
@@ -99,14 +102,17 @@
     const groups = []; p.sets.forEach((x) => { const lab = setLabel(exId, x); const g = groups[groups.length - 1]; if (g && g.lab === lab) g.reps.push(x.reps); else groups.push({ lab, reps: [x.reps] }); });
     return { date: p.date, text: groups.map((g) => `${g.lab} × ${g.reps.map((r) => nl(r, 0) || '?').join('·')}`).join('  |  '), best: p.best, sets: p.sets, historical: p.historical, hard: p.hard, score: p.score };
   };
+  // rol van een meting: B- en C-reeks zijn lichter of hebben meer reps; de trendlijn volgt enkel de A-reeks (en oude topsets)
+  const roleOf = (p) => (['B', 'C'].includes(p?.rk) ? p.rk : 'A');
   const anchorStats = (exId) => {
     const all = history(exId).filter((p) => p.bestP != null);
     if (!all.length) return null;
-    const rel = all.filter((p) => p.reliable), base = rel.length ? rel : all;
+    const mainA = all.filter((p) => roleOf(p) === 'A'), main = mainA.length ? mainA : all;
+    const rel = main.filter((p) => p.reliable), base = rel.length ? rel : main;
     const first = base[0].bestP, best = Math.max(...base.map((p) => p.bestP));
     const lastP = base[base.length - 1], lastStrength = lastP.bestP;
     const delta = (lastStrength - first) / first;
     const signal = base.length < 2 ? ['1 meting', 'neutral'] : lastStrength >= best * 0.99 ? ['Op record', 'ok'] : lastStrength < best * 0.93 ? ['Daling', 'bad'] : ['Plateau', 'warn'];
-    return { pts: all, rel: base, first, best, last: lastStrength, lastStrength, lastDate: lastP.date, delta, signal, onlyIndicative: !rel.length };
+    return { pts: all, rel: base, first, best, last: lastStrength, lastStrength, lastDate: lastP.date, delta, signal, onlyIndicative: !rel.length, side: all.filter((p) => roleOf(p) !== roleOf(base[0])) };
   };
 

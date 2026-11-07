@@ -20,8 +20,8 @@
     'set-reset': () => { S.settingsDraft = null; render(); },
     'set-save': async () => {
       const d = S.settingsDraft; const coaches = [...new Set(d.coaches.map((c) => c.trim()).filter(Boolean))];
-      const kpb = num(d.kgPerBlock) ?? 6.4, ppt = num(d.pullPushTarget) ?? 2, ppc = !!d.pullPushConfirmed;
-      if (await write('config/app', { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, kgPerBlock: kpb, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} }; toastMsg('Instellingen opgeslagen'); render(); }
+      const kpb = num(d.bigBlock) ?? 5.5, kps = num(d.smallBlock) ?? 2.75, ppt = num(d.pullPushTarget) ?? 2, ppc = !!d.pullPushConfirmed;
+      if (await write('config/app', { coaches, anchors: d.anchors, bigBlock: kpb, smallBlock: kps, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} })) { S.settingsDraft = null; S.config = { coaches, anchors: d.anchors, bigBlock: kpb, smallBlock: kps, pullPushTarget: ppt, pullPushConfirmed: ppc, coachEmails: S.config.coachEmails || {} }; toastMsg('Instellingen opgeslagen'); render(); }
     },
     'cf-cancel': () => { S.newClient = null; S.profileDraft = null; render(); },
     'cf-save': async () => {
@@ -33,11 +33,13 @@
       } else if (await write(`clients/${S.cid}`, body, true)) { S.profileDraft = null; toastMsg('Profiel opgeslagen'); render(); }
     },
     'goto-progress': (b) => { S.progEx = b.dataset.id; setView('progress'); },
-    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null) x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.gymIdx = 0; S.gymSet = null; S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
-    'start-slot': (b) => { const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); S.gymIdx = 0; S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
+    'open-session': async (b) => { const s = S.sessions[b.dataset.id]; if (!s) return; S.undo = []; await savePlan(); S.saveState = ''; S.draft = clone({ ...s, day: sessSlot(s), feedback: s.feedback || {} }); S.draft.entries.forEach((en) => (en.sets || []).forEach((x) => { if (num(x.rpe) == null && num(x.rir) != null && x.rirSrc !== 'plan') x.rpe = rirToRpe(x.rir); })); S.draft.entries.forEach((en) => { if (unitOf(en.exId) === 'bw') { en.bwMode = 'extra'; en.sets.forEach((x) => { x.mode = 'extra'; }); } }); S.gymIdx = 0; S.gymSet = null; S.view = 'training'; store.set('ec.view', 'training'); render(); window.scrollTo({ top: 0 }); },
+    'start-slot': (b) => { S.undo = []; const date = $('#nt-date')?.value || todayStr(); S.trainDate = ''; S.saveState = ''; S.draft = newDraft(date, S.trainBlock, b.dataset.slot); S.gymIdx = 0; S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
     'open-block': (b) => { S.blockSel = b.dataset.id; S.schemaDraft = null; S.schemaDirty = false; S.slotFilter = ''; setView('planning'); },
     'slot-filter': (b) => { S.slotFilter = b.dataset.v; renderMain(); },
     'gen-open': async () => { await savePlan(); S.gen = genDefaults(); renderMain(); },
+    'cycle-model': (b) => { store.set('ec.cycle', b.dataset.v); renderMain(); },
+    'cycle-build': async (b) => { await savePlan(); const g = genDefaults(); g.start = b.dataset.start; g.phase = b.dataset.phase; applyPhase(g, g.phase); S.gen = g; renderMain(); toastMsg(`Voorstel ${g.phase} vanaf ${fmtDate(g.start, false)}: kies de oefeningen en tik Maak`); },
     'gen-cancel': () => { S.gen = null; renderMain(); },
     'gen-mode': (b) => { S.gen.mode = b.dataset.v; renderMain(); },
     'gen-make': () => {
@@ -49,14 +51,16 @@
       markSchemaDirty(); savePlan(); renderMain(); toastMsg('Voorstel klaar en bewaard: pas het aan waar nodig');
     },
     // v1.3.0: na Klaar de samenvatting (plan tegenover gedaan, records, te moeilijk), klaar om te mailen
-    'done-training': async () => {
+    'done-training': async (b) => {
+      const part = S.draft.entries.flatMap((en) => en.sets.map((x, k) => (setPartial(x) ? `${en.target?.code ? en.target.code + ' ' : ''}${exName(en.exId)} set ${k + 1}` : null)).filter(Boolean));
+      if (part.length && !b?.dataset?.force) { ask('Onvolledige sets', `Gewicht ingevuld maar geen reps: ${part.join(', ')}. Deze sets tellen niet mee. Toch afronden?`, () => ACT['done-training']({ dataset: { force: '1' } }), 'Toch afronden', true); return; }
       if (!(await saveTraining())) return; const d = S.draft, had = !!d?.id, m = had ? summaryModel(d) : null;
       if (had) S.lastSess = { id: d.id, ...trainingBody(d) };
-      restStop(); S.draft = null; S.saveState = ''; render(); if (m) openSummary(m);
+      restStop(); S.draft = null; S.saveState = ''; render(); toastMsg('✓ Training opgeslagen in je historiek'); if (m) openSummary(m);
     },
-    'add-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.push({ mode: en.bwMode || 'auto' }); renderMain(); scheduleTraining(); },
-    'del-set': (b) => { const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); S.gymSet = null; renderMain(); scheduleTraining(); },
-    'del-entry': (b) => { S.draft.entries.splice(+b.dataset.ei, 1); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'add-set': (b) => { pushUndo(false); const en = S.draft.entries[+b.dataset.ei]; en.sets.push({ mode: en.bwMode || 'auto' }); renderMain(); scheduleTraining(); },
+    'del-set': (b) => { pushUndo(false); const en = S.draft.entries[+b.dataset.ei]; en.sets.splice(+b.dataset.si, 1); if (!en.sets.length) en.sets.push({}); S.gymSet = null; renderMain(); scheduleTraining(); },
+    'del-entry': (b) => { pushUndo(false); S.draft.entries.splice(+b.dataset.ei, 1); S.gymSet = null; renderMain(); scheduleTraining(); },
     'add-entry': () => { const id = $('#add-ex').value; if (!id) return; S.draft.entries.push({ exId: id, variant: '', target: {}, bwMode: 'auto', sets: [{ mode: 'auto' }, { mode: 'auto' }, { mode: 'auto' }] }); if (S.gym) { S.gymIdx = S.draft.entries.length - 1; S.gymSet = null; } renderMain(); scheduleTraining(); },
     'copy-prev': (b) => {
       const ei = +b.dataset.ei, en = S.draft.entries[ei], prev = prevSummary(en.exId, S.draft.date); if (!prev) return;
@@ -67,15 +71,35 @@
     // ✓ bevestigt een set: lege velden krijgen het voorstel (plan, anders vorige keer), RPE nooit; daarna start de rust
     'confirm-set': (b) => {
       const ei = +b.dataset.ei, si = +b.dataset.si, en = S.draft.entries[ei], st = en.sets[si]; if (!st) return;
-      audioUnlock();
+      audioUnlock(); const snap = snapNow();
       const sg = setSuggest(en, si) || {};
       Object.entries(sg).forEach(([f, v]) => { if (f !== 'rpe' && (st[f] == null || st[f] === '') && v !== '' && v != null) st[f] = v; });
+      if (!setDone(st) && num((en.target?.setPlan || [])[si]?.reps) == null && num(en.target?.repsMax) == null && (num(st.kg) != null || num(st.blocks) != null)) st.ok = true;
       if (!setDone(st)) { toastMsg('Vul eerst de herhalingen in.'); return; }
-      st._rest = true; S.gymSet = null; restAfter(ei);
+      const wi = weightIssue(en, st);
+      if (wi && wi.hard) { toastMsg(wi.msg); S.gymSet = si; renderMain(); return; }
+      if (wi && wi.double) { ask('Gewicht per dumbbell?', wi.msg, async () => { pushUndo(true, snap); st.kg = wi.fix; st._rest = true; S.gymSet = null; restAfter(ei); gymAuto(ei); renderMain(); scheduleTraining(); }, `Ja: 2 × ${nl(wi.fix)} kg`, true); return; }
+      pushUndo(true, snap); st._rest = true; S.gymSet = null; restAfter(ei); if (gymAuto(ei)) { scheduleTraining(); return; }
       renderMain(); scheduleTraining(); const next = document.querySelector(`[data-act="confirm-set"][data-ei="${ei}"]`); if (next && !S.gym) next.focus();
     },
+    'gw-toggle': () => { pushUndo(false); const g = S.draft.genWarm || { txt: client()?.warmupDefault || 'Roeien 2 min (±500 m)' }; g.done = !g.done; S.draft.genWarm = g; audioUnlock(); renderMain(); scheduleTraining(); },
+    'fin-add': (b) => { S.draft.fins = S.draft.fins || []; S.draft.fins.push({ name: b.dataset.v || '', result: '', done: false }); renderMain(); const k = S.draft.fins.length - 1; $(`#fin-${k}-${b.dataset.v ? 'result' : 'name'}`)?.focus(); },
+    'fin-del': (b) => { S.draft.fins.splice(+b.dataset.i, 1); renderMain(); scheduleTraining(); },
+    'fin-ok': (b) => { const f = S.draft.fins[+b.dataset.i]; if (!String(f.result || '').trim() && !f.done) { toastMsg('Vul eerst het resultaat in.'); $(`#fin-${b.dataset.i}-result`)?.focus(); return; } pushUndo(false); f.done = !f.done; renderMain(); scheduleTraining(); },
+    'blok-extra': (b) => { pushUndo(false); const st = S.draft.entries[+b.dataset.ei].sets[+b.dataset.si]; st.extra = Number(b.dataset.v) || 0; S.gymSet = +b.dataset.si; renderMain(); scheduleTraining(); },
     'set-clear': (b) => { const en = S.draft.entries[+b.dataset.ei], si = +b.dataset.si; en.sets[si] = { mode: en.bwMode || 'auto' }; S.gymSet = si; renderMain(); scheduleTraining(); },
-    'wset-ok': (b) => { const w = S.draft.entries[+b.dataset.ei].warmup[+b.dataset.wi]; w.done = !w.done; audioUnlock(); renderMain(); scheduleTraining(); },
+    'wset-ok': (b) => {
+      const ei = +b.dataset.ei, wi = +b.dataset.wi, en = S.draft.entries[ei], w = en.warmup[wi]; audioUnlock(); const snap = snapNow();
+      if (!w.done) {
+        const kg = num(w.kg), ref = refKg(en), first = num((en.target?.setPlan || [])[0]?.kg);
+        if (kg != null && ref && kg > Math.max(ref * 1.6, ref + 40)) { toastMsg(`${nl(kg)} kg is onmogelijk hoog voor een opwarmset. Typfout?`); return; }
+        if (kg != null && first && kg >= first * 0.97 && num(w.reps) >= (num(en.target?.repsMin) || 99)) {
+          ask('Is dit een werkset?', `${nl(kg)} kg × ${nl(w.reps, 0)} is even zwaar als je werksets. Werksets tellen mee voor je progressie en records, opwarmsets niet.`, async () => { pushUndo(false, snap); en.warmup.splice(wi, 1); const ns = { kg: w.kg, reps: w.reps, mode: en.bwMode || 'auto' }, fe = en.sets.findIndex((x) => !setDone(x) && !setPartial(x)); if (fe >= 0) en.sets[fe] = ns; else en.sets.push(ns); renderMain(); scheduleTraining(); toastMsg('Verplaatst naar de werksets'); }, 'Ja, verplaats naar werksets', true);
+          return;
+        }
+      }
+      pushUndo(false, snap); w.done = !w.done; renderMain(); scheduleTraining();
+    },
     // ± knoppen: vertrekt van de ingevulde waarde, anders van het grijze voorstel
     step: (b) => {
       const { ei, si, f } = b.dataset, inp = $(`#s-${ei}-${si}-${f}`); if (!inp) return;
@@ -84,18 +108,24 @@
     },
     'rpe-set': (b) => { const st = S.draft.entries[+b.dataset.ei].sets[+b.dataset.si], v = Number(b.dataset.v); if (num(st.rpe) === v) { st.rpe = ''; st.rir = ''; } else { st.rpe = v; st.rir = rpeToRir(v); } S.gymSet = +b.dataset.si; renderMain(); scheduleTraining(); },
     'gym-toggle': () => { S.gym = !S.gym; store.set('ec.gym', S.gym ? '1' : '0'); S.gymSet = null; renderMain(); window.scrollTo({ top: 0 }); },
-    'gym-go': (b) => gymGo(+b.dataset.i),
+    'gym-go': (b) => gymGo(+b.dataset.i, true),
+    undo: () => undo(),
+    'score-set': (b) => { const en = S.draft.entries[+b.dataset.ei], v = Number(b.dataset.v); pushUndo(false); en.score = num(en.score) === v ? null : v; renderMain(); scheduleTraining(); },
     'gym-set': (b) => { S.gymSet = +b.dataset.si; renderMain(); },
     'rest-stop': () => restStop(),
+    'rest-go': () => { const r = S.rest; if (r && r.next >= 0) { gymGo(r.next); const el = restEl(); el.innerHTML = restInner(); restTick(); } },
+    // rusttijd kiezen: herstart vanaf het einde van de set; de keuze geldt ook voor de volgende sets van die oefening
+    'rest-set': (b) => { const r = S.rest; if (!r) return; const v = Number(b.dataset.v); r.total = v; r.end = r.t0 + restLeft(v) * 1000; r.warned = r.end - Date.now() <= REST_WARN * 1000; r.rang = r.end <= Date.now(); const en = S.draft?.entries[r.ei]; if (en) { en.target = { ...(en.target || {}), restPick: v }; scheduleTraining(); } const el = restEl(); el.innerHTML = restInner(); restTick(); },
     'rest-add': (b) => { const r = S.rest; if (!r) return; r.end = Math.max(Date.now() + 1000, r.end + Number(b.dataset.d) * 1000); const left = r.end - Date.now(); if (left > REST_WARN * 1000) r.warned = false; if (left > 0) r.rang = false; restTick(); },
-    'rest-sound': () => { store.set('ec.sound', soundOn() ? 'off' : null); audioUnlock(); const el = $('#rest'); if (el) { el.innerHTML = restInner(); restTick(); } },
+    'rest-sound': () => { store.set('ec.sound', soundOn() ? 'off' : null); audioUnlock(); if (soundOn()) signal(1, true); const el = $('#rest'); if (el && S.rest) { el.innerHTML = restInner(); restTick(); } else restShow(); document.querySelectorAll('.switch[data-act="rest-sound"]').forEach((x) => { x.outerHTML = soundSwitch(); }); toastMsg(soundOn() ? 'Geluid staat aan: je hoorde een testtoon' : 'Geluid staat uit'); },
     'sum-close': () => { S.summary = null; renderSummary(); },
     'sum-copy': () => summaryCopy(),
-    'sum-gmail': () => summaryGmail(),
+    'sum-gmail': () => summaryGmail(false),
+    'sum-send': () => summaryGmail(true),
     'sum-report': () => { const sid = S.summary?.m.sid; S.summary = null; renderSummary(); if (sid) openReport(sid); },
     'copy-plan': (b) => {
       const en = S.draft.entries[+b.dataset.ei], plan = en.target?.setPlan || [], kpb = kgPerBlock();
-      en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) { const bl = Math.floor(kg / kpb); return { blocks: bl, extra: Math.round((kg - bl * kpb) * 10) / 10 || '', reps: p.reps ?? '' }; } return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
+      en.sets = plan.map((p) => { const kg = num(p.kg); if (unitOf(en.exId) === 'blok' && kg != null) return { ...splitBlocks(kg), reps: p.reps ?? '' }; return { kg: kg ?? '', reps: p.reps ?? '', mode: en.bwMode || 'auto' }; });
       if (!en.sets.length) en.sets = [{ mode: en.bwMode || 'auto' }];
       renderMain(); scheduleTraining();
     },
@@ -138,7 +168,8 @@
     'rep-open': async () => { if (!(await saveTraining()) || !S.draft?.id) { toastMsg('Log eerst minstens één set.'); return; } openReport(S.draft.id); },
     'rep-close': () => { S.report = null; renderReport(); },
     'rep-dl': () => reportDownload(),
-    'rep-gmail': () => reportGmail(),
+    'rep-gmail': () => reportGmail(false),
+    'rep-send': () => reportGmail(true),
     'new-event': () => { S.eventDraft = { name: '', date: '', division: '', place: '', stations: [] }; S.eventDirty = true; renderMain(); },
     'add-station': () => { S.eventDraft.stations = S.eventDraft.stations || []; S.eventDraft.stations.push({ name: '', req: '', status: 'Nieuw' }); S.eventDirty = true; renderMain(); },
     'del-station': (b) => { S.eventDraft.stations.splice(+b.dataset.i, 1); S.eventDirty = true; renderMain(); },
@@ -158,7 +189,7 @@
     'confirm-no': () => { S.confirm = null; renderOverlay(); },
     'confirm-yes': async () => { const fn = S.confirm?.fn; S.confirm = null; renderOverlay(); if (fn) await fn(); },
   };
-  function ask(title, text, fn, yes) { S.confirm = { title, text, fn, yes }; renderOverlay(); }
+  function ask(title, text, fn, yes, safe) { S.confirm = { title, text, fn, yes, safe }; renderOverlay(); }
   function blocking() { return S.profileDraft || S.newClient || (S.view === 'event' && S.eventDirty) || S.exEdit || S.exNew || (S.view === 'intake' && S.intakeDraft?.dirty) || (S.view === 'settings' && S.settingsDraft?.dirty); }
   function confirmLeave() { toastMsg('Sla eerst op of annuleer je wijzigingen.'); return false; }
   async function selectClient(id, view) {

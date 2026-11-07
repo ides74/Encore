@@ -161,9 +161,10 @@
    "trap-bar-deadlift",
    "pull-up-chin-up"
   ],
-  "kgPerBlock": 6.4,
   "pullPushTarget": 2,
-  "pullPushConfirmed": false
+  "pullPushConfirmed": false,
+  "bigBlock": 5.5,
+  "smallBlock": 2.75
  },
  "clients/test-klant": {
   "name": "Testklant",
@@ -204,37 +205,37 @@
     "rir": 1,
     "setPlan": [
      {
-      "kg": 66.3,
+      "kg": 60.05,
       "note": "",
       "reps": 7
      },
      {
-      "kg": 68.6,
+      "kg": 62.35,
       "note": "",
       "reps": 7
      },
      {
-      "kg": 70.4,
+      "kg": 63.25,
       "note": "",
       "reps": 7
      },
      {
-      "kg": 72.7,
+      "kg": 65.55,
       "note": "",
       "reps": 6
      }
     ],
     "sets": 4,
-    "startKg": 66.3,
+    "startKg": 60.05,
     "tempo": "30X0",
     "variant": "wide, neutrale grip",
     "warmup": [
      {
-      "kg": 32.0,
+      "kg": 30.25,
       "reps": 6
      },
      {
-      "kg": 51.2,
+      "kg": 46.75,
       "reps": 4
      }
     ],
@@ -560,37 +561,37 @@
     "rir": 1,
     "setPlan": [
      {
-      "kg": 66.3,
+      "kg": 60.05,
       "note": "",
       "reps": 7
      },
      {
-      "kg": 68.6,
+      "kg": 62.35,
       "note": "",
       "reps": 7
      },
      {
-      "kg": 70.4,
+      "kg": 63.25,
       "note": "",
       "reps": 7
      },
      {
-      "kg": 72.7,
+      "kg": 65.55,
       "note": "",
       "reps": 6
      }
     ],
     "sets": 4,
-    "startKg": 66.3,
+    "startKg": 60.05,
     "tempo": "3010",
     "variant": "medium, supinated grip",
     "warmup": [
      {
-      "kg": 38.4,
+      "kg": 35.75,
       "reps": 10
      },
      {
-      "kg": 51.2,
+      "kg": 46.75,
       "reps": 4
      }
     ],

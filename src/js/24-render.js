@@ -9,7 +9,7 @@
   function renderMain() { const m = $('#main'); if (m) { m.innerHTML = mainHTML(); afterRender(); } }
   function renderOverlay() {
     const o = $('#overlay'); let h = '';
-    if (S.confirm) h += `<div class="confirm" role="dialog" aria-modal="true"><div class="card"><h3>${esc(S.confirm.title)}</h3><p class="sub">${esc(S.confirm.text)}</p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" data-act="confirm-no">Annuleren</button><button class="btn danger" data-act="confirm-yes">${esc(S.confirm.yes || 'Verwijderen')}</button></div></div></div>`;
+    if (S.confirm) h += `<div class="confirm" role="dialog" aria-modal="true"><div class="card"><h3>${esc(S.confirm.title)}</h3><p class="sub">${esc(S.confirm.text)}</p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" data-act="confirm-no">Annuleren</button><button class="btn ${S.confirm.safe ? 'primary' : 'danger'}" data-act="confirm-yes">${esc(S.confirm.yes || 'Verwijderen')}</button></div></div></div>`;
     if (S.toast) h += `<div class="toast" role="status">${esc(S.toast)}</div>`;
     o.innerHTML = h;
   }
